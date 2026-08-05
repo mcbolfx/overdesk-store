@@ -39,7 +39,7 @@
       currency: 'NGN',
       symbol: '\u20A6', // ₦
       rate: 1000, // $1 = ₦1000
-      paystackKey: 'pk_test_7d99dac45a30695424e3263f06f5d3e3204743de' // TEST key — swap to pk_live_... when ready
+      paystackKey: 'pk_live_f7ba68167086e33059d3916b66948d1a85f3ccaf' // LIVE key
     },
     GH: {
       currency: 'GHS',
@@ -252,14 +252,23 @@
     document.head.appendChild(s);
   }
 
+  // A market is only "live" once its placeholder key has been swapped for a
+  // real Paystack public key. Until then, treat it like an unsupported market
+  // so visitors get the working Gumroad/USD flow instead of a broken checkout.
+  function isKeyConfigured(config) {
+    return !!config.paystackKey && config.paystackKey.indexOf('REPLACE') === -1;
+  }
+
   // ---- Boot ----
   detectCountry(function (countryCode) {
     var config = countryCode ? COUNTRY_CONFIG[countryCode] : null;
-    if (config) {
+    if (config && isKeyConfigured(config)) {
       // Price/button swaps happen immediately — Paystack's own script only
       // loads later, at the moment of an actual purchase click.
       applyLocalPricing(config);
     }
-    // Visitors outside the 5 supported markets: do nothing, site behaves exactly as before.
+    // Visitors outside the 5 supported markets, or in a market whose
+    // Paystack key hasn't been configured yet: do nothing, site behaves
+    // exactly as before (Gumroad/USD).
   });
 })();
