@@ -39,7 +39,7 @@
       currency: 'NGN',
       symbol: '\u20A6', // ₦
       rate: 1000, // $1 = ₦1000
-      paystackKey: 'pk_live_f7ba68167086e33059d3916b66948d1a85f3ccaf' // LIVE key
+      paystackKey: 'pk_test_7d99dac45a30695424e3263f06f5d3e3204743de' // TEST key
     },
     GH: {
       currency: 'GHS',
