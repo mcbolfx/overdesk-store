@@ -72,7 +72,7 @@
     app2: 'Overdesk Nexus',
     app3: 'Overdesk Checklist',
     bundle: 'Overdesk Full Suite (Bundle)',
-    everyone: 'Overdesk Checklist — Everyone Edition'
+    everyone: 'Overdesk for Everyone'
   };
 
   function formatAmountFull(amount) {
