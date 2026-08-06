@@ -164,6 +164,12 @@
     var localAmount = Math.round(usdAmount * config.rate);
     var productName = PRODUCT_NAMES[productKey] || 'Overdesk';
 
+    // Start loading Paystack's script now, in the background, while the
+    // visitor is looking at the modal / typing their email — by the time
+    // they click "Continue to Payment" it's very likely already loaded,
+    // instead of them waiting for it at that point.
+    loadPaystackScript(function () {});
+
     var overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(6,5,14,0.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:1.5rem;font-family:Inter,sans-serif;';
 
