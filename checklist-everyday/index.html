@@ -33,31 +33,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .gpill .gpill-label-stack{position:relative;display:inline-block;line-height:1;z-index:2;}
 .gpill .gpill-label{position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;line-height:1;}
 .gpill .gpill-label-hover{position:absolute;left:0;top:0;z-index:3;display:inline-flex;align-items:center;gap:8px;}
-.gpill-nav .gpill-circle{background:#7c3aed;}
+.gpill-nav .gpill-circle{background:#3D81E3;}
 .gpill-nav .gpill-label-hover{color:#fff;}
 .btn-demo{
   display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#7c3aed,#00d2ff);
+  background:linear-gradient(135deg,#3D81E3,#FF7A18);
   color:#fff;border:none;border-radius:999px;
   padding:0.85rem 1.9rem;font-size:0.95rem;font-weight:700;
   cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif;
-  box-shadow:0 8px 24px rgba(124,58,237,0.4);
+  box-shadow:0 8px 24px rgba(61,129,227,0.4);
 }
 .btn-demo svg{width:16px;height:16px;flex-shrink:0;}
 .gpill-fill-white .gpill-circle{background:#fff;}
 .gpill-fill-white .gpill-label-hover{color:#0c0c0c;}
-.nav-early-access{
-  display:inline-flex;align-items:center;
-  padding:0.38rem 0.9rem;border-radius:999px;
-  background:rgba(0,210,255,0.08);border:1px solid rgba(0,210,255,0.35);
-  color:#00d2ff;font-size:0.75rem;font-weight:700;
-  text-decoration:none;letter-spacing:0.04em;white-space:nowrap;
-  transition:background 0.2s, border-color 0.2s;margin-left:0.6rem;
-}
-.nav-early-access:hover{background:rgba(0,210,255,0.16);border-color:rgba(0,210,255,0.6);}
 @media(max-width:768px){
   .nav-links{display:none;}
-  .nav-early-access{display:none;}
 }
 .icon-sun{display:none;}
 body.light-mode .icon-moon{display:none;}
@@ -71,7 +61,7 @@ body.light-mode .icon-sun{display:block;}
 .hero>#meshGL{position:absolute;inset:0;width:100%;height:100%;opacity:0.6;pointer-events:none;z-index:0;}
 .hero-kicker{display:inline-block;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);padding:0.4rem 0.9rem;border-radius:999px;margin-bottom:1.6rem;box-shadow:0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);}
 .hero-title{font-weight:900;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.05;color:#fff;letter-spacing:-0.03em;}
-.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#00d2ff 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;}
+.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#FF7A18 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;}
 @keyframes shiny{to{background-position:200% center;}}
 .hero-sub{color:rgba(255,255,255,0.6);font-size:1.05rem;margin:1.6rem auto 2.4rem;line-height:1.7;max-width:520px;font-weight:400;}
 .hero-subline{color:rgba(255,255,255,0.4);font-size:0.85rem;font-weight:500;margin-top:0.6rem;}
@@ -89,7 +79,7 @@ body.light-mode .icon-sun{display:block;}
 .yt-thumb-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease,filter 0.4s ease;filter:brightness(0.85);}
 .yt-thumb-btn:hover .yt-thumb-img{transform:scale(1.04);filter:brightness(0.7);}
 .yt-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;}
-.yt-thumb-btn:hover .yt-play-btn{background:rgba(124,58,237,0.8);transform:translate(-50%,-50%) scale(1.08);}
+.yt-thumb-btn:hover .yt-play-btn{background:rgba(61,129,227,0.8);transform:translate(-50%,-50%) scale(1.08);}
 
 /* VIDEO LIGHTBOX */
 .video-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(6,5,14,0.55);display:none;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(14px) brightness(0.6);-webkit-backdrop-filter:blur(14px) brightness(0.6);animation:lbFadeIn 0.25s ease;}
@@ -106,8 +96,8 @@ body.light-mode .icon-sun{display:block;}
 .features{max-width:1080px;margin:0 auto;padding:5rem 2rem;}
 .features h2{text-align:center;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:3rem;}
 .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
-.feature-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:1.8rem;}
-.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(124,58,237,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.4rem;}
+.feature-card{background:rgba(255,255,255,0.025);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.8rem;}
+.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(61,129,227,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.4rem;}
 .feature-card h3{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:0.5rem;}
 .feature-card p{color:rgba(255,255,255,0.55);font-size:0.9rem;}
 
@@ -135,23 +125,35 @@ body.light-mode .icon-sun{display:block;}
 .reviews{max-width:1080px;margin:0 auto;padding:1rem 2rem 5rem;}
 .reviews h2{text-align:center;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:3rem;}
 .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
-.review-tile{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;}
+.review-tile{background:rgba(255,255,255,0.025);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;}
 .review-tile .rt-stars{color:#f59e0b;font-size:0.9rem;letter-spacing:2px;margin-bottom:0.9rem;}
 .review-tile .rt-quote{color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.6;flex:1;margin-bottom:1.2rem;}
 .review-tile .rt-author{display:flex;align-items:center;gap:10px;}
-.review-tile .rt-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#00d2ff);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0;}
+.review-tile .rt-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3D81E3,#FF7A18);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0;}
 .review-tile .rt-name{font-size:0.85rem;font-weight:700;color:#fff;}
 .review-tile .rt-role{font-size:0.75rem;color:rgba(255,255,255,0.4);}
 @media(max-width:800px){.reviews-grid{grid-template-columns:1fr;}}
 
 /* PRICING */
 .pricing{max-width:440px;margin:0 auto;padding:2rem 2rem 6rem;text-align:center;}
-.pricing h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:2.8rem;}
+.pricing h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:1.6rem;}
+.pricing-tabs{display:flex;justify-content:center;gap:0.4rem;margin-bottom:2.2rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:0.3rem;}
+.pricing-tab{flex:1;background:transparent;border:none;color:rgba(255,255,255,0.55);font-family:'Inter',sans-serif;font-size:0.76rem;font-weight:700;padding:0.55rem 0.5rem;border-radius:999px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
+.pricing-tab.active{background:linear-gradient(135deg,#FF7A18,#3D81E3);color:#fff;}
+.pricing-panel{display:none;}
+.pricing-panel.active{display:block;}
+.price-period{font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.4);margin-left:0.3rem;}
+.trial-note{color:rgba(255,255,255,0.4);}
+body.light-mode .pricing-tabs{background:rgba(255,255,255,0.6);border-color:rgba(0,0,0,0.1);}
+body.light-mode .pricing-tab{color:rgba(0,0,0,0.55);}
+body.light-mode .pricing-tab.active{color:#fff;}
+body.light-mode .price-period{color:rgba(0,0,0,0.4);}
+body.light-mode .trial-note{color:rgba(0,0,0,0.4);}
 .price-card{
   position:relative;
-  background:rgba(8,6,18,0.93);
-  backdrop-filter:blur(28px) brightness(0.6);
-  -webkit-backdrop-filter:blur(28px) brightness(0.6);
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(28px) saturate(1.4);
+  -webkit-backdrop-filter:blur(28px) saturate(1.4);
   border:0.5px solid rgba(255,255,255,0.13);
   border-radius:28px;
   padding:2.2rem 1.8rem 1.8rem;
@@ -163,14 +165,14 @@ body.light-mode .icon-sun{display:block;}
 .price-app-name{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
 .price-app-title{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.01em;margin-bottom:1.2rem;}
 .price-amounts{display:flex;align-items:baseline;gap:0.6rem;margin-bottom:1rem;}
-.price-current{font-size:2.8rem;font-weight:900;letter-spacing:-0.04em;color:#fff;background:linear-gradient(135deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.price-current{font-size:2.8rem;font-weight:900;letter-spacing:-0.04em;color:#fff;background:linear-gradient(135deg,#FF9E5C,#3D81E3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .price-original{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,0.3);text-decoration:line-through;}
 .price-divider{height:0.5px;background:rgba(255,255,255,0.08);margin-bottom:1.2rem;}
 .price-features{list-style:none;display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1.6rem;}
 .price-features li{display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:rgba(255,255,255,0.75);line-height:1.4;}
-.price-check{width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,0.25);border:1.5px solid rgba(124,58,237,0.6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.price-check svg{width:10px;height:10px;stroke:#a78bfa;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.price-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:999px;padding:0.9rem 1.5rem;font-size:0.9rem;font-weight:700;cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif;transition:opacity .2s,transform .15s;box-shadow:0 4px 20px rgba(124,58,237,0.4);margin-bottom:0.9rem;}
+.price-check{width:20px;height:20px;border-radius:50%;background:rgba(61,129,227,0.25);border:1.5px solid rgba(61,129,227,0.6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.price-check svg{width:10px;height:10px;stroke:#FF9E5C;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.price-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#3D81E3,#6d28d9);color:#fff;border:none;border-radius:999px;padding:0.9rem 1.5rem;font-size:0.9rem;font-weight:700;cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif;transition:opacity .2s,transform .15s;box-shadow:0 4px 20px rgba(61,129,227,0.4);margin-bottom:0.9rem;}
 .price-btn:hover{opacity:0.9;transform:translateY(-1px);}
 .price-secure{text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;gap:5px;}
 .price-secure svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;}
@@ -179,7 +181,7 @@ body.light-mode .icon-sun{display:block;}
 footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:3.5rem 2.5rem 2.5rem;}
 .footer-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:0.5px solid rgba(255,255,255,0.06);margin-bottom:2rem;}
 .footer-brand-row{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
-.footer-brand-row img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,210,255,0.5))}
+.footer-brand-row img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,122,24,0.5))}
 .footer-brand-name{font-weight:900;color:#fff;font-size:1.05rem;letter-spacing:-0.04em}
 .footer-desc{color:rgba(255,255,255,0.4);font-size:0.85rem;line-height:1.65;max-width:240px}
 .footer-col-title{font-weight:700;font-size:0.75rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.2rem}
@@ -189,7 +191,7 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 .footer-bottom{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,0.3);font-size:0.78rem;flex-wrap:wrap;gap:0.6rem;}
 .social-icons-row{display:flex;gap:0.7rem;flex-wrap:wrap}
 .social-btn{width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,0.4);transition:all .2s;}
-.social-btn:hover{background:rgba(0,210,255,0.12);border-color:rgba(0,210,255,0.4);color:#00d2ff;transform:translateY(-2px)}
+.social-btn:hover{background:rgba(255,122,24,0.12);border-color:rgba(255,122,24,0.4);color:#FF7A18;transform:translateY(-2px)}
 .social-btn svg{width:19px;height:19px;fill:currentColor}
 
 /* LIGHT MODE */
@@ -199,8 +201,6 @@ body.light-mode .logo-name{color:#0c0c0c;}
 body.light-mode .theme-btn{border-color:rgba(0,0,0,0.2);color:#0c0c0c;}
 body.light-mode .nav-links{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08);}
 body.light-mode .gpill-nav{color:rgba(0,0,0,0.6);}
-body.light-mode .nav-early-access{background:rgba(124,58,237,0.07);border-color:rgba(124,58,237,0.3);color:#7c3aed;}
-body.light-mode .nav-early-access:hover{background:rgba(124,58,237,0.14);border-color:rgba(124,58,237,0.6);}
 body.light-mode .hero{background:#ffffff;}
 body.light-mode .hero-title{color:#0c0c0c;}
 body.light-mode .hero-subline{color:rgba(0,0,0,0.4);}
@@ -219,7 +219,7 @@ body.light-mode .feature-card{background:rgba(0,0,0,0.02);border-color:rgba(0,0,
 body.light-mode .feature-card h3{color:#0c0c0c;}
 body.light-mode .feature-card p{color:rgba(0,0,0,0.55);}
 body.light-mode .pricing h2{color:#0c0c0c;}
-body.light-mode .price-card{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.08);box-shadow:0 24px 48px rgba(124,58,237,0.1);}
+body.light-mode .price-card{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.08);box-shadow:0 24px 48px rgba(61,129,227,0.1);}
 body.light-mode .price-app-name{color:rgba(0,0,0,0.45);}
 body.light-mode .price-app-title{color:#0c0c0c;}
 body.light-mode .price-original{color:rgba(0,0,0,0.3);}
@@ -236,8 +236,8 @@ body.light-mode .footer-brand-name{color:#0c0c0c;}
 body.light-mode .footer-bottom{color:rgba(0,0,0,0.4);}
 body.light-mode .social-btn{background:rgba(0,0,0,0.06);border-color:rgba(0,0,0,0.1);color:#0c0c0c;}
 body.light-mode .social-btn svg{fill:#0c0c0c;}
-body.light-mode .social-btn:hover{background:rgba(124,58,237,0.1);color:#7c3aed;}
-body.light-mode .social-btn:hover svg{fill:#7c3aed;}
+body.light-mode .social-btn:hover{background:rgba(61,129,227,0.1);color:#3D81E3;}
+body.light-mode .social-btn:hover svg{fill:#3D81E3;}
 
 @media(max-width:700px){
   .feature-grid{grid-template-columns:1fr;}
@@ -264,7 +264,6 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
   </button>
-  <a href="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/OVERDESK%20APPS/Overdesk%20Everyone%20Setup%201.0.0.exe" download="Overdesk Everyone Setup 1.0.0.exe" class="nav-early-access" title="Early Access — Overdesk for Everyone v1.0.0 for Windows">Early Access</a>
   </div>
 </nav>
 
@@ -277,7 +276,7 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
   <p class="hero-subline">for daily users</p>
   <p class="hero-sub">A clean checklist that lives right on your desktop &mdash; for work, home, and everything in between. Tap to check. When everything's done, the screen clears. Feel it.</p>
   <div class="hero-btns">
-    <a class="btn-primary js-purchase-btn" href="https://overdesk.gumroad.com/l/everyone" target="_blank" data-product="everyone" data-gumroad="https://overdesk.gumroad.com/l/everyone" data-usd="15">
+    <a class="btn-primary js-purchase-btn" href="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" target="_blank" data-product="everyone" data-gumroad="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" data-usd="30">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       Purchase on Gumroad
     </a>
@@ -307,22 +306,22 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
   <h2>Built for everyday life, not just trading desks</h2>
   <div class="feature-grid">
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
       <h3>Work &amp; Projects</h3>
       <p>Track daily work tasks, meetings, and deliverables without switching apps or losing your place.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
       <h3>Home &amp; Errands</h3>
       <p>Groceries, chores, appointments &mdash; keep your everyday to-dos visible right on your desktop.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
       <h3>Habits &amp; Routines</h3>
       <p>Build consistency with a checklist that resets and stays in view, day after day.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#a78bfa"/><circle cx="9.5" cy="7.5" r="1.2" fill="#a78bfa"/><circle cx="14.5" cy="7.5" r="1.2" fill="#a78bfa"/></svg></div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#FF9E5C"/><circle cx="9.5" cy="7.5" r="1.2" fill="#FF9E5C"/><circle cx="14.5" cy="7.5" r="1.2" fill="#FF9E5C"/></svg></div>
       <h3>Custom Categories &amp; Colors</h3>
       <p>Organize your lists your way, with colors and categories that make sense for your life.</p>
     </div>
@@ -369,8 +368,66 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
 </section>
 
 <section class="pricing" id="pricing">
-  <h2>Simple, one-time pricing</h2>
-  <div class="electric-border" style="--electric-border-color:#7c3aed;border-radius:28px;">
+  <h2>Choose your plan</h2>
+  <div class="pricing-tabs">
+    <button type="button" class="pricing-tab active" data-tab="trial" onclick="switchPricingTab('trial')">Free Trial</button>
+    <button type="button" class="pricing-tab" data-tab="annual" onclick="switchPricingTab('annual')">Annual</button>
+    <button type="button" class="pricing-tab" data-tab="pro" onclick="switchPricingTab('pro')">Single Purchase</button>
+  </div>
+
+  <div class="pricing-panel active" id="pricingTrialPanel">
+  <div class="price-card" style="max-width:420px;margin:0 auto;border-radius:28px;padding:2.2rem;">
+    <div class="price-app-name">Overdesk for Everyone</div>
+    <div class="price-app-title">Your Daily To-Do</div>
+    <div class="price-amounts">
+      <span class="price-current" data-usd="0">$0</span>
+    </div>
+    <div class="price-divider"></div>
+    <ul class="price-features">
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Persistent desktop task visibility</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>One-tap clear on completion</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Multiple everyday modes</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Customisable icons &amp; colours</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Dark &amp; Light mode</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>No account needed</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Full feature access</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Free Trial Included</li>
+    </ul>
+    <a class="price-btn js-trial-btn" href="#" data-trial-product="everyone">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Start my free trial
+    </a>
+    <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> No card required</div>
+  </div>
+  <p class="trial-note" style="text-align:center;font-size:0.85rem;margin-top:1.6rem;">No credit card required.</p>
+  </div>
+
+  <div class="pricing-panel" id="pricingAnnualPanel">
+  <div class="price-card" style="max-width:420px;margin:0 auto;border-radius:28px;padding:2.2rem;">
+    <div class="price-app-name">Overdesk for Everyone</div>
+    <div class="price-app-title">Your Daily To-Do</div>
+    <div class="price-amounts">
+      <span class="price-current" data-usd="19">$19</span><span class="price-period">/year</span>
+    </div>
+    <div class="price-divider"></div>
+    <ul class="price-features">
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Persistent desktop task visibility</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>One-tap clear on completion</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Multiple everyday modes</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Customisable icons &amp; colours</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Dark &amp; Light mode</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>No account needed</li>
+      <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Billed annually, cancel anytime</li>
+    </ul>
+    <a class="price-btn js-annual-btn" href="#" data-annual-product="everyone">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Subscribe Annually
+    </a>
+    <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure Payment via Gumroad</div>
+  </div>
+  <p class="trial-note" style="text-align:center;font-size:0.85rem;margin-top:1.6rem;">Cancel anytime. Switch to Single Purchase later and we'll credit what you've paid&#42;.</p>
+  </div>
+
+  <div class="pricing-panel" id="pricingProPanel">
+  <div class="electric-border" style="--electric-border-color:#3D81E3;border-radius:28px;">
     <div class="eb-canvas-container"><canvas class="eb-canvas"></canvas></div>
     <div class="eb-layers">
       <div class="eb-glow-1"></div>
@@ -382,8 +439,7 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
     <div class="price-app-name">Overdesk for Everyone</div>
     <div class="price-app-title">Your Daily To-Do</div>
     <div class="price-amounts">
-      <span class="price-current" id="price-current-everyone" data-usd="15">$15</span>
-      <span class="price-original" data-usd="20">$20</span>
+      <span class="price-current" id="price-current-everyone" data-usd="30">$30</span>
     </div>
     <div class="price-divider"></div>
     <ul class="price-features">
@@ -396,13 +452,13 @@ body.light-mode .social-btn:hover svg{fill:#7c3aed;}
       <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>One-time purchase</li>
       <li><span class="price-check"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Lifetime access &amp; updates</li>
     </ul>
-    <a class="price-btn js-purchase-btn" href="https://overdesk.gumroad.com/l/everyone" target="_blank" data-product="everyone" data-gumroad="https://overdesk.gumroad.com/l/everyone" data-usd="15">
+    <a class="price-btn js-purchase-btn" href="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" target="_blank" data-product="everyone" data-gumroad="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" data-usd="30">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Get Overdesk for Everyone
     </a>
     <div class="price-secure js-secure-label" id="price-secure-everyone"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span class="js-secure-text">Secure Payment via Gumroad</span></div>
   </div>
     </div>
-    <div class="eb-badge-layer"><div class="price-badge">25% OFF<br>Save $5</div></div>
+  </div>
   </div>
 </section>
 
@@ -653,7 +709,7 @@ document.addEventListener('keydown', function(e){
     requestAnimationFrame(draw);
   }
   document.querySelectorAll('.electric-border').forEach(function(el){
-    var color = el.style.getPropertyValue('--electric-border-color') || '#7c3aed';
+    var color = el.style.getPropertyValue('--electric-border-color') || '#3D81E3';
     setupElectricBorder(el, { color: color, speed: 0.8, chaos: 0.1, borderRadius: 28 });
   });
 })();
@@ -667,7 +723,7 @@ import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.n
   var ctn = document.getElementById('auroraBg');
   if(!ctn) return;
 
-  var colorStops = ['#7c3aed', '#00d2ff', '#7c3aed'];
+  var colorStops = ['#3D81E3', '#FF7A18', '#3D81E3'];
   var amplitude = 1.0;
   var blend = 0.55;
   var speed = 0.6;
@@ -845,7 +901,7 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://cdn.jsdelivr.
   var container = document.getElementById('particlesBg');
   if(!container) return;
 
-  var particleColors = ['#ffffff', '#a78bfa', '#00d2ff'];
+  var particleColors = ['#ffffff', '#FF9E5C', '#FF7A18'];
   var particleCount = 140;
   var particleSpread = 10;
   var speed = 0.1;
@@ -1005,12 +1061,12 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://cdn.jsdelivr.
   camera.position.z = 12;
 
   var geo = new THREE.IcosahedronGeometry(3, 0);
-  var mat = new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.3, metalness: 0.6, flatShading: true });
+  var mat = new THREE.MeshStandardMaterial({ color: 0x3D81E3, roughness: 0.3, metalness: 0.6, flatShading: true });
   var mesh = new THREE.Mesh(geo, mat);
   scene.add(mesh);
 
   var key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(5,5,5); scene.add(key);
-  var fill = new THREE.DirectionalLight(0x00d2ff, 0.6); fill.position.set(-5,-3,4); scene.add(fill);
+  var fill = new THREE.DirectionalLight(0xFF7A18, 0.6); fill.position.set(-5,-3,4); scene.add(fill);
   scene.add(new THREE.AmbientLight(0x404040, 1.2));
 
   function resize(){
@@ -1103,6 +1159,39 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://cdn.jsdelivr.
     if(e.key === 'Escape') closeCalendlyModal();
   });
 })();
+</script>
+
+<script>
+function switchPricingTab(tab){
+  document.querySelectorAll('.pricing-tab').forEach(function(btn){
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+  });
+  document.getElementById('pricingProPanel').classList.toggle('active', tab === 'pro');
+  document.getElementById('pricingAnnualPanel').classList.toggle('active', tab === 'annual');
+  document.getElementById('pricingTrialPanel').classList.toggle('active', tab === 'trial');
+}
+
+// Fill in once the trial installer is uploaded to Cloudflare.
+var TRIAL_DOWNLOAD_LINKS = { everyone: 'https://overdesk.gumroad.com/l/everyone?option=cW7dAxozIPA2o1SZUWsQRw%3D%3D' };
+document.querySelectorAll('.js-trial-btn').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    var link = TRIAL_DOWNLOAD_LINKS[btn.getAttribute('data-trial-product')];
+    if (link) { window.location.href = link; }
+    else { alert('Trial download coming soon — check back shortly!'); }
+  });
+});
+
+// Fill in once a real Gumroad subscription product exists.
+var ANNUAL_GUMROAD_LINKS = { everyone: 'https://overdesk.gumroad.com/l/everyone?option=qvvEn2GSxn01Xog_D17QLg%3D%3D' };
+document.querySelectorAll('.js-annual-btn').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    var link = ANNUAL_GUMROAD_LINKS[btn.getAttribute('data-annual-product')];
+    if (link) { window.open(link, '_blank'); }
+    else { alert('Annual plans are launching soon — check back shortly!'); }
+  });
+});
 </script>
 
 <script src="/currency-paystack.js" defer></script>
