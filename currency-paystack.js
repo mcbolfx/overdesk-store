@@ -1,70 +1,74 @@
 /* ============================================================
-   Overdesk — Currency Detection + Paystack Checkout
-   (Nigeria, Ghana, South Africa, Kenya, Côte d'Ivoire)
+   Overdesk — Currency Selector + Paystack Checkout
    ============================================================
    What this does:
    1. Detects which country the visitor is in (client-side geo-IP, cached).
-   2. If they're in one of the 5 markets Paystack covers, swaps displayed
-      prices from USD to that country's local currency (fixed rates below),
-      and swaps "Purchase" buttons to open a Paystack checkout instead of
-      linking straight to Gumroad.
-   3. Everyone else: site behaves exactly as before (Gumroad links untouched).
+   2. African markets Paystack covers (NG, GH, ZA, KE, CI): defaults to
+      that local currency, buttons go through Paystack. The currency
+      dropdown for these visitors offers only their local currency or USD.
+      Switching to USD sends them to Gumroad directly instead of Paystack.
+   3. Everyone else (international): defaults to USD, dropdown offers
+      USD / EUR / GBP. All three always link straight to Gumroad —
+      Paystack is never used for these currencies.
    4. Paystack's own script only loads the moment someone actually clicks a
-      purchase button — not proactively for every visitor from these
-      countries. Lighter/faster, and avoids loading third-party cookies
-      before the visitor has taken an action (works with cookie-consent.js).
+      purchase button while a Paystack-backed currency is active.
 
    ============================================================
    IMPORTANT — Paystack accounts and currency
    ============================================================
    A single Paystack account can't process multiple currencies at once
    (except Nigeria + Kenya, which can add USD alongside their base currency).
-   In practice this means: as you activate each new market below, you'll
-   likely need a SEPARATE Paystack sub-account configured for that country's
-   currency, each with its own PUBLIC key. Put each one in PAYSTACK_PUBLIC_KEY
-   below once you have it — until then, that market just won't get a
-   Paystack key and can be left as a placeholder (see NOTE per entry).
+   As you activate each new African market below, you'll likely need a
+   SEPARATE Paystack sub-account for that country's currency, each with its
+   own PUBLIC key. Put each one in paystackKey below once you have it —
+   until then, that market is skipped and those visitors just see USD/Gumroad.
 
-   The exchange rates below are fixed/approximate starting points (similar
-   to the ₦1000 = $1 rate already agreed for Nigeria) — update them
-   periodically; they are NOT live-fetched.
+   EUR/GBP rates below are fixed/approximate starting points — they are NOT
+   live-fetched, update periodically.
    ============================================================ */
 
 (function () {
   'use strict';
 
-  // ---- CONFIG: one entry per supported market ----
-  var COUNTRY_CONFIG = {
+  // ---- CONFIG: African markets — Paystack-backed ----
+  var AFRICAN_CONFIG = {
     NG: {
-      currency: 'NGN',
-      symbol: '\u20A6', // ₦
-      rate: 1000, // $1 = ₦1000
-      paystackKey: 'pk_live_f7ba68167086e33059d3916b66948d1a85f3ccaf' // LIVE key — remember to swap back to pk_live_... before going live
+      code: 'NG', currency: 'NGN', symbol: '\u20A6', rate: 1000,
+      usePaystack: true, useKSuffix: true,
+      paystackKey: 'pk_live_f7ba68167086e33059d3916b66948d1a85f3ccaf'
     },
     GH: {
-      currency: 'GHS',
-      symbol: 'GH\u20B5', // GH₵
-      rate: 12, // approx $1 = GH₵12 — update as needed
-      paystackKey: 'pk_test_REPLACE_GH' // <-- add your Ghana Paystack sub-account public key
+      code: 'GH', currency: 'GHS', symbol: 'GH\u20B5', rate: 12,
+      usePaystack: true, useKSuffix: true,
+      paystackKey: 'pk_test_REPLACE_GH'
     },
     ZA: {
-      currency: 'ZAR',
-      symbol: 'R',
-      rate: 17, // approx $1 = R17 — update as needed
-      paystackKey: 'pk_test_REPLACE_ZA' // <-- add your South Africa Paystack sub-account public key
+      code: 'ZA', currency: 'ZAR', symbol: 'R', rate: 17,
+      usePaystack: true, useKSuffix: true,
+      paystackKey: 'pk_test_REPLACE_ZA'
     },
     KE: {
-      currency: 'KES',
-      symbol: 'KSh',
-      rate: 130, // approx $1 = KSh130 — update as needed
-      paystackKey: 'pk_test_REPLACE_KE' // <-- add your Kenya Paystack sub-account public key
+      code: 'KE', currency: 'KES', symbol: 'KSh', rate: 130,
+      usePaystack: true, useKSuffix: true,
+      paystackKey: 'pk_test_REPLACE_KE'
     },
     CI: {
-      currency: 'XOF',
-      symbol: 'CFA',
-      rate: 600, // approx $1 = 600 XOF — update as needed
-      paystackKey: 'pk_test_REPLACE_CI' // <-- add your Côte d'Ivoire Paystack sub-account public key
+      code: 'CI', currency: 'XOF', symbol: 'CFA', rate: 600,
+      usePaystack: true, useKSuffix: true,
+      paystackKey: 'pk_test_REPLACE_CI'
     }
+  };
+
+  // ---- CONFIG: international currencies — Gumroad-only, no Paystack ----
+  var INTERNATIONAL_CONFIG = {
+    USD: { code: 'USD', currency: 'USD', symbol: '$', rate: 1,    usePaystack: false, useKSuffix: false, label: 'USD ($)' },
+    EUR: { code: 'EUR', currency: 'EUR', symbol: '\u20AC', rate: 0.92, usePaystack: false, useKSuffix: false, label: 'EUR (\u20AC)' },
+    GBP: { code: 'GBP', currency: 'GBP', symbol: '\u00A3', rate: 0.79, usePaystack: false, useKSuffix: false, label: 'GBP (\u00A3)' }
+  };
+
+  var CURRENCY_LABELS = {
+    NGN: 'NGN (\u20A6)', GHS: 'GHS (GH\u20B5)', ZAR: 'ZAR (R)', KES: 'KES (KSh)', XOF: 'XOF (CFA)',
+    USD: 'USD ($)', EUR: 'EUR (\u20AC)', GBP: 'GBP (\u00A3)'
   };
 
   var PRODUCT_NAMES = {
@@ -75,12 +79,22 @@
     everyone: 'Overdesk for Everyone'
   };
 
+  var currentConfig = INTERNATIONAL_CONFIG.USD; // module-level state, read at click time
+
+  function formatAmountK(amount) {
+    if (amount === 0) return '0';
+    var thousands = amount / 1000;
+    return (amount % 1000 === 0) ? thousands + 'K' : thousands.toFixed(1) + 'K';
+  }
+  function formatAmountPlain(amount) {
+    if (amount === 0) return '0';
+    return Math.round(amount).toLocaleString('en-US');
+  }
   function formatAmountFull(amount) {
     return Math.round(amount).toLocaleString('en-US');
   }
-  function formatAmountK(amount) {
-    var thousands = amount / 1000;
-    return (amount % 1000 === 0) ? thousands + 'K' : thousands.toFixed(1) + 'K';
+  function formatDisplay(amount, config) {
+    return config.useKSuffix ? formatAmountK(amount) : formatAmountPlain(amount);
   }
 
   // ---- 1. Detect country (cached in localStorage for 24h) ----
@@ -89,28 +103,18 @@
       var raw = localStorage.getItem('overdesk_geo');
       if (!raw) return null;
       var data = JSON.parse(raw);
-      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) return null; // expired
+      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) return null;
       return data;
-    } catch (e) {
-      return null;
-    }
+    } catch (e) { return null; }
   }
-
   function setCachedGeo(countryCode) {
     try {
-      localStorage.setItem('overdesk_geo', JSON.stringify({
-        countryCode: countryCode,
-        timestamp: Date.now()
-      }));
-    } catch (e) { /* localStorage unavailable, ignore */ }
+      localStorage.setItem('overdesk_geo', JSON.stringify({ countryCode: countryCode, timestamp: Date.now() }));
+    } catch (e) {}
   }
-
   function detectCountry(callback) {
     var cached = getCachedGeo();
-    if (cached) {
-      callback(cached.countryCode);
-      return;
-    }
+    if (cached) { callback(cached.countryCode); return; }
     fetch('https://ipapi.co/json/')
       .then(function (res) { return res.json(); })
       .then(function (data) {
@@ -118,56 +122,51 @@
         setCachedGeo(code);
         callback(code);
       })
-      .catch(function () {
-        // If geo lookup fails, fail safe to default Gumroad/USD experience
-        callback(null);
-      });
+      .catch(function () { callback(null); });
   }
 
-  // ---- 2. Swap price displays + button behavior for a supported market ----
-  function applyLocalPricing(config) {
-    // Swap price text
-    document.querySelectorAll('[data-usd]').forEach(function (el) {
+  function isKeyConfigured(config) {
+    return !!config.paystackKey && config.paystackKey.indexOf('REPLACE') === -1;
+  }
+
+  // ---- 2. Apply a currency to every priced element + purchase button label on the page ----
+  function applyCurrency(config) {
+    currentConfig = config;
+
+    document.querySelectorAll('.price-current[data-usd], .price-original[data-usd]').forEach(function (el) {
       var usd = parseFloat(el.getAttribute('data-usd'));
       if (isNaN(usd)) return;
       var local = usd * config.rate;
-      var display = formatAmountK(local);
-      // Only overwrite if this element is a price display (has data-usd and starts with $)
-      if (el.textContent.trim().indexOf('$') === 0) {
-        el.textContent = config.symbol + display;
-      }
+      var display = formatDisplay(local, config);
+      el.textContent = config.symbol + display;
     });
 
-    // Swap "Secure Payment via Gumroad" labels
     document.querySelectorAll('.js-secure-text').forEach(function (el) {
-      el.textContent = 'Secure Payment via Paystack';
-    });
-
-    // Swap purchase button behavior
-    document.querySelectorAll('.js-purchase-btn').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        var product = btn.getAttribute('data-product');
-        var usd = parseFloat(btn.getAttribute('data-usd'));
-        openCheckoutModal(config, product, usd);
-      });
-      // Update button label so it's clear this is a different payment path
-      var svg = btn.querySelector('svg');
-      btn.innerHTML = '';
-      if (svg) btn.appendChild(svg);
-      btn.appendChild(document.createTextNode(' Pay with Paystack'));
+      el.textContent = config.usePaystack ? 'Secure Payment via Paystack' : 'Secure Payment via Gumroad';
     });
   }
 
-  // ---- 3. Simple checkout modal: product, price, email, then Paystack ----
+  // ---- 3. Purchase button click handling — one listener, decides at click-time ----
+  function attachPurchaseHandlers() {
+    document.querySelectorAll('.js-purchase-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        if (!currentConfig.usePaystack) {
+          // Let the browser follow the button's normal href straight to Gumroad.
+          return;
+        }
+        e.preventDefault();
+        var product = btn.getAttribute('data-product');
+        var usd = parseFloat(btn.getAttribute('data-usd'));
+        openCheckoutModal(currentConfig, product, usd);
+      });
+    });
+  }
+
+  // ---- 4. Paystack checkout modal (only ever opened when currentConfig.usePaystack) ----
   function openCheckoutModal(config, productKey, usdAmount) {
     var localAmount = Math.round(usdAmount * config.rate);
     var productName = PRODUCT_NAMES[productKey] || 'Overdesk';
 
-    // Start loading Paystack's script now, in the background, while the
-    // visitor is looking at the modal / typing their email — by the time
-    // they click "Continue to Payment" it's very likely already loaded,
-    // instead of them waiting for it at that point.
     loadPaystackScript(function () {});
 
     var overlay = document.createElement('div');
@@ -178,7 +177,7 @@
         '<h3 style="color:#fff;font-size:1.05rem;font-weight:800;margin:0 0 0.3rem;">' + productName + '</h3>' +
         '<p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin:0 0 1.3rem;">' + config.symbol + formatAmountFull(localAmount) + ' \u2014 enter your email to continue to Paystack.</p>' +
         '<input type="email" id="opStackEmail" placeholder="you@example.com" required style="width:100%;box-sizing:border-box;padding:0.75rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-size:0.9rem;margin-bottom:1rem;">' +
-        '<button id="opStackContinue" style="width:100%;padding:0.85rem;border:none;border-radius:999px;background:linear-gradient(135deg,#7c3aed,#00d2ff);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;">Continue to Payment</button>' +
+        '<button id="opStackContinue" style="width:100%;padding:0.85rem;border:none;border-radius:999px;background:linear-gradient(135deg,#3D81E3,#FF7A18);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;">Continue to Payment</button>' +
         '<button id="opStackCancel" style="width:100%;padding:0.6rem;border:none;background:none;color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:0.6rem;cursor:pointer;">Cancel</button>' +
       '</div>';
 
@@ -201,7 +200,7 @@
         return;
       }
       var continueBtn = overlay.querySelector('#opStackContinue');
-      continueBtn.textContent = 'Loading secure payment…';
+      continueBtn.textContent = 'Loading secure payment\u2026';
       continueBtn.disabled = true;
 
       loadPaystackScript(function () {
@@ -213,35 +212,28 @@
 
   function launchPaystackPopup(config, email, productKey, productName, localAmount) {
     if (typeof PaystackPop === 'undefined') {
-      alert('Payment system is still loading — please try again in a moment.');
+      alert('Payment system is still loading \u2014 please try again in a moment.');
       return;
     }
     var handler = PaystackPop.setup({
       key: config.paystackKey,
       email: email,
-      amount: localAmount * 100, // Paystack expects the smallest currency unit (kobo/pesewas/cents)
+      amount: localAmount * 100,
       currency: config.currency,
       ref: 'OD-' + productKey + '-' + Date.now(),
       metadata: {
         product: productKey,
         product_name: productName,
-        custom_fields: [
-          { display_name: 'Product', variable_name: 'product', value: productName }
-        ]
+        custom_fields: [{ display_name: 'Product', variable_name: 'product', value: productName }]
       },
       callback: function (response) {
-        // Client-side "success" — real delivery is triggered server-side by the
-        // Paystack webhook (see the Cloudflare Worker), not from this callback.
         alert('Payment received! Check your email (' + email + ') shortly for your download link.');
       },
-      onClose: function () {
-        // user closed the popup — no action needed
-      }
+      onClose: function () {}
     });
     handler.openIframe();
   }
 
-  // ---- 4. Load the Paystack Inline script only when someone actually clicks purchase ----
   var paystackScriptLoading = false;
   var paystackScriptCallbacks = [];
   function loadPaystackScript(callback) {
@@ -258,23 +250,61 @@
     document.head.appendChild(s);
   }
 
-  // A market is only "live" once its placeholder key has been swapped for a
-  // real Paystack public key. Until then, treat it like an unsupported market
-  // so visitors get the working Gumroad/USD flow instead of a broken checkout.
-  function isKeyConfigured(config) {
-    return !!config.paystackKey && config.paystackKey.indexOf('REPLACE') === -1;
+  // ---- 5. Currency dropdown — inserted above the pricing tabs, on any page that has #pricing ----
+  function buildDropdown(options, selectedCode) {
+    var pricingSection = document.getElementById('pricing');
+    if (!pricingSection) return;
+
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:1.2rem;position:relative;z-index:1;';
+
+    var select = document.createElement('select');
+    select.id = 'currencySelect';
+    select.style.cssText = 'background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:0.5rem 1.1rem;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;';
+
+    options.forEach(function (opt) {
+      var o = document.createElement('option');
+      o.value = opt.code;
+      o.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
+      o.style.color = '#000';
+      if (opt.code === selectedCode) o.selected = true;
+      select.appendChild(o);
+    });
+
+    select.addEventListener('change', function () {
+      var chosen = options.filter(function (o) { return o.code === select.value; })[0];
+      if (chosen) applyCurrency(chosen);
+    });
+
+    wrap.appendChild(select);
+
+    var firstChild = pricingSection.querySelector('.pricing-tabs') || pricingSection.querySelector('h2') || pricingSection.firstChild;
+    if (firstChild) {
+      pricingSection.insertBefore(wrap, firstChild);
+    } else {
+      pricingSection.appendChild(wrap);
+    }
   }
 
   // ---- Boot ----
   detectCountry(function (countryCode) {
-    var config = countryCode ? COUNTRY_CONFIG[countryCode] : null;
-    if (config && isKeyConfigured(config)) {
-      // Price/button swaps happen immediately — Paystack's own script only
-      // loads later, at the moment of an actual purchase click.
-      applyLocalPricing(config);
+    var africanConfig = countryCode ? AFRICAN_CONFIG[countryCode] : null;
+
+    if (africanConfig && isKeyConfigured(africanConfig)) {
+      // African visitor in a supported market: default to their local currency,
+      // dropdown offers [local currency, USD] only.
+      applyCurrency(africanConfig);
+      buildDropdown([africanConfig, INTERNATIONAL_CONFIG.USD], africanConfig.code);
+    } else {
+      // International (or unconfigured African market): default USD,
+      // dropdown offers USD / EUR / GBP — always Gumroad, never Paystack.
+      applyCurrency(INTERNATIONAL_CONFIG.USD);
+      buildDropdown(
+        [INTERNATIONAL_CONFIG.USD, INTERNATIONAL_CONFIG.EUR, INTERNATIONAL_CONFIG.GBP],
+        'USD'
+      );
     }
-    // Visitors outside the 5 supported markets, or in a market whose
-    // Paystack key hasn't been configured yet: do nothing, site behaves
-    // exactly as before (Gumroad/USD).
+
+    attachPurchaseHandlers();
   });
 })();
