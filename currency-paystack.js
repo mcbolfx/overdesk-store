@@ -258,9 +258,27 @@
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:1.2rem;position:relative;z-index:1;';
 
+    var glassPill = document.createElement('div');
+    glassPill.style.cssText =
+      'display:inline-flex;align-items:center;gap:0.5rem;' +
+      'background:rgba(255,255,255,0.07);' +
+      'backdrop-filter:blur(18px) saturate(1.4);' +
+      '-webkit-backdrop-filter:blur(18px) saturate(1.4);' +
+      'border:1px solid rgba(255,255,255,0.16);' +
+      'border-radius:999px;' +
+      'padding:0.5rem 1rem;' +
+      'box-shadow:inset 0 1px 1px rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.25);';
+
+    var icon = document.createElement('span');
+    icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+    icon.style.cssText = 'display:flex;align-items:center;color:rgba(255,255,255,0.5);flex-shrink:0;';
+
     var select = document.createElement('select');
     select.id = 'currencySelect';
-    select.style.cssText = 'background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:0.5rem 1.1rem;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;';
+    select.style.cssText =
+      'background:transparent;color:#fff;border:none;outline:none;' +
+      'font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;' +
+      'appearance:none;-webkit-appearance:none;padding-right:0.2rem;';
 
     options.forEach(function (opt) {
       var o = document.createElement('option');
@@ -276,7 +294,9 @@
       if (chosen) applyCurrency(chosen);
     });
 
-    wrap.appendChild(select);
+    glassPill.appendChild(icon);
+    glassPill.appendChild(select);
+    wrap.appendChild(glassPill);
 
     var firstChild = pricingSection.querySelector('.pricing-tabs') || pricingSection.querySelector('h2') || pricingSection.firstChild;
     if (firstChild) {
