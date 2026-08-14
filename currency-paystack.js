@@ -250,53 +250,108 @@
     document.head.appendChild(s);
   }
 
-  // ---- 5. Currency dropdown — inserted above the pricing tabs, on any page that has #pricing ----
+  // ---- 5. Currency dropdown — custom-built (not a native <select>) so the
+  //         open list itself can be glassy too, which native select popups
+  //         can't be styled to do. Inserted above the pricing tabs. ----
   function buildDropdown(options, selectedCode) {
     var pricingSection = document.getElementById('pricing');
     if (!pricingSection) return;
 
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:1.2rem;position:relative;z-index:1;';
+    var selected = options.filter(function (o) { return o.code === selectedCode; })[0] || options[0];
 
-    var glassPill = document.createElement('div');
-    glassPill.style.cssText =
-      'display:inline-flex;align-items:center;gap:0.5rem;' +
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:1.2rem;position:relative;z-index:20;';
+
+    var container = document.createElement('div');
+    container.style.cssText = 'position:relative;';
+
+    var glassPillCSS =
       'background:rgba(255,255,255,0.07);' +
       'backdrop-filter:blur(18px) saturate(1.4);' +
       '-webkit-backdrop-filter:blur(18px) saturate(1.4);' +
       'border:1px solid rgba(255,255,255,0.16);' +
-      'border-radius:999px;' +
-      'padding:0.5rem 1rem;' +
       'box-shadow:inset 0 1px 1px rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.25);';
 
-    var icon = document.createElement('span');
-    icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
-    icon.style.cssText = 'display:flex;align-items:center;color:rgba(255,255,255,0.5);flex-shrink:0;';
+    var toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.setAttribute('aria-haspopup', 'listbox');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.style.cssText =
+      'display:inline-flex;align-items:center;gap:0.5rem;' +
+      glassPillCSS +
+      'border-radius:999px;padding:0.5rem 1rem;' +
+      'color:#fff;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;';
 
-    var select = document.createElement('select');
-    select.id = 'currencySelect';
-    select.style.cssText =
-      'background:transparent;color:#fff;border:none;outline:none;' +
-      'font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;' +
-      'appearance:none;-webkit-appearance:none;padding-right:0.2rem;';
+    var globeIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+    var chevronIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+    var labelSpan = document.createElement('span');
+    labelSpan.textContent = CURRENCY_LABELS[selected.currency] || selected.currency;
+
+    toggleBtn.innerHTML = '<span style="display:flex;align-items:center;color:rgba(255,255,255,0.5);">' + globeIcon + '</span>';
+    toggleBtn.appendChild(labelSpan);
+    var chevronSpan = document.createElement('span');
+    chevronSpan.style.cssText = 'display:flex;align-items:center;color:rgba(255,255,255,0.5);transition:transform .2s;';
+    chevronSpan.innerHTML = chevronIcon;
+    toggleBtn.appendChild(chevronSpan);
+
+    var list = document.createElement('div');
+    list.setAttribute('role', 'listbox');
+    list.style.cssText =
+      'position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);' +
+      'min-width:150px;' +
+      glassPillCSS +
+      'border-radius:16px;padding:6px;display:none;flex-direction:column;gap:2px;';
+
+    function closeList() {
+      list.style.display = 'none';
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      chevronSpan.style.transform = 'rotate(0deg)';
+    }
+    function openList() {
+      list.style.display = 'flex';
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      chevronSpan.style.transform = 'rotate(180deg)';
+    }
 
     options.forEach(function (opt) {
-      var o = document.createElement('option');
-      o.value = opt.code;
-      o.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
-      o.style.color = '#000';
-      if (opt.code === selectedCode) o.selected = true;
-      select.appendChild(o);
+      var item = document.createElement('button');
+      item.type = 'button';
+      item.setAttribute('role', 'option');
+      item.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
+      item.style.cssText =
+        'display:block;width:100%;text-align:left;background:transparent;border:none;' +
+        'color:#fff;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;' +
+        'padding:0.55rem 0.8rem;border-radius:10px;cursor:pointer;transition:background .15s;';
+      if (opt.code === selected.code) {
+        item.style.background = 'rgba(255,122,24,0.18)';
+      }
+      item.addEventListener('mouseenter', function () { item.style.background = 'rgba(255,255,255,0.1)'; });
+      item.addEventListener('mouseleave', function () {
+        item.style.background = (opt.code === selected.code) ? 'rgba(255,122,24,0.18)' : 'transparent';
+      });
+      item.addEventListener('click', function () {
+        selected = opt;
+        labelSpan.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
+        list.querySelectorAll('[role="option"]').forEach(function (el) { el.style.background = 'transparent'; });
+        item.style.background = 'rgba(255,122,24,0.18)';
+        closeList();
+        applyCurrency(opt);
+      });
+      list.appendChild(item);
     });
 
-    select.addEventListener('change', function () {
-      var chosen = options.filter(function (o) { return o.code === select.value; })[0];
-      if (chosen) applyCurrency(chosen);
+    toggleBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (list.style.display === 'flex') closeList(); else openList();
+    });
+    document.addEventListener('click', function (e) {
+      if (!container.contains(e.target)) closeList();
     });
 
-    glassPill.appendChild(icon);
-    glassPill.appendChild(select);
-    wrap.appendChild(glassPill);
+    container.appendChild(toggleBtn);
+    container.appendChild(list);
+    wrap.appendChild(container);
 
     var firstChild = pricingSection.querySelector('.pricing-tabs') || pricingSection.querySelector('h2') || pricingSection.firstChild;
     if (firstChild) {
