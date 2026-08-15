@@ -97,7 +97,45 @@ body.light-mode .icon-sun{display:block;}
 .features h2{text-align:center;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:3rem;}
 .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
 .feature-card{background:rgba(255,255,255,0.025);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.8rem;}
-.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(61,129,227,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.4rem;}
+/* Glass icon buttons — 3D tilt + frosted glass, ported from GlassIcons.css */
+.icon-btn{
+  background-color:transparent;outline:none;position:relative;
+  width:4.2em;height:4.2em;perspective:24em;transform-style:preserve-3d;
+  -webkit-tap-highlight-color:transparent;border:none;cursor:pointer;
+  text-decoration:none;display:inline-block;
+}
+.icon-btn__back,.icon-btn__front,.icon-btn__label{
+  transition:opacity .3s cubic-bezier(.83,0,.17,1),transform .3s cubic-bezier(.83,0,.17,1);
+}
+.icon-btn__back,.icon-btn__front{
+  border-radius:1.1em;position:absolute;top:0;left:0;width:100%;height:100%;
+}
+.icon-btn__back{
+  box-shadow:0.5em -0.5em 0.75em hsla(223,10%,10%,0.15);
+  display:block;transform:rotate(15deg);transform-origin:100% 100%;will-change:transform;
+}
+.icon-btn__front{
+  background-color:hsla(0,0%,100%,0.12);
+  box-shadow:0 0 0 0.1em hsla(0,0%,100%,0.25) inset;
+  backdrop-filter:blur(0.75em);-webkit-backdrop-filter:blur(0.75em);
+  display:flex;transform-origin:80% 50%;will-change:transform;
+  align-items:center;justify-content:center;
+}
+.icon-btn__icon{margin:auto;width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center;color:#fff;}
+.icon-btn__label{
+  font-size:0.72em;font-weight:600;white-space:nowrap;text-align:center;line-height:2;
+  opacity:0;position:absolute;top:100%;right:0;left:0;transform:translateY(0);color:rgba(255,255,255,0.7);
+}
+.icon-btn:focus-visible .icon-btn__back,.icon-btn:hover .icon-btn__back{
+  transform:rotate(25deg) translate3d(-0.5em,-0.5em,0.5em);
+}
+.icon-btn:focus-visible .icon-btn__front,.icon-btn:hover .icon-btn__front{
+  transform:translate3d(0,0,2em);
+}
+.icon-btn:focus-visible .icon-btn__label,.icon-btn:hover .icon-btn__label{
+  opacity:1;transform:translateY(20%);
+}
+.feature-icon-btn{margin-bottom:2.2rem;}
 .feature-card h3{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:0.5rem;}
 .feature-card p{color:rgba(255,255,255,0.55);font-size:0.9rem;}
 
@@ -235,6 +273,9 @@ body.light-mode .footer-desc{color:rgba(0,0,0,0.5);}
 body.light-mode .footer-brand-name{color:#0c0c0c;}
 body.light-mode .footer-bottom{color:rgba(0,0,0,0.4);}
 body.light-mode .social-btn{background:rgba(0,0,0,0.06);border-color:rgba(0,0,0,0.1);color:#0c0c0c;}
+body.light-mode .icon-btn__icon{color:#0c0c0c;}
+body.light-mode .icon-btn__label{color:rgba(0,0,0,0.6);}
+body.light-mode .icon-btn__front{background-color:hsla(0,0%,0%,0.06);box-shadow:0 0 0 0.1em hsla(0,0%,0%,0.12) inset;}
 body.light-mode .social-btn svg{fill:#0c0c0c;}
 body.light-mode .social-btn:hover{background:rgba(61,129,227,0.1);color:#3D81E3;}
 body.light-mode .social-btn:hover svg{fill:#3D81E3;}
@@ -276,10 +317,6 @@ body.light-mode .social-btn:hover svg{fill:#3D81E3;}
   <p class="hero-subline">for daily users</p>
   <p class="hero-sub">A clean checklist that lives right on your desktop &mdash; for work, home, and everything in between. Tap to check. When everything's done, the screen clears. Feel it.</p>
   <div class="hero-btns">
-    <a class="btn-primary js-purchase-btn" href="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" target="_blank" data-product="everyone" data-gumroad="https://overdesk.gumroad.com/l/everyone?option=guYugE2gou1zWkk_pMNJKQ%3D%3D" data-usd="30">
-      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      Purchase on Gumroad
-    </a>
     <button type="button" class="btn-ghost" onclick="openVideoLightbox('checklist')">
       <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
       Watch Demo
@@ -306,22 +343,22 @@ body.light-mode .social-btn:hover svg{fill:#3D81E3;}
   <h2>Built for everyday life, not just trading desks</h2>
   <div class="feature-grid">
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(223, 90%, 50%), hsl(208, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span></span></div>
       <h3>Work &amp; Projects</h3>
       <p>Track daily work tasks, meetings, and deliverables without switching apps or losing your place.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(283, 90%, 50%), hsl(268, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span></span></div>
       <h3>Home &amp; Errands</h3>
       <p>Groceries, chores, appointments &mdash; keep your everyday to-dos visible right on your desktop.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(43, 90%, 50%), hsl(28, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span></span></div>
       <h3>Habits &amp; Routines</h3>
       <p>Build consistency with a checklist that resets and stays in view, day after day.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FF9E5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#FF9E5C"/><circle cx="9.5" cy="7.5" r="1.2" fill="#FF9E5C"/><circle cx="14.5" cy="7.5" r="1.2" fill="#FF9E5C"/></svg></div>
+      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(253, 90%, 50%), hsl(238, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#FF9E5C"/><circle cx="9.5" cy="7.5" r="1.2" fill="#FF9E5C"/><circle cx="14.5" cy="7.5" r="1.2" fill="#FF9E5C"/></svg></span></span></div>
       <h3>Custom Categories &amp; Colors</h3>
       <p>Organize your lists your way, with colors and categories that make sense for your life.</p>
     </div>
@@ -490,11 +527,27 @@ body.light-mode .social-btn:hover svg{fill:#3D81E3;}
     </div>
     <div>
       <p class="footer-col-title">Follow Us</p>
-      <div class="social-icons-row">
-        <a class="social-btn" href="https://www.tiktok.com/@overdesk.app" target="_blank" title="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.54V6.79a4.85 4.85 0 01-1.02-.1z"/></svg></a>
-        <a class="social-btn" href="https://www.instagram.com/overdesk.app" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-        <a class="social-btn" href="https://x.com/Overdesks" target="_blank" title="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-        <a class="social-btn" href="mailto:overdesk.app@gmail.com" title="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      <div class="social-icons-row" style="gap:1.2rem;">
+        <a class="icon-btn" href="https://www.tiktok.com/@overdesk.app" target="_blank" aria-label="TikTok">
+          <span class="icon-btn__back" style="background:linear-gradient(hsl(3, 90%, 50%), hsl(348, 90%, 50%))"></span>
+          <span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.54V6.79a4.85 4.85 0 01-1.02-.1z"/></svg></span></span>
+          <span class="icon-btn__label">TikTok</span>
+        </a>
+        <a class="icon-btn" href="https://www.instagram.com/overdesk.app" target="_blank" aria-label="Instagram">
+          <span class="icon-btn__back" style="background:linear-gradient(hsl(283, 90%, 50%), hsl(268, 90%, 50%))"></span>
+          <span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span></span>
+          <span class="icon-btn__label">Instagram</span>
+        </a>
+        <a class="icon-btn" href="https://x.com/Overdesks" target="_blank" aria-label="X">
+          <span class="icon-btn__back" style="background:linear-gradient(hsl(223, 90%, 50%), hsl(208, 90%, 50%))"></span>
+          <span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span></span>
+          <span class="icon-btn__label">X</span>
+        </a>
+        <a class="icon-btn" href="mailto:overdesk.app@gmail.com" aria-label="Email">
+          <span class="icon-btn__back" style="background:linear-gradient(hsl(43, 90%, 50%), hsl(28, 90%, 50%))"></span>
+          <span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span></span>
+          <span class="icon-btn__label">Email</span>
+        </a>
       </div>
     </div>
   </div>
