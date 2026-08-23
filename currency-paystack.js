@@ -12,6 +12,11 @@
       Paystack is never used for these currencies.
    4. Paystack's own script only loads the moment someone actually clicks a
       purchase button while a Paystack-backed currency is active.
+   5. If Paystack's script fails to load (network issue, ad-blocker, CDN
+      hiccup, etc.) within a few seconds, the visitor is automatically sent
+      to that product's Gumroad link instead of getting stuck on a
+      "loading" button or an unhelpful error — see loadPaystackScript()
+      and its onError/timeout handling below.
 
    ============================================================
    IMPORTANT — Paystack accounts and currency
@@ -78,6 +83,10 @@
     bundle: 'Overdesk Full Suite (Bundle)',
     everyone: 'Overdesk for Everyone'
   };
+
+  // How long we're willing to wait for js.paystack.co before giving up and
+  // sending the visitor to Gumroad instead.
+  var PAYSTACK_LOAD_TIMEOUT_MS = 6000;
 
   var currentConfig = INTERNATIONAL_CONFIG.USD; // module-level state, read at click time
 
@@ -157,17 +166,20 @@
         e.preventDefault();
         var product = btn.getAttribute('data-product');
         var usd = parseFloat(btn.getAttribute('data-usd'));
-        openCheckoutModal(currentConfig, product, usd);
+        var gumroadUrl = btn.getAttribute('data-gumroad') || btn.getAttribute('href');
+        openCheckoutModal(currentConfig, product, usd, gumroadUrl);
       });
     });
   }
 
   // ---- 4. Paystack checkout modal (only ever opened when currentConfig.usePaystack) ----
-  function openCheckoutModal(config, productKey, usdAmount) {
+  function openCheckoutModal(config, productKey, usdAmount, gumroadUrl) {
     var localAmount = Math.round(usdAmount * config.rate);
     var productName = PRODUCT_NAMES[productKey] || 'Overdesk';
 
-    loadPaystackScript(function () {});
+    // Best-effort early preload — failures here are silently retried (with
+    // the real fallback) once the visitor actually clicks "Continue to Payment".
+    loadPaystackScript(function () {}, function () {});
 
     var overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(6,5,14,0.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:1.5rem;font-family:Inter,sans-serif;';
@@ -177,8 +189,9 @@
         '<h3 style="color:#fff;font-size:1.05rem;font-weight:800;margin:0 0 0.3rem;">' + productName + '</h3>' +
         '<p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin:0 0 1.3rem;">' + config.symbol + formatAmountFull(localAmount) + ' \u2014 enter your email to continue to Paystack.</p>' +
         '<input type="email" id="opStackEmail" placeholder="you@example.com" required style="width:100%;box-sizing:border-box;padding:0.75rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-size:0.9rem;margin-bottom:1rem;">' +
-        '<button id="opStackContinue" style="width:100%;padding:0.85rem;border:none;border-radius:999px;background:linear-gradient(135deg,#3D81E3,#FF7A18);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;">Continue to Payment</button>' +
+        '<button id="opStackContinue" style="width:100%;padding:0.85rem;border:none;border-radius:999px;background:linear-gradient(135deg,#3D81E3,#22C55E);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;">Continue to Payment</button>' +
         '<button id="opStackCancel" style="width:100%;padding:0.6rem;border:none;background:none;color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:0.6rem;cursor:pointer;">Cancel</button>' +
+        '<p id="opStackFallbackNote" style="display:none;color:rgba(255,255,255,0.35);font-size:0.72rem;text-align:center;margin:0.8rem 0 0;">Taking longer than usual \u2014 redirecting you to checkout\u2026</p>' +
       '</div>';
 
     document.body.appendChild(overlay);
@@ -200,13 +213,32 @@
         return;
       }
       var continueBtn = overlay.querySelector('#opStackContinue');
+      var fallbackNote = overlay.querySelector('#opStackFallbackNote');
       continueBtn.textContent = 'Loading secure payment\u2026';
       continueBtn.disabled = true;
 
-      loadPaystackScript(function () {
-        document.body.removeChild(overlay);
-        launchPaystackPopup(config, email, productKey, productName, localAmount);
-      });
+      loadPaystackScript(
+        function () {
+          // Paystack loaded fine — proceed as normal.
+          if (document.body.contains(overlay)) document.body.removeChild(overlay);
+          launchPaystackPopup(config, email, productKey, productName, localAmount);
+        },
+        function () {
+          // Paystack failed to load (or timed out) — fall back to Gumroad
+          // rather than leaving the visitor stuck on a spinner or an alert.
+          console.warn('Overdesk: Paystack script failed to load — falling back to Gumroad for', productKey);
+          if (fallbackNote) fallbackNote.style.display = 'block';
+          if (!gumroadUrl) {
+            // No fallback URL available — best we can do is tell them plainly.
+            continueBtn.textContent = 'Payment unavailable \u2014 try again shortly';
+            continueBtn.disabled = false;
+            return;
+          }
+          setTimeout(function () {
+            window.location.href = gumroadUrl;
+          }, 900);
+        }
+      );
     });
   }
 
@@ -234,18 +266,66 @@
     handler.openIframe();
   }
 
-  var paystackScriptLoading = false;
-  var paystackScriptCallbacks = [];
-  function loadPaystackScript(callback) {
-    if (typeof PaystackPop !== 'undefined') { callback(); return; }
-    paystackScriptCallbacks.push(callback);
-    if (paystackScriptLoading) return;
-    paystackScriptLoading = true;
+  // ---- Paystack script loader with failure/timeout fallback ----
+  // callback: fires once PaystackPop is confirmed available.
+  // onError: fires if the script errors out OR doesn't load within
+  //          PAYSTACK_LOAD_TIMEOUT_MS — whichever happens first. Callers
+  //          use this to fall back to Gumroad instead of leaving the
+  //          visitor stuck.
+  var paystackScriptState = 'idle'; // 'idle' | 'loading' | 'loaded' | 'failed'
+  var paystackScriptCallbacks = [];   // [{ callback, onError }]
+  var paystackLoadTimer = null;
+
+  function settlePaystackCallbacks(succeeded) {
+    var pending = paystackScriptCallbacks;
+    paystackScriptCallbacks = [];
+    pending.forEach(function (pair) {
+      if (succeeded) { pair.callback(); } else if (pair.onError) { pair.onError(); }
+    });
+  }
+
+  function loadPaystackScript(callback, onError) {
+    if (paystackScriptState === 'loaded' && typeof PaystackPop !== 'undefined') {
+      callback();
+      return;
+    }
+    if (paystackScriptState === 'failed') {
+      // We already know it's not loading this session — fail fast.
+      if (onError) onError();
+      return;
+    }
+
+    paystackScriptCallbacks.push({ callback: callback, onError: onError });
+
+    if (paystackScriptState === 'loading') return; // already in flight, just wait
+
+    paystackScriptState = 'loading';
+
+    paystackLoadTimer = setTimeout(function () {
+      if (paystackScriptState !== 'loaded') {
+        paystackScriptState = 'failed';
+        settlePaystackCallbacks(false);
+      }
+    }, PAYSTACK_LOAD_TIMEOUT_MS);
+
     var s = document.createElement('script');
     s.src = 'https://js.paystack.co/v1/inline.js';
     s.onload = function () {
-      paystackScriptCallbacks.forEach(function (cb) { cb(); });
-      paystackScriptCallbacks = [];
+      clearTimeout(paystackLoadTimer);
+      if (typeof PaystackPop === 'undefined') {
+        // Script tag loaded but didn't actually give us what we need —
+        // treat it the same as a load failure.
+        paystackScriptState = 'failed';
+        settlePaystackCallbacks(false);
+        return;
+      }
+      paystackScriptState = 'loaded';
+      settlePaystackCallbacks(true);
+    };
+    s.onerror = function () {
+      clearTimeout(paystackLoadTimer);
+      paystackScriptState = 'failed';
+      settlePaystackCallbacks(false);
     };
     document.head.appendChild(s);
   }
@@ -324,17 +404,17 @@
         'color:#fff;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;' +
         'padding:0.55rem 0.8rem;border-radius:10px;cursor:pointer;transition:background .15s;';
       if (opt.code === selected.code) {
-        item.style.background = 'rgba(255,122,24,0.18)';
+        item.style.background = 'rgba(34,197,94,0.18)';
       }
       item.addEventListener('mouseenter', function () { item.style.background = 'rgba(255,255,255,0.1)'; });
       item.addEventListener('mouseleave', function () {
-        item.style.background = (opt.code === selected.code) ? 'rgba(255,122,24,0.18)' : 'transparent';
+        item.style.background = (opt.code === selected.code) ? 'rgba(34,197,94,0.18)' : 'transparent';
       });
       item.addEventListener('click', function () {
         selected = opt;
         labelSpan.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
         list.querySelectorAll('[role="option"]').forEach(function (el) { el.style.background = 'transparent'; });
-        item.style.background = 'rgba(255,122,24,0.18)';
+        item.style.background = 'rgba(34,197,94,0.18)';
         closeList();
         applyCurrency(opt);
       });
