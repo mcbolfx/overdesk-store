@@ -37,7 +37,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .gpill-nav .gpill-label-hover{color:#fff;}
 .btn-demo{
   display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#3D81E3,#FF7A18);
+  background:linear-gradient(135deg,#3D81E3,#22C55E);
   color:#fff;border:none;border-radius:999px;
   padding:0.85rem 1.9rem;font-size:0.95rem;font-weight:700;
   cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif;
@@ -61,7 +61,7 @@ body.light-mode .icon-sun{display:block;}
 .hero>#meshGL{position:absolute;inset:0;width:100%;height:100%;opacity:0.6;pointer-events:none;z-index:0;}
 .hero-kicker{display:inline-block;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);padding:0.4rem 0.9rem;border-radius:999px;margin-bottom:1.6rem;box-shadow:0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);}
 .hero-title{font-weight:900;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.05;color:#fff;letter-spacing:-0.03em;}
-.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#FF7A18 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;}
+.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#22C55E 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;}
 @keyframes shiny{to{background-position:200% center;}}
 .hero-sub{color:rgba(255,255,255,0.6);font-size:1.05rem;margin:1.6rem auto 2.4rem;line-height:1.7;max-width:520px;font-weight:400;}
 .hero-subline{color:rgba(255,255,255,0.4);font-size:0.85rem;font-weight:500;margin-top:0.6rem;}
@@ -122,6 +122,8 @@ body.light-mode .icon-sun{display:block;}
   align-items:center;justify-content:center;
 }
 .icon-btn__icon{margin:auto;width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center;color:#fff;}
+.icon-btn__icon svg{width:100%;height:100%;}
+.social-icons-row .icon-btn{font-size:50%;}
 .icon-btn__label{
   font-size:0.72em;font-weight:600;white-space:nowrap;text-align:center;line-height:2;
   opacity:0;position:absolute;top:100%;right:0;left:0;transform:translateY(0);color:rgba(255,255,255,0.7);
@@ -167,7 +169,7 @@ body.light-mode .icon-sun{display:block;}
 .review-tile .rt-stars{color:#f59e0b;font-size:0.9rem;letter-spacing:2px;margin-bottom:0.9rem;}
 .review-tile .rt-quote{color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.6;flex:1;margin-bottom:1.2rem;}
 .review-tile .rt-author{display:flex;align-items:center;gap:10px;}
-.review-tile .rt-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3D81E3,#FF7A18);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0;}
+.review-tile .rt-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3D81E3,#22C55E);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0;}
 .review-tile .rt-name{font-size:0.85rem;font-weight:700;color:#fff;}
 .review-tile .rt-role{font-size:0.75rem;color:rgba(255,255,255,0.4);}
 @media(max-width:800px){.reviews-grid{grid-template-columns:1fr;}}
@@ -177,7 +179,7 @@ body.light-mode .icon-sun{display:block;}
 .pricing h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:1.6rem;}
 .pricing-tabs{display:flex;justify-content:center;gap:0.4rem;margin-bottom:2.2rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:0.3rem;}
 .pricing-tab{flex:1;background:transparent;border:none;color:rgba(255,255,255,0.55);font-family:'Inter',sans-serif;font-size:0.76rem;font-weight:700;padding:0.55rem 0.5rem;border-radius:999px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
-.pricing-tab.active{background:linear-gradient(135deg,#FF7A18,#3D81E3);color:#fff;}
+.pricing-tab.active{background:linear-gradient(135deg,#22C55E,#3D81E3);color:#fff;}
 .pricing-panel{display:none;}
 .pricing-panel.active{display:block;}
 .price-period{font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.4);margin-left:0.3rem;}
@@ -203,13 +205,13 @@ body.light-mode .trial-note{color:rgba(0,0,0,0.4);}
 .price-app-name{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
 .price-app-title{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.01em;margin-bottom:1.2rem;}
 .price-amounts{display:flex;align-items:baseline;gap:0.6rem;margin-bottom:1rem;}
-.price-current{font-size:2.8rem;font-weight:900;letter-spacing:-0.04em;color:#fff;background:linear-gradient(135deg,#FF9E5C,#3D81E3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.price-current{font-size:2.8rem;font-weight:900;letter-spacing:-0.04em;color:#fff;background:linear-gradient(135deg,#4ADE80,#3D81E3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .price-original{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,0.3);text-decoration:line-through;}
 .price-divider{height:0.5px;background:rgba(255,255,255,0.08);margin-bottom:1.2rem;}
 .price-features{list-style:none;display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1.6rem;}
 .price-features li{display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:rgba(255,255,255,0.75);line-height:1.4;}
-.price-check{width:20px;height:20px;border-radius:50%;background:rgba(61,129,227,0.25);border:1.5px solid rgba(61,129,227,0.6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.price-check svg{width:10px;height:10px;stroke:#FF9E5C;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.price-check{width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,0.18);border:1.5px solid rgba(34,197,94,0.55);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.price-check svg{width:10px;height:10px;stroke:#4ADE80;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
 .price-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#3D81E3,#6d28d9);color:#fff;border:none;border-radius:999px;padding:0.9rem 1.5rem;font-size:0.9rem;font-weight:700;cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif;transition:opacity .2s,transform .15s;box-shadow:0 4px 20px rgba(61,129,227,0.4);margin-bottom:0.9rem;}
 .price-btn:hover{opacity:0.9;transform:translateY(-1px);}
 .price-secure{text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;gap:5px;}
@@ -229,7 +231,7 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 .footer-bottom{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,0.3);font-size:0.78rem;flex-wrap:wrap;gap:0.6rem;}
 .social-icons-row{display:flex;gap:0.7rem;flex-wrap:wrap}
 .social-btn{width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,0.4);transition:all .2s;}
-.social-btn:hover{background:rgba(255,122,24,0.12);border-color:rgba(255,122,24,0.4);color:#FF7A18;transform:translateY(-2px)}
+.social-btn:hover{background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.4);color:#22C55E;transform:translateY(-2px)}
 .social-btn svg{width:19px;height:19px;fill:currentColor}
 
 /* LIGHT MODE */
@@ -358,7 +360,7 @@ body.light-mode .social-btn:hover svg{fill:#3D81E3;}
       <p>Build consistency with a checklist that resets and stays in view, day after day.</p>
     </div>
     <div class="feature-card">
-      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(253, 90%, 50%), hsl(238, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#FF9E5C"/><circle cx="9.5" cy="7.5" r="1.2" fill="#FF9E5C"/><circle cx="14.5" cy="7.5" r="1.2" fill="#FF9E5C"/></svg></span></span></div>
+      <div class="icon-btn feature-icon-btn" style="width:3.4em;height:3.4em;"><span class="icon-btn__back" style="background:linear-gradient(hsl(253, 90%, 50%), hsl(238, 90%, 50%))"></span><span class="icon-btn__front"><span class="icon-btn__icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c1.7 0 3.1-1.4 3.1-3.1C20.5 6.6 16.7 2 12 2z"/><circle cx="7" cy="12" r="1.2" fill="#4ADE80"/><circle cx="9.5" cy="7.5" r="1.2" fill="#4ADE80"/><circle cx="14.5" cy="7.5" r="1.2" fill="#4ADE80"/></svg></span></span></div>
       <h3>Custom Categories &amp; Colors</h3>
       <p>Organize your lists your way, with colors and categories that make sense for your life.</p>
     </div>
@@ -779,7 +781,7 @@ import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.n
   var ctn = document.getElementById('auroraBg');
   if(!ctn) return;
 
-  var colorStops = ['#3D81E3', '#FF7A18', '#3D81E3'];
+  var colorStops = ['#3D81E3', '#22C55E', '#3D81E3'];
   var amplitude = 1.0;
   var blend = 0.55;
   var speed = 0.6;
@@ -957,7 +959,7 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://cdn.jsdelivr.
   var container = document.getElementById('particlesBg');
   if(!container) return;
 
-  var particleColors = ['#ffffff', '#FF9E5C', '#FF7A18'];
+  var particleColors = ['#ffffff', '#4ADE80', '#22C55E'];
   var particleCount = 140;
   var particleSpread = 10;
   var speed = 0.1;
