@@ -74,7 +74,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(34,197,94,0.3);border-radius:999px;padding:0.35rem 1.1rem;margin-bottom:2rem;font-size:0.72rem;font-weight:600;letter-spacing:0.13em;color:#22C55E;text-transform:uppercase;backdrop-filter:blur(8px);}
 .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.25}}
-.hero-title{font-weight:900;font-size:clamp(3.2rem,9vw,6.5rem);line-height:1.0;color:#fff;letter-spacing:-0.03em;}
+.hero-title{font-weight:900;font-size:clamp(3.2rem,9vw,6.5rem);line-height:1.18;color:#fff;letter-spacing:-0.03em;}
 .gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#22C55E 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;font-size:clamp(3.5rem,10vw,7rem);}
 
 /* Rotating text pill — vanilla port of a per-character stagger rotation effect */
@@ -84,7 +84,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   justify-content:center;
   overflow:hidden;
   vertical-align:bottom;
-  padding:0.05em 0.35em;
+  padding:0.05em 0.35em 0.16em;
   border-radius:0.35em;
   background:linear-gradient(135deg,#22C55E,#3D81E3);
   color:#fff;
@@ -95,8 +95,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .rt-char-wrap{
   display:inline-block;
   overflow:hidden;
-  height:1em;
-  line-height:1;
+  height:1.3em;
+  line-height:1.3;
   vertical-align:bottom;
 }
 .rt-char{
@@ -812,14 +812,9 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
   display:inline-flex;align-items:center;justify-content:center;
   flex-shrink:0;margin-top:1px;
   overflow:hidden;
-  color:#22C55E;
-  font-size:11px;
-  font-weight:700;
-  line-height:1;
 }
-.price-check svg{width:10px;height:10px;stroke:#22C55E;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.price-check img{display:none;}
-.price-check::before{content:'\2713';}
+.price-check svg{display:none;}
+.price-check img{width:13px;height:13px;object-fit:contain;}
 
 /* Button */
 .price-btn{
@@ -1288,10 +1283,14 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
   flex-shrink:0;
 }
 .compare-row .col-with::before{
-  content:'\2713';
-  color:#22C55E;
-  font-size:0.8rem;
+  content:'';
+  display:inline-block;
+  width:13px;height:13px;
   flex-shrink:0;
+  background-image:url('https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/verify.png');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
 }
 @media(max-width:640px){
   .compare-head span,.compare-row .col-without,.compare-row .col-with{font-size:0.85rem;}
@@ -1551,6 +1550,104 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
   margin-top:0.2rem;
 }
 
+/* ===== Review accordion gallery (ported from a React/GSAP component) ===== */
+.review-accordion{
+  --rg-accent:#3D81E3;
+  --rg-overlay:#050710;
+  --rg-gap:10px;
+  --rg-radius:20px;
+  display:flex;
+  gap:var(--rg-gap);
+  width:100%;
+  height:440px;
+  perspective:1400px;
+  perspective-origin:50% 50%;
+}
+.rg-panel{
+  position:relative;
+  flex:1 1 0;
+  min-width:0;
+  overflow:hidden;
+  border-radius:var(--rg-radius);
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transform-origin:center center;
+  background:var(--rg-bg);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.1), 0 10px 30px -18px rgba(0,0,0,0.7);
+  will-change:flex-grow,transform;
+  -webkit-tap-highlight-color:transparent;
+  outline:none;
+}
+.rg-panel:focus-visible{ box-shadow:0 0 0 2px var(--rg-accent), 0 10px 30px -18px rgba(0,0,0,0.7); }
+.rg-panel__overlay{
+  position:absolute; inset:0; pointer-events:none; z-index:1;
+  background:
+    linear-gradient(180deg,transparent 30%,color-mix(in srgb,var(--rg-overlay) 82%,transparent) 100%),
+    color-mix(in srgb,var(--rg-overlay) calc(var(--rg-dim,55)*1%),transparent);
+}
+.rg-media{ position:absolute; inset:0; z-index:0; background:var(--rg-bg); }
+.rg-media img,.rg-media video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(var(--rg-gray,0.55)) brightness(0.85);
+  transition:filter .5s ease;
+}
+.rg-panel--active .rg-media img,.rg-panel--active .rg-media video{ filter:grayscale(0) brightness(1); }
+.rg-panel__collapsed{
+  position:absolute; left:0; right:0; bottom:20px;
+  z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+  padding:0 10px;
+  opacity:var(--rg-collapsed-op,1);
+  transition:opacity .25s ease;
+  pointer-events:none;
+}
+.rg-panel__collapsed .rg-stars{ color:#f59e0b; font-size:0.85rem; letter-spacing:1px; white-space:nowrap; }
+.rg-panel__collapsed .rg-initial{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:0.9rem;
+}
+.rg-panel__content{
+  position:absolute; inset:0;
+  z-index:2;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:1.8rem 1.6rem;
+  opacity:0;
+  transform:translateY(14px);
+  pointer-events:none;
+}
+.rg-panel__content .rg-stars{ color:#f59e0b; font-size:1.05rem; margin-bottom:0.7rem; }
+.rg-panel__content .rg-quote{
+  color:#fff; font-size:1rem; line-height:1.6; font-weight:500;
+  text-shadow:0 2px 14px rgba(0,0,0,0.55);
+  margin-bottom:1.1rem;
+}
+.rg-panel__content .rg-name{ color:#fff; font-weight:800; font-size:0.98rem; }
+.rg-panel__content .rg-location{ color:rgba(255,255,255,0.6); font-size:0.82rem; margin-top:0.15rem; }
+.rg-panel--active .rg-panel__collapsed{ opacity:0; }
+.rg-panel--active .rg-panel__content{ opacity:1; transform:translateY(0); pointer-events:auto; }
+@media(max-width:820px){
+  .review-accordion{ flex-direction:column; height:auto; perspective:none; }
+  .rg-panel{ min-height:78px; transform:none !important; }
+  .rg-panel__content{ position:relative; padding:1.2rem 1.3rem; }
+  .rg-panel__collapsed{ position:relative; bottom:auto; padding:1rem 0; flex-direction:row; justify-content:center; }
+  .rg-panel--active .rg-panel__collapsed{ display:none; }
+  .rg-panel:not(.rg-panel--active) .rg-panel__content{ display:none; }
+}
+@media(prefers-reduced-motion:reduce){
+  .rg-panel{ will-change:auto; }
+}
+body.light-mode .rg-panel{ border-color:rgba(0,0,0,0.08); }
+.rg-panel[data-color="0"]{ --rg-bg:linear-gradient(160deg,#12213d,#0a1020); }
+.rg-panel[data-color="1"]{ --rg-bg:linear-gradient(160deg,#0d2b23,#0a1020); }
+.rg-panel[data-color="2"]{ --rg-bg:linear-gradient(160deg,#1a1436,#0a1020); }
+.rg-panel[data-color="3"]{ --rg-bg:linear-gradient(160deg,#0f2438,#0a1020); }
+.rg-panel[data-color="4"]{ --rg-bg:linear-gradient(160deg,#0e2b2b,#0a1020); }
+.rg-panel[data-color="5"]{ --rg-bg:linear-gradient(160deg,#1c1a3a,#0a1020); }
+
 
 /* ── LIGHT MODE ── */
 /* Toggle button */
@@ -1578,7 +1675,14 @@ body.light-mode .theme-btn .icon-moon{ display:none; }
 
 /* Global */
 body.light-mode{
-  background:#ffffff;
+  background-color:#ffffff;
+  background-image:
+    radial-gradient(ellipse 70% 55% at 12% 0%, rgba(61,129,227,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 100% 18%, rgba(34,197,94,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 25% 100%, rgba(164,244,253,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 90% 90%, rgba(61,129,227,0.12) 0%, transparent 65%);
+  background-attachment:fixed;
+  background-repeat:no-repeat;
   color:#0c0c0c;
 }
 body.light-mode p{ line-height:1.7; }
@@ -2466,10 +2570,6 @@ body.light-mode nav.nav-scrolled{
 <script src="/cookie-consent.js"></script>
 
 <!-- PROMO TICKER -->
-<div class="hero-video-bg">
-  <video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_064122_c4750c0e-7476-4b44-94a2-a85a65c63bf2.mp4"></video>
-</div>
-
 <div class="guide-line-l"></div>
 <div class="guide-line-r"></div>
 
@@ -2499,7 +2599,7 @@ body.light-mode nav.nav-scrolled{
   <div class="hero-inner fade-in">
     <h1 class="hero-title">
       Focus on what matters most
-      <span class="gradient-line">&hellip;in time, the </span><span class="rotating-text-pill" id="rotatingMoment"></span>
+      <span class="gradient-line">A focus app for </span><span class="rotating-text-pill" id="rotatingMoment"></span>
     </h1>
     <p class="hero-sub">A family of <strong>beautiful desktop widgets</strong>. No clutter, no distraction &mdash; just the signal you need, exactly when you need it.</p>
     <div class="hero-btns">
@@ -2762,112 +2862,92 @@ body.light-mode nav.nav-scrolled{
       <div class="trust-label">Average rating</div>
     </div>
   </div>
-  <div class="reviews-track-wrap">
-
-    <!-- Row — all 10 reviews, duplicated for seamless infinite scroll -->
-    <div class="reviews-track reviews-track-a">
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The 5-minute alert alone has saved me from jumping into trades right before a high-impact news spike. Worth every penny.&rdquo;</p>
-        <div class="review-author"><div class="review-name">James W.</div><div class="review-location">London, UK</div></div>
+  <div class="review-accordion" id="reviewAccordion" role="list" aria-label="Customer reviews">
+    <div class="rg-panel" data-index="0" data-color="0" tabindex="0" role="listitem" aria-label="Review by James W.">
+      <div class="rg-media"><img src="https://images.stockcake.com/public/9/e/8/9e87fa44-c686-40ae-b54c-75d43806e440_medium/trading-desk-setup-stockcake.jpg" alt="" loading="lazy"></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">J</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
       </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The only calendar tool that stays on top of my charts without getting in the way. The minimized ticker mode is genius.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Marcus O.</div><div class="review-location">Stockholm, Sweden</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★☆</div>
-        <p class="review-quote">&ldquo;I set up my pre-market rules once and now I just tick through them before every session. Simple but incredibly effective.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Lena B.</div><div class="review-location">Frankfurt, Germany</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;Clean, fast, and does exactly what it promises. I use the Risk &amp; P&amp;L mode every day to keep my position sizing disciplined.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Khalid R.</div><div class="review-location">Dubai, UAE</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The 30-minute pre-event alert changed how I trade NFP weeks completely. I&rsquo;m never caught off guard anymore.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Tyler B.</div><div class="review-location">New York, USA</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;I customised all five modes to match my strategy and the liquid fill animation when I tick items is oddly satisfying.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Sophie M.</div><div class="review-location">Paris, France</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;It floats above TradingView without interfering. Feels like a proper trading terminal addition.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Amir H.</div><div class="review-location">Toronto, Canada</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;I bought all three Overdesk apps and use two currently, gave one to my friend, she also finds it very useful. Nothing else comes close at the moment.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Olivia H.</div><div class="review-location">Zurich, Switzerland</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★☆</div>
-        <p class="review-quote">&ldquo;I only trade GBP and USD pairs so I hide everything else. My calendar is clean and focused.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Daniel O.</div><div class="review-location">Amsterdam, Netherlands</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The School Bell alert at 5 minutes before CPI data gets my attention every time. Nexus has made me a more patient trader.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Priya N.</div><div class="review-location">Singapore</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The 5-minute alert alone has saved me from jumping into trades right before a high-impact news spike. Worth every penny.&rdquo;</p>
-        <div class="review-author"><div class="review-name">James W.</div><div class="review-location">London, UK</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The only calendar tool that stays on top of my charts without getting in the way. The minimized ticker mode is genius.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Marcus O.</div><div class="review-location">Stockholm, Sweden</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★☆</div>
-        <p class="review-quote">&ldquo;I set up my pre-market rules once and now I just tick through them before every session. Simple but incredibly effective.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Lena B.</div><div class="review-location">Frankfurt, Germany</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;Clean, fast, and does exactly what it promises. I use the Risk &amp; P&amp;L mode every day to keep my position sizing disciplined.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Khalid R.</div><div class="review-location">Dubai, UAE</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The 30-minute pre-event alert changed how I trade NFP weeks completely. I&rsquo;m never caught off guard anymore.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Tyler B.</div><div class="review-location">New York, USA</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;I customised all five modes to match my strategy and the liquid fill animation when I tick items is oddly satisfying.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Sophie M.</div><div class="review-location">Paris, France</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;It floats above TradingView without interfering. Feels like a proper trading terminal addition.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Amir H.</div><div class="review-location">Toronto, Canada</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;I bought all three Overdesk apps and use two currently, gave one to my friend, she also finds it very useful. Nothing else comes close at the moment.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Olivia H.</div><div class="review-location">Zurich, Switzerland</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★☆</div>
-        <p class="review-quote">&ldquo;I only trade GBP and USD pairs so I hide everything else. My calendar is clean and focused.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Daniel O.</div><div class="review-location">Amsterdam, Netherlands</div></div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">&ldquo;The School Bell alert at 5 minutes before CPI data gets my attention every time. Nexus has made me a more patient trader.&rdquo;</p>
-        <div class="review-author"><div class="review-name">Priya N.</div><div class="review-location">Singapore</div></div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;The 5-minute alert alone has saved me from jumping into trades right before a high-impact news spike. Worth every penny.&rdquo;</p>
+        <div class="rg-name">James W.</div>
+        <div class="rg-location">London, UK</div>
       </div>
     </div>
+    <div class="rg-panel" data-index="1" data-color="1" tabindex="0" role="listitem" aria-label="Review by Marcus O.">
+      <div class="rg-media"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/DESKTOP.png" alt="" loading="lazy"></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">M</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;The only calendar tool that stays on top of my charts without getting in the way. The minimized ticker mode is genius.&rdquo;</p>
+        <div class="rg-name">Marcus O.</div>
+        <div class="rg-location">Stockholm, Sweden</div>
+      </div>
     </div>
+    <div class="rg-panel rg-panel--active" data-index="2" data-color="2" tabindex="0" role="listitem" aria-label="Review by Khalid R." aria-current="true">
+      <div class="rg-media"><video src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/NEXUS%20V1.mp4" autoplay muted loop playsinline></video></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">K</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;Clean, fast, and does exactly what it promises. I use the Risk &amp; P&amp;L mode every day to keep my position sizing disciplined.&rdquo;</p>
+        <div class="rg-name">Khalid R.</div>
+        <div class="rg-location">Dubai, UAE</div>
+      </div>
+    </div>
+    <div class="rg-panel" data-index="3" data-color="3" tabindex="0" role="listitem" aria-label="Review by Sophie M.">
+      <div class="rg-media"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/DESKTOP%202.png" alt="" loading="lazy"></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">S</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;I customised all five modes to match my strategy and the liquid fill animation when I tick items is oddly satisfying.&rdquo;</p>
+        <div class="rg-name">Sophie M.</div>
+        <div class="rg-location">Paris, France</div>
+      </div>
+    </div>
+    <div class="rg-panel" data-index="4" data-color="4" tabindex="0" role="listitem" aria-label="Review by Amir H.">
+      <div class="rg-media"><img src="https://images.stockcake.com/public/5/1/2/512732c5-c17a-4110-9e7e-1db56c6ef183_medium/advanced-trading-setup-stockcake.jpg" alt="" loading="lazy"></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">A</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;It floats above TradingView without interfering. Feels like a proper trading terminal addition.&rdquo;</p>
+        <div class="rg-name">Amir H.</div>
+        <div class="rg-location">Toronto, Canada</div>
+      </div>
+    </div>
+    <div class="rg-panel" data-index="5" data-color="5" tabindex="0" role="listitem" aria-label="Review by Priya N.">
+      <div class="rg-media"><img src="https://images.stockcake.com/public/4/9/a/49a90f58-4c64-4d99-a678-2f248bb95ca5_medium/trading-desk-setup-stockcake.jpg" alt="" loading="lazy"></div>
+      <div class="rg-panel__overlay" aria-hidden="true"></div>
+      <div class="rg-panel__collapsed" aria-hidden="true">
+        <div class="rg-initial">P</div>
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="rg-panel__content">
+        <div class="rg-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rg-quote">&ldquo;The School Bell alert at 5 minutes before CPI data gets my attention every time. Nexus has made me a more patient trader.&rdquo;</p>
+        <div class="rg-name">Priya N.</div>
+        <div class="rg-location">Singapore</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <hr style="max-width:960px;margin:0 auto;border:none;border-top:0.5px solid rgba(255,255,255,0.06)">
@@ -3428,7 +3508,7 @@ body.light-mode nav.nav-scrolled{
   var el = document.getElementById('rotatingMoment');
   if (!el) return;
 
-  var words = ['moment', 'instant', 'signal', 'second'];
+  var words = ['traders', 'developers', 'managers', 'founders', 'designers', 'gamers', 'students', 'anyone'];
   var current = 0;
 
   function renderChars(word, cls) {
@@ -4645,6 +4725,94 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
       });
     }, { threshold: 0.5 });
     io.observe(vid);
+  })();
+</script>
+<script>
+  // Review accordion gallery — vanilla port of a React/GSAP accordion-gallery
+  // component (flex-grow expand + subtle 3D tilt on the inactive panels).
+  (function(){
+    if (typeof gsap === 'undefined') return;
+    var root = document.getElementById('reviewAccordion');
+    if (!root) return;
+
+    var panels = Array.prototype.slice.call(root.querySelectorAll('.rg-panel'));
+    var count = panels.length;
+    if (!count) return;
+
+    var EXPAND_RATIO = 0.5;
+    var TILT = 6;
+    var DURATION = 0.6;
+    var EASE = 'power3.out';
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var active = panels.findIndex(function(p){ return p.classList.contains('rg-panel--active'); });
+    if (active < 0) active = Math.min(2, count - 1);
+
+    function applyLayout(animate) {
+      var r = Math.min(Math.max(EXPAND_RATIO, 0.2), 0.9);
+      var grow = count > 1 ? (r * (count - 1)) / (1 - r) : 1;
+      var dur = (animate && !prefersReduced) ? DURATION : 0;
+
+      panels.forEach(function(panel, i){
+        var isActive = i === active;
+        panel.classList.toggle('rg-panel--active', isActive);
+        panel.setAttribute('aria-current', isActive ? 'true' : 'false');
+
+        var rot = isActive ? 0 : (i < active ? TILT : -TILT);
+        gsap.to(panel, {
+          flexGrow: isActive ? grow : 1,
+          rotateY: rot,
+          duration: dur,
+          ease: EASE
+        });
+
+        panel.style.setProperty('--rg-dim', isActive ? 20 : 55);
+        panel.style.setProperty('--rg-collapsed-op', isActive ? 0 : 1);
+
+        // Pause any panel video when it isn't the active one, so hidden/off-
+        // screen review clips aren't silently burning bandwidth.
+        var vid = panel.querySelector('.rg-media video');
+        if (vid) {
+          if (isActive) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+          else { vid.pause(); }
+        }
+      });
+    }
+
+    var firstRun = true;
+    applyLayout(false);
+    firstRun = false;
+
+    panels.forEach(function(panel, i){
+      panel.addEventListener('mouseenter', function(){
+        if (active === i) return;
+        active = i;
+        applyLayout(true);
+      });
+      panel.addEventListener('click', function(){
+        if (active === i) return;
+        active = i;
+        applyLayout(true);
+      });
+      panel.addEventListener('focus', function(){
+        if (active === i) return;
+        active = i;
+        applyLayout(true);
+      });
+      panel.addEventListener('keydown', function(e){
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          active = (i + 1) % count;
+          applyLayout(true);
+          panels[active].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          active = (i - 1 + count) % count;
+          applyLayout(true);
+          panels[active].focus();
+        }
+      });
+    });
   })();
 </script>
 </body>
