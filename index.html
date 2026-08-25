@@ -38,6 +38,23 @@ html{scroll-behavior:smooth}
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;padding:0 2.5rem;height:64px;background:rgba(12,12,12,0.85);backdrop-filter:blur(18px);border-bottom:0.5px solid rgba(255,255,255,0.08);}
+
+/* Gradual blur band pinned to the top of the viewport (ported from a React
+   GradualBlur component's "page-header" preset). Sits just below the nav's
+   own z-index so the nav itself stays crisp, while page content softens as
+   it scrolls up underneath it. */
+.gradual-blur-page{
+  position:fixed;
+  top:0; left:0; right:0;
+  height:7rem;
+  z-index:150;
+  pointer-events:none;
+  isolation:isolate;
+}
+.gradual-blur-page > div{ position:absolute; inset:0; }
+@media(prefers-reduced-motion:reduce){
+  .gradual-blur-page{ display:none; }
+}
 .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
 .nav-logo img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(34,197,94,0.5))}
 .logo-name{font-weight:900;font-size:1.1rem;color:#fff;letter-spacing:-0.04em;white-space:nowrap}
@@ -1685,12 +1702,17 @@ body.light-mode .pricing-aurora{ opacity:0.28; mix-blend-mode:normal; }
 .rg-panel--active .rg-panel__collapsed{ opacity:0; }
 .rg-panel--active .rg-panel__content{ opacity:1; transform:translateY(0); pointer-events:auto; }
 @media(max-width:820px){
-  .review-accordion{ flex-direction:column; height:auto; perspective:none; }
-  .rg-panel{ min-height:78px; transform:none !important; }
-  .rg-panel__content{ position:relative; padding:1.2rem 1.3rem; }
-  .rg-panel__collapsed{ position:relative; bottom:auto; padding:1rem 0; flex-direction:row; justify-content:center; }
-  .rg-panel--active .rg-panel__collapsed{ display:none; }
-  .rg-panel:not(.rg-panel--active) .rg-panel__content{ display:none; }
+  .review-accordion{ flex-direction:column; height:auto; perspective:none; gap:14px; }
+  .rg-panel{ min-height:220px; flex-grow:1 !important; transform:none !important; --rg-dim:38 !important; }
+  .rg-panel__collapsed{ display:none !important; }
+  .rg-panel__content{
+    position:relative;
+    padding:1.4rem 1.3rem;
+    opacity:1 !important;
+    transform:none !important;
+    pointer-events:auto !important;
+  }
+  .rg-media img,.rg-media video{ filter:grayscale(0) brightness(0.75) !important; }
 }
 @media(prefers-reduced-motion:reduce){
   .rg-panel{ will-change:auto; }
@@ -2621,6 +2643,20 @@ body.light-mode nav.nav-scrolled{
 </script>
 </head>
 <body>
+
+<!-- Gradual blur — content softens as it scrolls up under the fixed nav.
+     Ported from a React GradualBlur component: layered divs, each masked to
+     a different vertical band and given a different backdrop-filter blur
+     amount, so the blur increases smoothly toward the top edge. -->
+<div class="gradual-blur-page" aria-hidden="true">
+  <div style="mask-image:linear-gradient(to top, transparent 0%, black 16.7%, black 33.3%, transparent 50%);-webkit-mask-image:linear-gradient(to top, transparent 0%, black 16.7%, black 33.3%, transparent 50%);backdrop-filter:blur(0.443rem);-webkit-backdrop-filter:blur(0.443rem);"></div>
+  <div style="mask-image:linear-gradient(to top, transparent 16.7%, black 33.3%, black 50%, transparent 66.7%);-webkit-mask-image:linear-gradient(to top, transparent 16.7%, black 33.3%, black 50%, transparent 66.7%);backdrop-filter:blur(0.677rem);-webkit-backdrop-filter:blur(0.677rem);"></div>
+  <div style="mask-image:linear-gradient(to top, transparent 33.3%, black 50%, black 66.7%, transparent 83.3%);-webkit-mask-image:linear-gradient(to top, transparent 33.3%, black 50%, black 66.7%, transparent 83.3%);backdrop-filter:blur(0.859rem);-webkit-backdrop-filter:blur(0.859rem);"></div>
+  <div style="mask-image:linear-gradient(to top, transparent 50%, black 66.7%, black 83.3%, transparent 100%);-webkit-mask-image:linear-gradient(to top, transparent 50%, black 66.7%, black 83.3%, transparent 100%);backdrop-filter:blur(0.99rem);-webkit-backdrop-filter:blur(0.99rem);"></div>
+  <div style="mask-image:linear-gradient(to top, transparent 66.7%, black 83.3%, black 100%);-webkit-mask-image:linear-gradient(to top, transparent 66.7%, black 83.3%, black 100%);backdrop-filter:blur(1.068rem);-webkit-backdrop-filter:blur(1.068rem);"></div>
+  <div style="mask-image:linear-gradient(to top, transparent 83.3%, black 100%);-webkit-mask-image:linear-gradient(to top, transparent 83.3%, black 100%);backdrop-filter:blur(1.094rem);-webkit-backdrop-filter:blur(1.094rem);"></div>
+</div>
+
 <script src="/cookie-consent.js"></script>
 
 <!-- PROMO TICKER -->
