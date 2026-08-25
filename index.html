@@ -75,7 +75,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.25}}
 .hero-title{font-weight:900;font-size:clamp(3.2rem,9vw,6.5rem);line-height:1.18;color:#fff;letter-spacing:-0.03em;}
-.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#22C55E 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;font-size:clamp(3.5rem,10vw,7rem);}
+.gradient-line{display:block;background-image:linear-gradient(to right,#091020 0%,#0B2551 12.5%,#A4F4FD 32.5%,#22C55E 50%,#0B2551 67.5%,#091020 87.5%,#091020 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shiny 6s linear infinite;font-size:clamp(2.4rem,7vw,4.8rem);}
 
 /* Rotating text pill — vanilla port of a per-character stagger rotation effect */
 .rotating-text-pill{
@@ -89,7 +89,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   background:linear-gradient(135deg,#22C55E,#3D81E3);
   color:#fff;
   font-weight:900;
-  font-size:clamp(3.5rem,10vw,7rem);
+  font-size:clamp(2.4rem,7vw,4.8rem);
   line-height:1;
 }
 .rt-char-wrap{
@@ -378,7 +378,18 @@ body.light-mode .simple-video-frame{
 .app-block.reversed .app-info,.app-block.reversed .app-visual{direction:ltr}
 
 /* ── BUNDLE BAR ── */
-.bundle-bar{margin-top:1.5rem;background:linear-gradient(135deg,rgba(60,20,120,0.85) 0%,rgba(40,10,90,0.9) 100%);border:1px solid rgba(61,129,227,0.35);border-radius:18px;padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;position:relative;overflow:hidden;box-shadow:0 4px 40px rgba(61,129,227,0.15);}
+.bundle-bar{
+  margin-top:1.5rem;
+  background:linear-gradient(135deg,rgba(34,197,94,0.14) 0%,rgba(61,129,227,0.12) 100%);
+  backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:18px;
+  padding:1.4rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.12), 0 10px 40px -12px rgba(0,0,0,0.5);
+}
 .bundle-bar::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(61,129,227,0.18),transparent);pointer-events:none;}
 .bundle-bar-left{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
 .bundle-tag{background:#fff;color:#000;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;border-radius:999px;padding:0.35rem 0.9rem;white-space:nowrap;flex-shrink:0;}
@@ -570,8 +581,8 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
   /* Hero */
   .hero{padding:7rem 1.4rem 4rem;min-height:90vh;}
   .hero-title{font-size:clamp(2.4rem,11vw,4rem);letter-spacing:-0.02em;}
-  .gradient-line{font-size:clamp(2.6rem,12vw,4.5rem);}
-  .rotating-text-pill{font-size:clamp(2.6rem,12vw,4.5rem);}
+  .gradient-line{font-size:clamp(1.8rem,8vw,3.1rem);}
+  .rotating-text-pill{font-size:clamp(1.8rem,8vw,3.1rem);}
   .hero-sub{font-size:0.95rem;margin:1.4rem auto 2.2rem;}
   .hero-btns{flex-direction:column;align-items:center;gap:0.75rem;}
   .btn-primary,.btn-ghost{width:100%;max-width:320px;justify-content:center;}
@@ -630,8 +641,8 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 
 @media(max-width:480px){
   .hero-title{font-size:clamp(2rem,10vw,3rem);}
-  .gradient-line{font-size:clamp(2.2rem,11vw,3.5rem);}
-  .rotating-text-pill{font-size:clamp(2.2rem,11vw,3.5rem);}
+  .gradient-line{font-size:clamp(1.5rem,7.5vw,2.4rem);}
+  .rotating-text-pill{font-size:clamp(1.5rem,7.5vw,2.4rem);}
   .app-header{flex-direction:row;gap:12px;}
   .app-icon{width:44px;height:44px;}
 }
@@ -699,7 +710,7 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 .pricing-tabs{display:flex;justify-content:center;gap:0.5rem;margin-bottom:2.5rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:0.35rem;max-width:460px;margin-left:auto;margin-right:auto;}
 .pricing-tab{flex:1;background:transparent;border:none;color:rgba(255,255,255,0.55);font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;padding:0.6rem 0.7rem;border-radius:999px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
 .pricing-tab.active{background:linear-gradient(135deg,#22C55E,#3D81E3);color:#fff;}
-.pricing-panel{display:none;}
+.pricing-panel{display:none; position:relative; z-index:1;}
 .pricing-panel.active{display:block;}
 .pricing-grid{
   display:grid;
@@ -707,7 +718,53 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
   gap:1.5rem;
   margin-top:3rem;
   align-items:start;
+  position:relative;
+  z-index:1;
 }
+
+/* ===== Pricing aurora glow (CSS port of a SoftAurora shader component) ===== */
+.pricing-aurora{
+  position:absolute;
+  left:50%; top:8%;
+  transform:translate(calc(-50% + var(--aurora-mx,0px)), var(--aurora-my,0px));
+  width:min(1100px,140%);
+  height:520px;
+  pointer-events:none;
+  z-index:0;
+  filter:blur(80px);
+  opacity:0.5;
+  mix-blend-mode:screen;
+  transition:transform .4s ease-out;
+}
+.pricing-aurora__blob{
+  position:absolute;
+  border-radius:50%;
+}
+.pricing-aurora__blob.b1{
+  left:8%; top:10%; width:52%; height:70%;
+  background:radial-gradient(circle,#f7f7f7 0%,rgba(247,247,247,0) 70%);
+  animation:auroraDrift1 9s ease-in-out infinite alternate;
+}
+.pricing-aurora__blob.b2{
+  right:6%; top:0%; width:48%; height:75%;
+  background:radial-gradient(circle,#e100ff 0%,rgba(225,0,255,0) 70%);
+  animation:auroraDrift2 11s ease-in-out infinite alternate;
+}
+.pricing-aurora__blob.b3{
+  left:32%; bottom:0%; width:42%; height:60%;
+  background:radial-gradient(circle,#3D81E3 0%,rgba(61,129,227,0) 70%);
+  animation:auroraDrift3 13s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift1{ from{transform:translate(0,0) scale(1);} to{transform:translate(3%,-4%) scale(1.08);} }
+@keyframes auroraDrift2{ from{transform:translate(0,0) scale(1.05);} to{transform:translate(-4%,3%) scale(0.96);} }
+@keyframes auroraDrift3{ from{transform:translate(0,0) scale(0.95);} to{transform:translate(2%,-3%) scale(1.05);} }
+@media(prefers-reduced-motion:reduce){
+  .pricing-aurora__blob{ animation:none; }
+}
+@media(max-width:640px){
+  .pricing-aurora{ height:380px; opacity:0.35; }
+}
+body.light-mode .pricing-aurora{ opacity:0.28; mix-blend-mode:normal; }
 .blog-cta-section{text-align:center;padding:2.5rem 2rem 3rem;border-top:0.5px solid rgba(255,255,255,0.06);background:transparent;}
 .blog-cta-kicker{font-size:0.7rem;font-family:'SF Mono','Fira Mono','Consolas',monospace;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.8rem;}
 .blog-cta-title{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:0.6rem;}
@@ -798,6 +855,7 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 }
 .price-original{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,0.3);text-decoration:line-through;}
 .price-period{font-size:0.95rem;font-weight:600;color:rgba(255,255,255,0.4);margin-left:0.3rem;}
+#price-current-bundle{ font-size:1em; letter-spacing:normal; }
 
 /* Divider */
 .price-divider{height:0.5px;background:rgba(255,255,255,0.08);margin-bottom:1.2rem;}
@@ -806,15 +864,12 @@ footer{background:#0c0c0c;border-top:0.5px solid rgba(255,255,255,0.06);padding:
 .price-features{list-style:none;display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1.8rem;flex:1;}
 .price-features li{display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:rgba(255,255,255,0.75);line-height:1.4;}
 .price-check{
-  width:20px;height:20px;border-radius:50%;
-  background:rgba(34,197,94,0.18);
-  border:1.5px solid rgba(34,197,94,0.55);
+  width:16px;height:16px;
   display:inline-flex;align-items:center;justify-content:center;
-  flex-shrink:0;margin-top:1px;
-  overflow:hidden;
+  flex-shrink:0;margin-top:2px;
 }
 .price-check svg{display:none;}
-.price-check img{width:13px;height:13px;object-fit:contain;}
+.price-check img{width:16px;height:16px;object-fit:contain;}
 
 /* Button */
 .price-btn{
@@ -1692,6 +1747,13 @@ body.light-mode .promo-ticker{
   background:linear-gradient(90deg,#6030cc,#00a8cc);
 }
 
+/* Currency dropdown (built dynamically by currency-paystack.js) */
+.currency-toggle-btn,.currency-item{ color:#fff; }
+.currency-icon-muted{ color:rgba(255,255,255,0.5); }
+body.light-mode .currency-toggle-btn,
+body.light-mode .currency-item{ color:#0c0c0c; }
+body.light-mode .currency-icon-muted{ color:rgba(0,0,0,0.5); }
+
 /* Nav */
 body.light-mode nav{
   background:rgba(255,255,255,0.92);
@@ -2493,15 +2555,7 @@ body.light-mode .eb-badge-layer .price-badge{
   box-shadow: none !important;
 }
 
-/* Pricing card check icons */
-body.light-mode .price-check{
-  background: rgba(34,197,94,0.14) !important;
-  border-color: rgba(34,197,94,0.4) !important;
-  color: #16A34A !important;
-}
-body.light-mode .price-check svg{
-  stroke: #16A34A !important;
-}
+/* Pricing card check icons — no background/border now, just the image */
 
 /* price-tag-popular */
 body.light-mode .price-tag-popular{
@@ -2599,7 +2653,7 @@ body.light-mode nav.nav-scrolled{
   <div class="hero-inner fade-in">
     <h1 class="hero-title">
       Focus on what matters most
-      <span class="gradient-line">A focus app for </span><span class="rotating-text-pill" id="rotatingMoment"></span>
+      <span class="gradient-line">A productivity app for </span><span class="rotating-text-pill" id="rotatingMoment"></span>
     </h1>
     <p class="hero-sub">A family of <strong>beautiful desktop widgets</strong>. No clutter, no distraction &mdash; just the signal you need, exactly when you need it.</p>
     <div class="hero-btns">
@@ -2954,18 +3008,23 @@ body.light-mode nav.nav-scrolled{
 
 
 <!-- PRICING -->
-<div id="pricing" class="section-wrap">
+<div id="pricing" class="section-wrap" style="position:relative;">
+  <div class="pricing-aurora" id="pricingAurora" aria-hidden="true">
+    <div class="pricing-aurora__blob b1"></div>
+    <div class="pricing-aurora__blob b2"></div>
+    <div class="pricing-aurora__blob b3"></div>
+  </div>
   <p class="section-label">Pricing</p>
   <h2 class="section-title">Simple, one-time pricing.</h2>
   <p class="section-sub">Own it outright, subscribe annually, or try it free for a week &mdash; your choice.</p>
 
   <div class="pricing-tabs">
-    <button type="button" class="pricing-tab active" data-tab="trial" onclick="switchPricingTab('trial')">Free Trial</button>
+    <button type="button" class="pricing-tab active" data-tab="pro" onclick="switchPricingTab('pro')">Single Purchase</button>
     <button type="button" class="pricing-tab" data-tab="annual" onclick="switchPricingTab('annual')">Annual</button>
-    <button type="button" class="pricing-tab" data-tab="pro" onclick="switchPricingTab('pro')">Single Purchase</button>
+    <button type="button" class="pricing-tab" data-tab="trial" onclick="switchPricingTab('trial')">Free Trial</button>
   </div>
 
-  <div class="pricing-panel" id="pricingProPanel">
+  <div class="pricing-panel active" id="pricingProPanel">
   <div class="pricing-grid">
 <!-- Overdesk -->
     <div class="border-glow-card" style="--card-bg:#000000;--edge-sensitivity:30;--border-radius:28px;--glow-padding:40px;--cone-spread:25;--fill-opacity:0.5;"><span class="edge-light"></span><div class="border-glow-inner">
@@ -3155,10 +3214,10 @@ body.light-mode nav.nav-scrolled{
         <li><span class="price-check"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/verify.png" alt="verified"></span>Countdown timer with alarm</li>
         <li><span class="price-check"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/verify.png" alt="verified"></span>Billed annually, cancel anytime</li>
       </ul>
-      <a class="price-btn js-annual-btn" href="#" data-annual-product="app2">
+      <a class="price-btn js-purchase-btn" href="https://overdesk.gumroad.com/l/app2?option=diH5cg0o3nVUoef7XRHtyw%3D%3D" target="_blank" data-product="app2-annual" data-gumroad="https://overdesk.gumroad.com/l/app2?option=diH5cg0o3nVUoef7XRHtyw%3D%3D" data-usd="29">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Subscribe Annually
       </a>
-      <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure Payment via Gumroad</div>
+      <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span class="js-secure-text">Secure Payment via Gumroad</span></div>
     </div>
     </div></div>
 
@@ -3186,10 +3245,10 @@ body.light-mode nav.nav-scrolled{
         <li><span class="price-check"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/verify.png" alt="verified"></span>Full feature access</li>
         <li><span class="price-check"><img src="https://pub-fa90e61de7da416aba6ccf171616d1d1.r2.dev/verify.png" alt="verified"></span>Billed annually, cancel anytime</li>
       </ul>
-      <a class="price-btn js-annual-btn" href="#" data-annual-product="app3">
+      <a class="price-btn js-purchase-btn" href="https://overdesk.gumroad.com/l/app3?option=6nfPUYfi-70gpcSosy9XSg%3D%3D" target="_blank" data-product="app3-annual" data-gumroad="https://overdesk.gumroad.com/l/app3?option=6nfPUYfi-70gpcSosy9XSg%3D%3D" data-usd="19">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Subscribe Annually
       </a>
-      <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure Payment via Gumroad</div>
+      <div class="price-secure js-secure-label"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span class="js-secure-text">Secure Payment via Gumroad</span></div>
     </div>
     </div></div>
 
@@ -3197,7 +3256,7 @@ body.light-mode nav.nav-scrolled{
   <p class="trial-note" style="text-align:center;font-size:0.85rem;margin-top:1.6rem;">Cancel anytime. Switch to Single Purchase later and we'll credit what you've paid&#42;.</p>
   </div>
 
-  <div class="pricing-panel active" id="pricingTrialPanel">
+  <div class="pricing-panel" id="pricingTrialPanel">
   <div class="pricing-grid">
 
 <!-- Overdesk Nexus — Free Trial -->
@@ -3508,7 +3567,7 @@ body.light-mode nav.nav-scrolled{
   var el = document.getElementById('rotatingMoment');
   if (!el) return;
 
-  var words = ['traders', 'developers', 'managers', 'founders', 'designers', 'gamers', 'students', 'anyone'];
+  var words = ['traders', 'developers', 'managers', 'founders', 'designers', 'gamers', 'students', 'freelancers', 'writers', 'streamers', 'researchers', 'project managers', 'anyone'];
   var current = 0;
 
   function renderChars(word, cls) {
@@ -4812,6 +4871,32 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
           panels[active].focus();
         }
       });
+    });
+  })();
+</script>
+<script>
+  // Mouse-interaction for the pricing aurora glow — ports the
+  // enableMouseInteraction / mouseInfluence params from the source
+  // SoftAurora shader component into a simple parallax offset.
+  (function(){
+    var aurora = document.getElementById('pricingAurora');
+    var pricingSection = document.getElementById('pricing');
+    if (!aurora || !pricingSection) return;
+    var MOUSE_INFLUENCE = 0.25;
+    var MAX_OFFSET_PX = 60;
+
+    pricingSection.addEventListener('mousemove', function(e){
+      var rect = pricingSection.getBoundingClientRect();
+      var relX = (e.clientX - rect.left) / rect.width - 0.5;   // -0.5..0.5
+      var relY = (e.clientY - rect.top) / rect.height - 0.5;
+      var offsetX = relX * MAX_OFFSET_PX * MOUSE_INFLUENCE * 2;
+      var offsetY = relY * MAX_OFFSET_PX * MOUSE_INFLUENCE * 2;
+      aurora.style.setProperty('--aurora-mx', offsetX.toFixed(1) + 'px');
+      aurora.style.setProperty('--aurora-my', offsetY.toFixed(1) + 'px');
+    });
+    pricingSection.addEventListener('mouseleave', function(){
+      aurora.style.setProperty('--aurora-mx', '0px');
+      aurora.style.setProperty('--aurora-my', '0px');
     });
   })();
 </script>

@@ -81,7 +81,10 @@
     app2: 'Overdesk Nexus',
     app3: 'Overdesk Checklist',
     bundle: 'Overdesk Full Suite (Bundle)',
-    everyone: 'Overdesk for Everyone'
+    everyone: 'Overdesk for Everyone',
+    'app2-annual': 'Overdesk Nexus (Annual)',
+    'app3-annual': 'Overdesk Checklist (Annual)',
+    'everyone-annual': 'Overdesk for Everyone (Annual)'
   };
 
   // How long we're willing to wait for js.paystack.co before giving up and
@@ -354,13 +357,14 @@
 
     var toggleBtn = document.createElement('button');
     toggleBtn.type = 'button';
+    toggleBtn.className = 'currency-toggle-btn';
     toggleBtn.setAttribute('aria-haspopup', 'listbox');
     toggleBtn.setAttribute('aria-expanded', 'false');
     toggleBtn.style.cssText =
       'display:inline-flex;align-items:center;gap:0.5rem;' +
       glassPillCSS +
       'border-radius:999px;padding:0.5rem 1rem;' +
-      'color:#fff;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;';
+      'font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;';
 
     var globeIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
     var chevronIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
@@ -368,10 +372,11 @@
     var labelSpan = document.createElement('span');
     labelSpan.textContent = CURRENCY_LABELS[selected.currency] || selected.currency;
 
-    toggleBtn.innerHTML = '<span style="display:flex;align-items:center;color:rgba(255,255,255,0.5);">' + globeIcon + '</span>';
+    toggleBtn.innerHTML = '<span class="currency-icon-muted" style="display:flex;align-items:center;">' + globeIcon + '</span>';
     toggleBtn.appendChild(labelSpan);
     var chevronSpan = document.createElement('span');
-    chevronSpan.style.cssText = 'display:flex;align-items:center;color:rgba(255,255,255,0.5);transition:transform .2s;';
+    chevronSpan.className = 'currency-icon-muted';
+    chevronSpan.style.cssText = 'display:flex;align-items:center;transition:transform .2s;';
     chevronSpan.innerHTML = chevronIcon;
     toggleBtn.appendChild(chevronSpan);
 
@@ -397,11 +402,12 @@
     options.forEach(function (opt) {
       var item = document.createElement('button');
       item.type = 'button';
+      item.className = 'currency-item';
       item.setAttribute('role', 'option');
       item.textContent = CURRENCY_LABELS[opt.currency] || opt.currency;
       item.style.cssText =
         'display:block;width:100%;text-align:left;background:transparent;border:none;' +
-        'color:#fff;font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;' +
+        'font-size:0.82rem;font-weight:600;font-family:Inter,sans-serif;' +
         'padding:0.55rem 0.8rem;border-radius:10px;cursor:pointer;transition:background .15s;';
       if (opt.code === selected.code) {
         item.style.background = 'rgba(34,197,94,0.18)';
