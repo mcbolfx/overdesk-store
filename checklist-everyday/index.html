@@ -166,18 +166,46 @@ body.light-mode .icon-sun{display:block;}
 .eb-background-glow{z-index:-1;transform:scale(1.1);filter:blur(32px);opacity:0.3;background:linear-gradient(-30deg,var(--electric-light-color),transparent,var(--electric-border-color));}
 .eb-badge-layer{position:absolute;inset:0;z-index:5;pointer-events:none;}
 
-/* REVIEWS (grid style, distinct from homepage marquee) */
+/* REVIEWS — ChromaGrid style (ported from a React/GSAP cursor-spotlight grid) */
 .reviews{max-width:1080px;margin:0 auto;padding:1rem 2rem 5rem;}
 .reviews h2{text-align:center;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.02em;color:#fff;margin-bottom:3rem;}
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
-.review-tile{background:rgba(255,255,255,0.025);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;}
+.cg-wrap{ position:relative; }
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;position:relative;}
+.review-tile{
+  position:relative;
+  border:1px solid var(--cg-border,rgba(255,255,255,0.1));
+  background:var(--cg-gradient,rgba(255,255,255,0.025));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;
+  transition:transform .25s ease, border-color .25s ease;
+}
+.review-tile:hover{ transform:translateY(-3px); }
 .review-tile .rt-stars{color:#f59e0b;font-size:0.9rem;letter-spacing:2px;margin-bottom:0.9rem;}
 .review-tile .rt-quote{color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.6;flex:1;margin-bottom:1.2rem;}
 .review-tile .rt-author{display:flex;align-items:center;gap:10px;}
 .review-tile .rt-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3D81E3,#22C55E);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;flex-shrink:0;}
 .review-tile .rt-name{font-size:0.85rem;font-weight:700;color:#fff;}
 .review-tile .rt-role{font-size:0.75rem;color:rgba(255,255,255,0.4);}
-@media(max-width:800px){.reviews-grid{grid-template-columns:1fr;}}
+
+/* the cursor-following spotlight — a dark layer with a soft radial hole
+   that reveals full color/clarity around the mouse, dims everything else */
+.cg-spotlight{
+  position:absolute; inset:0;
+  z-index:5;
+  pointer-events:none;
+  border-radius:20px;
+  background:rgba(4,4,8,0.78);
+  opacity:0;
+  transition:opacity .4s ease;
+  mask-image:radial-gradient(circle 300px at var(--cg-x,50%) var(--cg-y,50%), transparent 0%, transparent 30%, black 100%);
+  -webkit-mask-image:radial-gradient(circle 300px at var(--cg-x,50%) var(--cg-y,50%), transparent 0%, transparent 30%, black 100%);
+}
+.cg-wrap:hover .cg-spotlight{ opacity:1; }
+@media(max-width:800px){
+  .reviews-grid{grid-template-columns:1fr;}
+  .cg-spotlight{ display:none; }
+}
+body.light-mode .cg-spotlight{ background:rgba(255,255,255,0.7); }
 
 /* PRICING */
 .pricing{max-width:440px;margin:0 auto;padding:2rem 2rem 6rem;text-align:center;}
@@ -438,40 +466,43 @@ body.light-mode .social-btn:hover svg{fill:#3D81E3;}
 
 <section class="reviews" id="reviews">
   <h2>What everyday users are saying</h2>
-  <div class="reviews-grid">
-    <div class="review-tile">
-      <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <p class="rt-quote">"I use it for my freelance projects &mdash; having my to-do list just sitting on the desktop means I actually look at it instead of forgetting it in some app."</p>
-      <div class="rt-author">
-        <div class="rt-avatar">D</div>
-        <div>
-          <div class="rt-name">Daniel O.</div>
-          <div class="rt-role">Freelance Designer</div>
+  <div class="cg-wrap" id="chromaGrid">
+    <div class="reviews-grid">
+      <div class="review-tile" style="--cg-border:rgba(59,130,246,0.4); --cg-gradient:linear-gradient(145deg,rgba(59,130,246,0.14),rgba(0,0,0,0.15));">
+        <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rt-quote">"I use it for my freelance projects &mdash; having my to-do list just sitting on the desktop means I actually look at it instead of forgetting it in some app."</p>
+        <div class="rt-author">
+          <div class="rt-avatar">D</div>
+          <div>
+            <div class="rt-name">Daniel O.</div>
+            <div class="rt-role">Freelance Designer</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-tile" style="--cg-border:rgba(34,197,94,0.4); --cg-gradient:linear-gradient(180deg,rgba(34,197,94,0.14),rgba(0,0,0,0.15));">
+        <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="rt-quote">"Switched from sticky notes to this. The categories and colors make it easy to tell work stuff from home stuff at a glance."</p>
+        <div class="rt-author">
+          <div class="rt-avatar">P</div>
+          <div>
+            <div class="rt-name">Priya N.</div>
+            <div class="rt-role">Marketing Manager</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-tile" style="--cg-border:rgba(167,139,250,0.4); --cg-gradient:linear-gradient(160deg,rgba(167,139,250,0.14),rgba(0,0,0,0.15));">
+        <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        <p class="rt-quote">"Simple and it stays out of the way. I like that clearing the list actually feels like something &mdash; small thing but it works."</p>
+        <div class="rt-author">
+          <div class="rt-avatar">T</div>
+          <div>
+            <div class="rt-name">Tyler B.</div>
+            <div class="rt-role">Grad Student</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="review-tile">
-      <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <p class="rt-quote">"Switched from sticky notes to this. The categories and colors make it easy to tell work stuff from home stuff at a glance."</p>
-      <div class="rt-author">
-        <div class="rt-avatar">P</div>
-        <div>
-          <div class="rt-name">Priya N.</div>
-          <div class="rt-role">Marketing Manager</div>
-        </div>
-      </div>
-    </div>
-    <div class="review-tile">
-      <div class="rt-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
-      <p class="rt-quote">"Simple and it stays out of the way. I like that clearing the list actually feels like something &mdash; small thing but it works."</p>
-      <div class="rt-author">
-        <div class="rt-avatar">T</div>
-        <div>
-          <div class="rt-name">Tyler B.</div>
-          <div class="rt-role">Grad Student</div>
-        </div>
-      </div>
-    </div>
+    <div class="cg-spotlight" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -1367,6 +1398,32 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
     pricingSection.addEventListener('mouseleave', function(){
       aurora.style.setProperty('--aurora-mx', '0px');
       aurora.style.setProperty('--aurora-my', '0px');
+    });
+  })();
+</script>
+<script>
+  // ChromaGrid cursor spotlight — vanilla port of a React/GSAP component.
+  // damping={0.45} -> GSAP duration, ease="power3.out" kept as-is.
+  (function(){
+    if (typeof gsap === 'undefined') return;
+    var wrap = document.getElementById('chromaGrid');
+    if (!wrap) return;
+    var spotlight = wrap.querySelector('.cg-spotlight');
+    if (!spotlight) return;
+
+    var pos = { x: 0, y: 0 };
+    gsap.set(spotlight, { '--cg-x': '50%', '--cg-y': '50%' });
+
+    wrap.addEventListener('mousemove', function(e){
+      var rect = wrap.getBoundingClientRect();
+      pos.x = e.clientX - rect.left;
+      pos.y = e.clientY - rect.top;
+      gsap.to(spotlight, {
+        duration: 0.45,
+        ease: 'power3.out',
+        '--cg-x': pos.x + 'px',
+        '--cg-y': pos.y + 'px'
+      });
     });
   })();
 </script>
