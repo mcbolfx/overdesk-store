@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Best Productivity Tools in 2026, Category by Category | Overdesk Blog</title>
+<meta name="description" content="A curated 2026 roundup of productivity tools across to-do lists, calendars, automation, notes, and more — what each one actually does well, and where it falls short.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#0c0c0c;color:rgba(255,255,255,0.85);line-height:1.7;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;padding:0 2.5rem;height:64px;background:rgba(12,12,12,0.85);backdrop-filter:blur(18px);border-bottom:0.5px solid rgba(255,255,255,0.08);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.logo-name{font-weight:800;font-size:0.95rem;color:#fff;}
+.nav-links{display:flex;gap:1.6rem;margin-left:2.5rem;}
+.nav-links a{font-size:0.85rem;color:rgba(255,255,255,0.65);font-weight:600;}
+.nav-links a:hover{color:#fff;}
+.theme-btn{margin-left:auto;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.icon-sun{display:none;}
+
+.article-wrap{max-width:800px;margin:0 auto;padding:6.5rem 1.6rem 4rem;}
+.article-kicker{color:#00d2ff;font-size:0.78rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.9rem;}
+.article-title{font-size:clamp(1.8rem,4.2vw,2.7rem);font-weight:900;letter-spacing:-0.02em;line-height:1.18;margin-bottom:1rem;color:#fff;}
+.article-meta{color:rgba(255,255,255,0.45);font-size:0.85rem;margin-bottom:1.5rem;}
+
+.article-hero-img{width:100%;border-radius:18px;margin-bottom:0.6rem;border:1px solid rgba(255,255,255,0.1);}
+.article-hero-caption{font-size:0.78rem;color:rgba(255,255,255,0.35);margin-bottom:2.5rem;}
+
+.article-body p{margin-bottom:1.3rem;font-size:1.02rem;color:rgba(255,255,255,0.82);}
+.article-body h2{font-size:1.4rem;font-weight:800;margin:2.6rem 0 1rem;color:#fff;letter-spacing:-0.01em;}
+.article-body ul{margin:0 0 1.3rem 1.4rem;color:rgba(255,255,255,0.82);}
+.article-body li{margin-bottom:0.5rem;}
+.article-body strong{color:#fff;}
+.article-note{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:1.1rem 1.4rem;font-size:0.9rem;color:rgba(255,255,255,0.65);margin:1.6rem 0 2rem;}
+
+.compare-table-wrap{overflow-x:auto;margin:1.6rem 0 2.2rem;border-radius:14px;border:1px solid rgba(255,255,255,0.1);}
+table.compare-table{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:600px;}
+table.compare-table th{background:rgba(255,255,255,0.05);text-align:left;padding:0.75rem 1rem;font-weight:700;color:#fff;white-space:nowrap;}
+table.compare-table td{padding:0.75rem 1rem;border-top:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.75);vertical-align:top;}
+table.compare-table tr:first-child td{border-top:none;}
+table.compare-table td:first-child{font-weight:700;color:#fff;white-space:nowrap;}
+
+.app-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:1.5rem 1.6rem;margin-bottom:1.2rem;}
+.app-card.disclosure{border-left:3px solid #22C55E;background:rgba(34,197,94,0.05);}
+.app-card .cat-label{font-size:0.72rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#00d2ff;margin-bottom:0.4rem;}
+.app-card.disclosure .cat-label{color:#22C55E;}
+.app-card h3{margin:0 0 0.7rem;font-size:1.15rem;color:#fff;}
+.app-card .catch{font-size:0.88rem;color:rgba(255,255,255,0.55);margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.07);}
+.app-card .catch strong{color:rgba(255,255,255,0.75);}
+
+.promo-card{margin:2.2rem 0;border-radius:20px;padding:1.8rem;border:1px solid rgba(255,255,255,0.14);background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(61,129,227,0.1));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+.promo-card h3{margin-top:0;font-size:1.15rem;}
+.promo-btn{display:inline-flex;align-items:center;gap:8px;background:#3D81E3;color:#fff;border:none;border-radius:999px;padding:0.7rem 1.5rem;font-size:0.88rem;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:0 4px 20px rgba(61,129,227,0.4);}
+
+footer{background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);padding:3rem 2rem 1.5rem;margin-top:3rem;}
+.footer-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:0.8rem;}
+.footer-brand-name{font-weight:800;color:#fff;}
+.footer-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);max-width:320px;}
+.footer-col-title{font-size:0.8rem;font-weight:700;color:#fff;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.04em;}
+.footer-nav-links{display:flex;flex-direction:column;gap:0.55rem;}
+.footer-nav-links a{font-size:0.85rem;color:rgba(255,255,255,0.55);}
+.footer-nav-links a:hover{color:#fff;}
+.footer-bottom{max-width:1080px;margin:1.5rem auto 0;font-size:0.78rem;color:rgba(255,255,255,0.4);text-align:center;}
+
+body.light-mode{background-color:#ffffff;color:#0c0c0c;}
+body.light-mode nav{background:rgba(255,255,255,0.9);border-bottom-color:rgba(0,0,0,0.08);}
+body.light-mode .logo-name{color:#0c0c0c;}
+body.light-mode .nav-links a{color:rgba(0,0,0,0.6);}
+body.light-mode .nav-links a:hover{color:#0c0c0c;}
+body.light-mode .theme-btn{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);color:#0c0c0c;}
+body.light-mode .icon-moon{display:none;} body.light-mode .icon-sun{display:block;}
+body.light-mode .article-title,body.light-mode .article-body h2,body.light-mode .app-card h3,body.light-mode .footer-brand-name,body.light-mode .footer-col-title{color:#0c0c0c;}
+body.light-mode .article-body p,body.light-mode .article-body ul,body.light-mode .article-body li{color:rgba(0,0,0,0.75);}
+body.light-mode .article-body strong{color:#0c0c0c;}
+body.light-mode .article-note{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.1);color:rgba(0,0,0,0.6);}
+body.light-mode .app-card{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.08);}
+body.light-mode .app-card.disclosure{background:rgba(34,197,94,0.06);}
+body.light-mode .app-card .catch{color:rgba(0,0,0,0.6);border-top-color:rgba(0,0,0,0.07);}
+body.light-mode .app-card .catch strong{color:rgba(0,0,0,0.8);}
+body.light-mode .compare-table-wrap{border-color:rgba(0,0,0,0.1);}
+body.light-mode table.compare-table th{background:rgba(0,0,0,0.03);color:#0c0c0c;}
+body.light-mode table.compare-table td{color:rgba(0,0,0,0.7);border-top-color:rgba(0,0,0,0.07);}
+body.light-mode table.compare-table td:first-child{color:#0c0c0c;}
+body.light-mode footer{background:rgba(0,0,0,0.02);border-top-color:rgba(0,0,0,0.08);}
+body.light-mode .footer-grid{border-bottom-color:rgba(0,0,0,0.08);}
+body.light-mode .footer-desc,body.light-mode .footer-nav-links a,body.light-mode .footer-bottom{color:rgba(0,0,0,0.55);}
+
+@media(max-width:700px){
+  nav{padding:0 1.2rem;}
+  .footer-grid{grid-template-columns:1fr;gap:1.6rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">
+    <span class="logo-name">Overdesk</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Overdesk for Traders</a>
+    <a href="/checklist-everyday/">Overdesk for Everyone</a>
+    <a href="/blog/">Blog</a>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle light/dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </button>
+</nav>
+
+<div class="article-wrap">
+  <p class="article-kicker">Productivity</p>
+  <h1 class="article-title">The Best Productivity Tools in 2026, Category by Category</h1>
+  <p class="article-meta">August 26, 2026 &middot; 11 min read</p>
+
+  <img class="article-hero-img" src="https://i0.wp.com/picjumbo.com/wp-content/uploads/web-designer-designing-website-layout-ideas-on-yellow-sticky-notes-free-photo.jpg?w=2210&quality=70" alt="A desk with sticky notes and a laptop, planning a layout">
+  <p class="article-hero-caption">Photo by Viktor Hanacek / picjumbo (free to use)</p>
+
+  <div class="article-body">
+    <p>There's no single app that fixes how you work. The tool that transforms your coworker's day might do nothing for you, and the person on your team who gets the most done might not use a task manager at all. Productivity software is genuinely personal, which is exactly why "best productivity app" lists that hand you one winner tend to be useless.</p>
+
+    <p>What actually helps is knowing, category by category, which tools solve real problems without creating new ones &mdash; and being honest about what each one costs you in return, whether that's money, setup time, or a subscription you'll forget to cancel. Below is a working list across the categories that come up most: to-dos, calendars, scheduling, automation, notes, focus, time tracking, habits, security, and AI.</p>
+
+    <h2>The lineup at a glance</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <tr><th>Category</th><th>Pick</th><th>Cost</th><th>Best for</th></tr>
+        <tr><td>To-do list</td><td>Todoist</td><td>Free + from ~$5/mo</td><td>Fast capture, broad platform support</td></tr>
+        <tr><td>Calendar</td><td>Google Calendar</td><td>Free</td><td>Widely compatible, easy sharing</td></tr>
+        <tr><td>Meeting scheduling</td><td>Calendly</td><td>Free + from ~$10/mo</td><td>Killing the back-and-forth</td></tr>
+        <tr><td>Automation</td><td>Zapier</td><td>Free + from ~$20/mo</td><td>Connecting apps without code</td></tr>
+        <tr><td>Notes</td><td>Notion</td><td>Free (personal) + paid teams</td><td>Notes that grow into a database</td></tr>
+        <tr><td>Distraction blocking</td><td>Freedom</td><td>From ~$3/mo, no long-term free tier</td><td>Blocking across every device at once</td></tr>
+        <tr><td>Time tracking</td><td>Toggl Track</td><td>Free + from ~$9/user/mo</td><td>One-click tracking, no setup required</td></tr>
+        <tr><td>Habits</td><td>Habitica</td><td>Free + optional extras</td><td>Gamified habit building</td></tr>
+        <tr><td>Passwords</td><td>1Password</td><td>From ~$3/mo</td><td>Security without the friction</td></tr>
+        <tr><td>AI chatbot</td><td>ChatGPT</td><td>Free + paid tiers</td><td>General-purpose assistance</td></tr>
+        <tr><td>Always-visible checklist</td><td>Overdesk</td><td>One-time purchase</td><td>Never losing your list behind other windows</td></tr>
+      </table>
+    </div>
+
+    <div class="article-note">This is an editorial roundup, not paid placement or a claim that any tool is "the" answer for you. Pricing changes often &mdash; treat the figures above as a rough guide and check each app's own pricing page before deciding.</div>
+
+    <h2>The picks, one by one</h2>
+
+    <div class="app-card">
+      <div class="cat-label">To-do list</div>
+      <h3>Todoist</h3>
+      <p>The best place to keep a running list of everything you need to do is anywhere other than your own memory &mdash; half-remembered tasks are what turn into 2am panic. Todoist's natural-language quick-add lets you type "email Dana Friday at 2pm" and have it parsed automatically, and it runs on basically every platform, which is a big part of why it's stuck around as a default choice for so long.</p>
+      <div class="catch"><strong>The catch:</strong> nothing stops your "Today" view from growing as long as your whole backlog if you over-schedule. You have to build your own guardrails with filters and labels rather than get one automatically.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Calendar</div>
+      <h3>Google Calendar</h3>
+      <p>A calendar app earns its place by being where everyone else already is, and Google Calendar wins there by default &mdash; free with any Google account, easy to share, and it plays reasonably well with most other calendar tools you'll run into.</p>
+      <div class="catch"><strong>The catch:</strong> there's no dedicated desktop app, just the browser and mobile versions. Fine for most people, mildly annoying if you want a native window open all day.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Meeting scheduling</div>
+      <h3>Calendly</h3>
+      <p>If scheduling meetings costs you more time than the meetings themselves, a booking link fixes that instantly. Calendly's whole job is replacing "are you free Tuesday?" with a link that shows your real availability and lets someone else pick a slot.</p>
+      <div class="catch"><strong>The catch:</strong> the free plan only supports one event type, so if you need different meeting lengths for different purposes, you're looking at the paid tier fairly quickly.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Automation</div>
+      <h3>Zapier</h3>
+      <p>Once you're using more than two or three apps for real work, the manual copying between them becomes its own job. Zapier's whole premise is connecting those apps so a trigger in one (a new form response, a new email) automatically does something in another, without you writing any code.</p>
+      <div class="catch"><strong>The catch:</strong> the free plan caps you at two-step automations, so anything more elaborate needs a paid plan &mdash; and once you have a few workflows running, debugging a broken one can eat the time it was supposed to save.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Notes</div>
+      <h3>Notion</h3>
+      <p>Notion works as a plain notes app on day one, then quietly turns into a database if you need it to &mdash; the same page can hold a quick journal entry or a structured project tracker with linked records, without switching tools.</p>
+      <div class="catch"><strong>The catch:</strong> that same flexibility means there's no single "right" way to set it up, and it's genuinely possible to spend more time building your Notion system than using it.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Distraction blocking</div>
+      <h3>Freedom</h3>
+      <p>Every distraction you could want is one tap away, put there by people whose job is making sure you keep tapping. Freedom blocks distracting sites and apps across every device at once, so you can't dodge a block on your laptop by just picking up your phone.</p>
+      <div class="catch"><strong>The catch:</strong> there's no long-term free tier, only a trial &mdash; and setup, while not hard, takes a few more minutes than you'd expect from a "just block Instagram" tool.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Time tracking</div>
+      <h3>Toggl Track</h3>
+      <p>Time tracking works retroactively &mdash; instead of planning your day in blocks ahead of time, you just hit start when you begin a task and stop when you're done, then look back to see where the hours actually went. Toggl's free plan is genuinely usable, and you don't need to pre-fill a client or project before starting a timer.</p>
+      <div class="catch"><strong>The catch:</strong> task management and planning features are locked behind paid plans, so on the free tier it's a timer and a report, not a full system.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Habits</div>
+      <h3>Habitica</h3>
+      <p>Habitica turns habit tracking into a role-playing game &mdash; you gain gold and experience for completing real habits and tasks, and lose health for skipping them. It sounds gimmicky until you notice it's the same mechanism that makes a language-learning streak weirdly compelling.</p>
+      <div class="catch"><strong>The catch:</strong> the RPG framing is either the whole appeal or a layer of noise you don't want, depending on the person. It's more fun than a plain habit tracker, but also more complicated than one.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">Passwords</div>
+      <h3>1Password</h3>
+      <p>A password manager's entire job is letting you use a different, genuinely random password for every account without having to remember any of them &mdash; you remember one master password, and 1Password fills in the rest, synced across your devices.</p>
+      <div class="catch"><strong>The catch:</strong> no free plan, just a trial. Worth it for the security trade-off, but it's a recurring cost, not a one-time purchase.</div>
+    </div>
+
+    <div class="app-card">
+      <div class="cat-label">AI chatbot</div>
+      <h3>ChatGPT</h3>
+      <p>For general-purpose drafting, summarizing, and thinking-out-loud, ChatGPT remains the default most people reach for first &mdash; it's fast, works across web, mobile, and desktop, and handles most day-to-day requests without much prompting skill required.</p>
+      <div class="catch"><strong>The catch:</strong> like any AI tool, it will occasionally state something confidently and incorrectly. Treat its output as a draft to check, not a finished answer to trust blindly.</div>
+    </div>
+
+    <div class="app-card disclosure">
+      <div class="cat-label">Always-visible checklist</div>
+      <h3>Overdesk</h3>
+      <p>This is Overdesk's own blog, so it's worth being upfront: Overdesk doesn't compete with the other tools on this list directly &mdash; it's not a to-do database, an automation platform, or a calendar. It's a small checklist that floats on top of whatever else is on your screen, with a couple of switchable modes for separating contexts (work vs. personal, for instance), a built-in timer with pause and reset, and reminders that can be set on a specific date and time and surface as an on-screen alarm you have to dismiss, instead of a notification you can miss.</p>
+      <div class="catch"><strong>The catch:</strong> it's deliberately narrow. There's no cross-mode filtering, no boards, and no project-management structure the way something like Notion or Todoist has. It solves one specific problem &mdash; a list you can't accidentally lose behind other windows &mdash; and isn't trying to be a full system on its own.</div>
+    </div>
+
+    <h2>How to actually pick</h2>
+    <p>Treat the first week with any new tool as a trial, not a commitment. Can you add something to it in under five seconds? Can you tell, at a glance, what's actually next? And when a plan changes, is fixing it one tap or a small project of its own? If the answer to any of those is no, that's the tool telling you something, no matter how many features it has on paper.</p>
+    <p>The specific app matters less than most roundups make it sound. What matters is having a system you'll actually keep using on a bad day &mdash; not just the days you feel organized already.</p>
+
+    <div class="promo-card">
+      <h3>If your only problem is "I lose the list"</h3>
+      <p>Not everyone needs a database, an automation platform, and a calendar assistant stacked on top of each other. If the actual issue is that your to-do list keeps disappearing behind other windows, <strong>Overdesk for Everyone</strong> solves specifically that.</p>
+      <a class="promo-btn" href="/checklist-everyday/">See Overdesk for Everyone &rarr;</a>
+    </div>
+
+    <p>For a step-by-step way to reset when everything piles up at once, see our <a href="/blog/too-much-at-once-reset/" style="color:#3D81E3;text-decoration:underline;">10-minute reset for a cluttered day</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-row">
+        <span class="footer-brand-name">Overdesk</span>
+      </div>
+      <p class="footer-desc">A clean, floating checklist for your everyday life &mdash; work, home, and habits, always visible.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Overdesk</p>
+      <div class="footer-nav-links">
+        <a href="/">Overdesk for Traders</a>
+        <a href="/checklist-everyday/">Overdesk for Everyone</a>
+        <a href="/blog/">Blog</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-col-title">Legal</p>
+      <div class="footer-nav-links">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-of-service/">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-bottom">&copy; 2026 Overdesk. All rights reserved.</p>
+</footer>
+
+<script>
+  var btn = document.getElementById('themeBtn');
+  var saved = localStorage.getItem('overdesk-theme');
+  if(saved === 'light'){ document.body.classList.add('light-mode'); }
+  btn.addEventListener('click', function(){
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('overdesk-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>
