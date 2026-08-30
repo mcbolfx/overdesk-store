@@ -33,43 +33,123 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#0c0c0c;color:#fff;overflow-x:hidden;}
-a{color:inherit;}
-.wrap{max-width:1080px;margin:0 auto;padding:0 2rem;}
-nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2rem;max-width:1080px;margin:0 auto;}
-.brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;font-weight:800;font-size:1.05rem;color:#fff;}
-.brand svg{width:26px;height:26px;}
-.back-link{font-size:0.85rem;color:rgba(255,255,255,0.6);text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;transition:color .2s;}
-.back-link:hover{color:#fff;}
-.blog-hero{padding:3rem 2rem 2.5rem;text-align:center;}
-.blog-kicker{font-size:0.7rem;font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;color:#00d2ff;margin-bottom:1rem;font-weight:700;}
-.blog-hero h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;padding:0 2.5rem;height:64px;background:rgba(12,12,12,0.85);backdrop-filter:blur(18px);border-bottom:0.5px solid rgba(255,255,255,0.08);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo img{width:28px;height:28px;border-radius:6px;}
+.logo-name{font-weight:800;font-size:0.95rem;color:#fff;}
+.nav-links{display:flex;gap:1.6rem;margin-left:2.5rem;}
+.nav-links a{font-size:0.85rem;color:rgba(255,255,255,0.65);font-weight:600;}
+.nav-links a:hover{color:#fff;}
+.theme-btn{margin-left:auto;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+.icon-sun{display:none;}
+
+.blog-hero{padding:6.5rem 2rem 2.5rem;text-align:center;}
+.blog-kicker{font-size:0.7rem;font-family:'Inter',sans-serif;letter-spacing:0.15em;text-transform:uppercase;color:#00d2ff;margin-bottom:1rem;font-weight:700;}
+.blog-hero h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem;color:#fff;}
 .blog-hero h1 span{background:linear-gradient(135deg,#a78bfa,#00d2ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .blog-hero p{font-size:1.05rem;color:rgba(255,255,255,0.6);max-width:560px;margin:0 auto;line-height:1.6;}
-.posts-grid{padding:2rem 2rem 6rem;max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;}
+.posts-grid-wrap{position:relative;max-width:1080px;margin:0 auto;padding:2rem 2rem 6rem;}
+.posts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;position:relative;}
 @media(max-width:760px){.posts-grid{grid-template-columns:1fr;}}
-.post-card{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,border-color .2s;}
+.post-card{
+  position:relative;
+  min-height:340px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  overflow:hidden;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  transition:transform .2s ease,border-color .2s ease;
+}
 .post-card:hover{transform:translateY(-4px);border-color:rgba(0,210,255,0.4);}
-.post-cover{width:100%;aspect-ratio:16/9;display:block;background:#0c0c0c;object-fit:cover;}
-.post-body{padding:1.4rem 1.5rem 1.6rem;}
-.post-tag{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#00d2ff;background:rgba(0,210,255,0.1);border:1px solid rgba(0,210,255,0.25);border-radius:999px;padding:0.25rem 0.7rem;margin-bottom:0.8rem;}
-.post-tag.tag-green{color:#22C55E;background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.25);}
-.post-body h2{font-size:1.25rem;font-weight:800;line-height:1.3;margin-bottom:0.6rem;letter-spacing:-0.01em;}
-.post-body p{font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:1rem;}
-.post-meta{font-size:0.78rem;color:rgba(255,255,255,0.4);display:flex;gap:0.8rem;align-items:center;}
-.coming-soon-card{border:1px dashed rgba(255,255,255,0.15);border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;min-height:280px;color:rgba(255,255,255,0.35);font-size:0.9rem;}
-footer{text-align:center;padding:2.5rem 2rem;border-top:0.5px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.35);font-size:0.82rem;}
-footer a{color:rgba(255,255,255,0.55);text-decoration:none;}
-footer a:hover{color:#fff;}
+.post-media{position:absolute;inset:0;z-index:0;background:#0c0c0c;}
+.post-media img{width:100%;height:100%;object-fit:cover;opacity:0.5;filter:grayscale(0.2) brightness(0.75);transition:opacity .4s ease,filter .4s ease;}
+.post-card:hover .post-media img{opacity:0.85;filter:grayscale(0) brightness(0.95);}
+.post-media-overlay{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg, rgba(12,12,12,0.1) 0%, rgba(12,12,12,0.55) 45%, rgba(12,12,12,0.94) 100%);
+}
+.post-body{position:relative;z-index:2;padding:1.6rem 1.6rem 1.7rem;}
+.post-tag{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#00d2ff;background:rgba(0,210,255,0.12);border:1px solid rgba(0,210,255,0.3);border-radius:999px;padding:0.25rem 0.7rem;margin-bottom:0.8rem;backdrop-filter:blur(6px);}
+.post-tag.tag-green{color:#22C55E;background:rgba(34,197,94,0.14);border-color:rgba(34,197,94,0.35);}
+.post-body h2{font-size:1.25rem;font-weight:800;line-height:1.3;margin-bottom:0.6rem;letter-spacing:-0.01em;color:#fff;}
+.post-body p{font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:1rem;}
+.post-meta{font-size:0.78rem;color:rgba(255,255,255,0.5);display:flex;gap:0.8rem;align-items:center;}
+.coming-soon-card{position:relative;border:1px dashed rgba(255,255,255,0.15);border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;min-height:280px;color:rgba(255,255,255,0.35);font-size:0.9rem;}
+
+/* Cursor-spotlight, ported from the ChromaGrid effect used on the Overdesk
+   for Everyone review cards: a dark layer with a soft radial hole that
+   follows the mouse, dimming other cards while the one under the cursor
+   stays fully lit. */
+.blog-spotlight{
+  position:absolute; inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:rgba(4,4,8,0.55);
+  opacity:0;
+  transition:opacity .4s ease;
+  border-radius:20px;
+  mask-image:radial-gradient(circle 300px at var(--bg-x,50%) var(--bg-y,50%), transparent 0%, transparent 30%, black 100%);
+  -webkit-mask-image:radial-gradient(circle 300px at var(--bg-x,50%) var(--bg-y,50%), transparent 0%, transparent 30%, black 100%);
+}
+.posts-grid-wrap:hover .blog-spotlight{ opacity:1; }
+@media(max-width:760px){ .blog-spotlight{ display:none; } }
+
+footer{background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.08);padding:3rem 2rem 1.5rem;margin-top:3rem;}
+.footer-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:0.8rem;}
+.footer-brand-row img{width:26px;height:26px;border-radius:6px;}
+.footer-brand-name{font-weight:800;color:#fff;}
+.footer-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);max-width:320px;}
+.footer-col-title{font-size:0.8rem;font-weight:700;color:#fff;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.04em;}
+.footer-nav-links{display:flex;flex-direction:column;gap:0.55rem;}
+.footer-nav-links a{font-size:0.85rem;color:rgba(255,255,255,0.55);}
+.footer-nav-links a:hover{color:#fff;}
+.footer-bottom{max-width:1080px;margin:1.5rem auto 0;font-size:0.78rem;color:rgba(255,255,255,0.4);text-align:center;}
+
+body.light-mode{background-color:#ffffff;color:#0c0c0c;}
+body.light-mode nav{background:rgba(255,255,255,0.9);border-bottom-color:rgba(0,0,0,0.08);}
+body.light-mode .logo-name{color:#0c0c0c;}
+body.light-mode .nav-links a{color:rgba(0,0,0,0.6);}
+body.light-mode .nav-links a:hover{color:#0c0c0c;}
+body.light-mode .theme-btn{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);color:#0c0c0c;}
+body.light-mode .icon-moon{display:none;} body.light-mode .icon-sun{display:block;}
+body.light-mode .blog-hero h1,body.light-mode .footer-brand-name,body.light-mode .footer-col-title,body.light-mode .post-body h2{color:#0c0c0c;}
+body.light-mode .blog-hero p{color:rgba(0,0,0,0.6);}
+body.light-mode .post-body p{color:rgba(0,0,0,0.65);}
+body.light-mode .post-card{border-color:rgba(0,0,0,0.1);}
+body.light-mode .coming-soon-card{border-color:rgba(0,0,0,0.15);color:rgba(0,0,0,0.4);}
+body.light-mode footer{background:rgba(0,0,0,0.02);border-top-color:rgba(0,0,0,0.08);}
+body.light-mode .footer-grid{border-bottom-color:rgba(0,0,0,0.08);}
+body.light-mode .footer-desc,body.light-mode .footer-nav-links a,body.light-mode .footer-bottom{color:rgba(0,0,0,0.55);}
+
+@media(max-width:700px){
+  nav{padding:0 1.2rem;}
+  .footer-grid{grid-template-columns:1fr;gap:1.6rem;}
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a class="brand" href="/">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#00d2ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
-    Overdesk
+  <a class="nav-logo" href="/">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABmJLR0QA/wD/AP+gvaeTAAAXLUlEQVR4nO3de3xcZZ0G8Oc9l5lMksmtadImvZGmk5SW0puUAmIRFVhAVlcEr7u6fEQQL6si3mDjyuL9vu6uaNVdRVRULt6qAlYupSrUtlLITEJbem/apOlkZs79vPsH9bOgLbTpzLwzZ57vv52+75Nk3t855z3veQ9AREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREdCxCdQAqv6533X4WfG02AJhhsP/paS2PYt5FOoZwGAMiVJ2PyocFIIre+Yv4DGv88rCx/U1aoq5Xm5JsC32ZCDyYUjdFKBqFhwZoZgzQNAjDhG4GUlh5yLEDEvZE3s/nd+lhPhTtbfvEvp0/2ZfNfAN3DLiqfzQqLhaAiJj51tWvtPWp/xI2dp9mzpnVZrtJISUQOCfXrmYCws4CTkHqud37dGssreV3f35/376fY2CAZwtVjgWgWg0MaF1PzbnGnzL7GnNu73zXrdfsQgISWlm615ysjI1s2Kxnd3x5//ff9s2ydEpFxwJQZXo/fudc32r6lmN2riiYs2OBNJXmEdJFLL/VM7PbNorQvnbv1173qNJAdEJYAKrE7Hd891VBouNmdPbMz/nThO8bqiM9hxb6ENaIHz/w2D2xwoGP7br92s2qM9ELYwGocHOu/8lL3CmzfyT15vYJe4bqOMdFWKMwd/7uyaScOP/p7169V3UeOjYWgEp1+UCs6/SLN7ja1FPtsENAlufavpg051AY2//Azw5+/YrLVGeho2MBqEBd77/nBkuecqOcPqfBt9Re4xdDbPTPY/HRP71+73fe9ivVWei5WAAqSPM1t7XWz0j9Jkx2L8sfblMdp6g0bwyx/et/e3D65pfx9mHlYAGoEHM//NuF4z0LNvjZpBnko/tnie//w47E2J9etut77x5SnYUAXXUAArquX/MppzP1HXuszQi96A5+AAgau5vdptR1rd2pHbnHf7pRdZ5axwKg2LRbh4bc7tSl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" alt="Overdesk">
+    <span class="logo-name">Overdesk</span>
   </a>
-  <a class="back-link" href="/">&larr; Back to Overdesk</a>
+  <div class="nav-links">
+    <a href="/">Overdesk for Traders</a>
+    <a href="/checklist-everyday/">Overdesk for Everyone</a>
+    <a href="/blog/">Blog</a>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle light/dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </button>
 </nav>
 
 <div class="blog-hero">
@@ -78,33 +158,31 @@ footer a:hover{color:#fff;}
   <p>Practical writing on everyday productivity, trading discipline, and the systems that actually hold up under pressure.</p>
 </div>
 
+<div class="posts-grid-wrap" id="postsGridWrap">
 <div class="posts-grid">
 
+  <a class="post-card" href="/blog/best-productivity-tools-2026/">
+    <div class="post-media"><img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/web-designer-designing-website-layout-ideas-on-yellow-sticky-notes-free-photo.jpg?w=2210&quality=70" alt=""></div>
+    <div class="post-media-overlay"></div>
+    <div class="post-body">
+      <span class="post-tag">Productivity</span>
+      <h2>The Best Productivity Tools in 2026, Category by Category</h2>
+      <p>A curated roundup across to-do lists, calendars, automation, notes, and more &mdash; what each tool actually does well, and where it falls short.</p>
+      <div class="post-meta">
+        <span>Aug 26, 2026</span>
+        <span>&middot;</span>
+        <span>11 min read</span>
+      </div>
+    </div>
+  </a>
+
   <a class="post-card" href="/blog/adhd-friendly-task-apps-2026/">
-    <svg class="post-cover" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#0f2438"/>
-          <stop offset="100%" stop-color="#0c0c0c"/>
-        </linearGradient>
-      </defs>
-      <rect width="640" height="360" fill="url(#bg3)"/>
-      <g opacity="0.12" stroke="#ffffff" stroke-width="1">
-        <line x1="0" y1="90" x2="640" y2="90"/>
-        <line x1="0" y1="180" x2="640" y2="180"/>
-        <line x1="0" y1="270" x2="640" y2="270"/>
-      </g>
-      <g>
-        <rect x="70" y="100" width="120" height="160" rx="10" fill="rgba(61,129,227,0.14)" stroke="#3D81E3" stroke-width="1.5"/>
-        <rect x="205" y="130" width="120" height="130" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-        <rect x="340" y="90" width="120" height="170" rx="10" fill="rgba(61,129,227,0.14)" stroke="#3D81E3" stroke-width="1.5"/>
-        <rect x="475" y="120" width="95" height="140" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-      </g>
-    </svg>
+    <div class="post-media"><img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/extremely-minimalistic-office-workspace-laptop-setup-free-photo.jpg?w=2210&quality=70" alt=""></div>
+    <div class="post-media-overlay"></div>
     <div class="post-body">
       <span class="post-tag tag-green">Everyday Productivity</span>
       <h2>7 Task Apps Worth Trying When Planning Feels Hard</h2>
-      <p>A 2026 comparison of seven task-management apps for scattered-brain days — what each actually does differently, and how to tell which one fits.</p>
+      <p>A 2026 comparison of seven task-management apps for scattered-brain days &mdash; what each actually does differently, and how to tell which one fits.</p>
       <div class="post-meta">
         <span>Aug 26, 2026</span>
         <span>&middot;</span>
@@ -114,34 +192,12 @@ footer a:hover{color:#fff;}
   </a>
 
   <a class="post-card" href="/blog/too-much-at-once-reset/">
-    <svg class="post-cover" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#0d2b23"/>
-          <stop offset="100%" stop-color="#0c0c0c"/>
-        </linearGradient>
-      </defs>
-      <rect width="640" height="360" fill="url(#bg2)"/>
-      <g opacity="0.12" stroke="#ffffff" stroke-width="1">
-        <line x1="0" y1="90" x2="640" y2="90"/>
-        <line x1="0" y1="180" x2="640" y2="180"/>
-        <line x1="0" y1="270" x2="640" y2="270"/>
-      </g>
-      <g transform="translate(120,110)">
-        <rect x="0" y="0" width="220" height="26" rx="6" fill="rgba(34,197,94,0.18)" stroke="#22C55E" stroke-width="1.5"/>
-        <rect x="0" y="42" width="220" height="26" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-        <rect x="0" y="84" width="220" height="26" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-        <rect x="0" y="126" width="150" height="26" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-      </g>
-      <g transform="translate(430,90)">
-        <circle r="46" fill="rgba(34,197,94,0.12)" stroke="#22C55E" stroke-width="1.5"/>
-        <path d="M-16,3 L-5,15 L18,-14" fill="none" stroke="#22C55E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-    </svg>
+    <div class="post-media"><img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/woman-working-in-office-free-photo.jpg?w=2210&quality=70" alt=""></div>
+    <div class="post-media-overlay"></div>
     <div class="post-body">
       <span class="post-tag tag-green">Everyday Productivity</span>
       <h2>Too Much At Once: A 10-Minute Reset for a Cluttered Day</h2>
-      <p>A practical way to reset when work, chores, and messages pile up faster than you can sort them — plus how a floating checklist keeps the next pileup smaller.</p>
+      <p>A practical way to reset when work, chores, and messages pile up faster than you can sort them &mdash; plus how a floating checklist keeps the next pileup smaller.</p>
       <div class="post-meta">
         <span>Aug 26, 2026</span>
         <span>&middot;</span>
@@ -151,44 +207,12 @@ footer a:hover{color:#fff;}
   </a>
 
   <a class="post-card" href="/blog/best-productivity-apps-for-forex-traders/">
-    <svg class="post-cover" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#1a1230"/>
-          <stop offset="100%" stop-color="#0c0c0c"/>
-        </linearGradient>
-        <linearGradient id="bar1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#a78bfa"/>
-          <stop offset="100%" stop-color="#7c3aed"/>
-        </linearGradient>
-        <linearGradient id="bar2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#00d2ff"/>
-          <stop offset="100%" stop-color="#0891b2"/>
-        </linearGradient>
-      </defs>
-      <rect width="640" height="360" fill="url(#bg1)"/>
-      <g opacity="0.15" stroke="#ffffff" stroke-width="1">
-        <line x1="0" y1="90" x2="640" y2="90"/>
-        <line x1="0" y1="180" x2="640" y2="180"/>
-        <line x1="0" y1="270" x2="640" y2="270"/>
-      </g>
-      <g>
-        <rect x="90" y="200" width="46" height="110" rx="6" fill="url(#bar1)"/>
-        <rect x="160" y="150" width="46" height="160" rx="6" fill="url(#bar2)"/>
-        <rect x="230" y="230" width="46" height="80" rx="6" fill="url(#bar1)" opacity="0.55"/>
-        <rect x="300" y="120" width="46" height="190" rx="6" fill="url(#bar2)"/>
-        <rect x="370" y="180" width="46" height="130" rx="6" fill="url(#bar1)" opacity="0.55"/>
-        <rect x="440" y="95" width="46" height="215" rx="6" fill="url(#bar2)"/>
-      </g>
-      <g transform="translate(455,70)">
-        <circle r="26" fill="rgba(0,210,255,0.15)" stroke="#00d2ff" stroke-width="1.5"/>
-        <path d="M-9,2 L-3,9 L10,-8" fill="none" stroke="#00d2ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-    </svg>
+    <div class="post-media"><img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/stock-market-trading-digital-blackboard-with-green-numbers.jpg?w=2210&quality=70" alt=""></div>
+    <div class="post-media-overlay"></div>
     <div class="post-body">
       <span class="post-tag">Productivity</span>
       <h2>Best Productivity Apps for Forex Traders: A Real Comparison</h2>
-      <p>Notion, spreadsheets, trading journals, sticky notes, desktop overlays — how they actually compare for staying disciplined during a live session.</p>
+      <p>Notion, spreadsheets, trading journals, sticky notes, desktop overlays &mdash; how they actually compare for staying disciplined during a live session.</p>
       <div class="post-meta">
         <span>Aug 7, 2026</span>
         <span>&middot;</span>
@@ -200,10 +224,70 @@ footer a:hover{color:#fff;}
   <div class="coming-soon-card">More articles on trading psychology and productivity coming soon.</div>
 
 </div>
+<div class="blog-spotlight" id="blogSpotlight" aria-hidden="true"></div>
+</div>
 
 <footer>
-  &copy; 2026 Overdesk &middot; <a href="/">Home</a> &middot; <a href="/checklist-everyday/">Overdesk for Everyone</a>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-row">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABmJLR0QA/wD/AP+gvaeTAAAXLUlEQVR4nO3de3xcZZ0G8Oc9l5lMksmtadImvZGmk5SW0puUAmIRFVhAVlcEr7u6fEQQL6si3mDjyuL9vu6uaNVdRVRULt6qAlYupSrUtlLITEJbem/apOlkZs79vPsH9bOgLbTpzLwzZ57vv52+75Nk3t855z3veQ9AREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREdCxCdQAqv6533X4WfG02AJhhsP/paS2PYt5FOoZwGAMiVJ2PyocFIIre+Yv4DGv88rCx/U1aoq5Xm5JsC32ZCDyYUjdFKBqFhwZoZgzQNAjDhG4GUlh5yLEDEvZE3s/nd+lhPhTtbfvEvp0/2ZfNfAN3DLiqfzQqLhaAiJj51tWvtPWp/xI2dp9mzpnVZrtJISUQOCfXrmYCws4CTkHqud37dGssreV3f35/376fY2CAZwtVjgWgWg0MaF1PzbnGnzL7GnNu73zXrdfsQgISWlm615ysjI1s2Kxnd3x5//ff9s2ydEpFxwJQZXo/fudc32r6lmN2riiYs2OBNJXmEdJFLL/VM7PbNorQvnbv1173qNJAdEJYAKrE7Hd891VBouNmdPbMz/nThO8bqiM9hxb6ENaIHz/w2D2xwoGP7br92s2qM9ELYwGocHOu/8lL3CmzfyT15vYJe4bqOMdFWKMwd/7uyaScOP/p7169V3UeOjYWgEp1+UCs6/SLN7ja1FPtsENAlufavpg051AY2//Azw5+/YrLVGeho2MBqEBd77/nBkuecqOcPqfBt9Re4xdDbPTPY/HRP71+73fe9ivVWei5WAAqSPM1t7XWz0j9Jkx2L8sfblMdp6g0bwyx/et/e3D65pfx9mHlYAGoEHM//NuF4z0LNvjZpBnko/tnie//w47E2J9etut77x5SnYUAXXUAArquX/MppzP1HXuszQi96A5+AAgau5vdptR1rd2pHbnHf7pRdZ5axwKg2LRbh4bc7tSl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" alt="Overdesk">
+        <span class="footer-brand-name">Overdesk</span>
+      </div>
+      <p class="footer-desc">A clean, floating checklist for your everyday life &mdash; work, home, and habits, always visible.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Overdesk</p>
+      <div class="footer-nav-links">
+        <a href="/">Overdesk for Traders</a>
+        <a href="/checklist-everyday/">Overdesk for Everyone</a>
+        <a href="/blog/">Blog</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-col-title">Legal</p>
+      <div class="footer-nav-links">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-of-service/">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-bottom">&copy; 2026 Overdesk. All rights reserved.</p>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  // Blog card cursor-spotlight — same port as the Overdesk for Everyone
+  // ChromaGrid review cards: a dark layer with a soft radial hole that
+  // follows the mouse, dimming other cards while the one under the
+  // cursor stays fully lit.
+  (function(){
+    if (typeof gsap === 'undefined') return;
+    var wrap = document.getElementById('postsGridWrap');
+    var spotlight = document.getElementById('blogSpotlight');
+    if (!wrap || !spotlight) return;
+
+    wrap.addEventListener('mousemove', function(e){
+      var rect = wrap.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      gsap.to(spotlight, {
+        duration: 0.45,
+        ease: 'power3.out',
+        '--bg-x': x + 'px',
+        '--bg-y': y + 'px'
+      });
+    });
+  })();
+</script>
+<script>
+  var btn = document.getElementById('themeBtn');
+  var saved = localStorage.getItem('overdesk-theme');
+  if(saved === 'light'){ document.body.classList.add('light-mode'); }
+  btn.addEventListener('click', function(){
+    document.body.classList.toggle('light-mode');
+    localStorage.setItem('overdesk-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  });
+</script>
 </body>
 </html>
