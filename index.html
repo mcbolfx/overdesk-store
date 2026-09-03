@@ -69,7 +69,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 /* ── HERO ── */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;overflow:hidden;background:#0c0c0c;}
-.hero-video-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.hero-video-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
 .hero-video-bg video{
   width:100%;height:100%;object-fit:cover;opacity:0.42;
   animation:bgPan 18s ease-in-out infinite alternate;
@@ -83,7 +83,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-rings{
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:-1;
 }
 
 .hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 40%,rgba(0,0,0,0.2),rgba(12,12,12,0.7));z-index:1;pointer-events:none;}
@@ -183,9 +183,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 /* ── QUOTE ── */
 .quote-section{text-align:center;padding:2.5rem 2rem 2.5rem;border-top:0.5px solid rgba(255,255,255,0.06);background:transparent;}
 .quote-mark{font-size:5rem;color:rgba(255,255,255,0.06);font-family:Georgia,serif;line-height:0.8;margin-bottom:2rem}
-.quote-text{font-weight:800;letter-spacing:-0.02em;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.22;max-width:680px;margin:0 auto 1.5rem;color:#fff;}
+.quote-text{text-align:center;font-weight:800;letter-spacing:-0.02em;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.22;max-width:680px;margin:0 auto 1.5rem;color:#fff;}
 .q-highlight{background:linear-gradient(90deg,#A4F4FD,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.quote-source{class_marker_macos;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:1.2rem}
+.quote-source{text-align:center;color:rgba(255,255,255,0.45);font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:1.2rem}
 
 /* ── SECTION SHARED ── */
 .section-wrap{padding:6rem 2rem;max-width:1080px;margin:0 auto}
@@ -2732,8 +2732,8 @@ body.light-mode nav.nav-scrolled{
 </nav>
 
 <!-- HERO -->
+<div class="top-aura-wrap" style="position:relative;">
 <section class="hero">
-  <div id="heroRings" class="hero-rings"></div>
   <div class="hero-overlay"></div>
   <div class="hero-inner fade-in">
     <h1 class="hero-title">
@@ -2961,11 +2961,14 @@ body.light-mode nav.nav-scrolled{
 
   </div>
 </div>
+</div>
+<!-- /top-aura-wrap -->
 
 <hr style="max-width:960px;margin:0 auto;border:none;border-top:0.5px solid rgba(255,255,255,0.06)">
 
 <!-- COMPARISON TABLE -->
 <div class="compare-wrap">
+  <div id="heroRings" class="hero-rings"></div>
   <p class="section-label" style="text-align:center;">The Difference</p>
   <h2 class="section-title" style="text-align:center;">What changes when you use it.</h2>
   <div class="compare-table">
