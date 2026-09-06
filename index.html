@@ -162,7 +162,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 @keyframes shiny{0%{background-position:-200% center}100%{background-position:200% center}}
 .hero-sub{color:rgba(255,255,255,0.6);font-size:1.05rem;margin:1.8rem auto 2.8rem;line-height:1.7;max-width:500px;font-weight:400;}
 .hero-sub strong{color:#fff;font-weight:700}
-.hero-btns{display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap}
+.hero-btns{display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:10;}
 /* Pill hover-fill effect (ported from React Bits PillNav) */
 .gpill{position:relative;overflow:hidden;}
 .gpill .gpill-circle{position:absolute;left:50%;bottom:0;border-radius:50%;z-index:1;pointer-events:none;}
@@ -2679,8 +2679,16 @@ body.light-mode nav{
 body.light-mode nav.nav-scrolled{
   background:rgba(255,255,255,0.85);
 }
-@media (max-width:640px){
-  nav{width:calc(100% - 16px);border-radius:16px;}
+.hero-pit-container{position:absolute;inset:0;overflow:hidden;pointer-events:auto;z-index:3;user-select:none;-webkit-user-select:none;cursor:grab;touch-action:pan-y;}
+.hero-pill{position:absolute;top:0;left:0;display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:800;font-size:14px;letter-spacing:0.02em;text-transform:uppercase;white-space:nowrap;will-change:transform;pointer-events:none;font-family:'Inter',sans-serif;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-webkit-touch-callout:none;box-shadow:inset 0 2px 2px rgba(255,255,255,0.55),inset 0 -3px 5px rgba(0,0,0,0.22),0 4px 14px rgba(0,0,0,0.16);}
+.hero-pill svg{width:16px;height:16px;flex-shrink:0;position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.2));}
+.hero-pill span{position:relative;z-index:1;}
+.hero-ball{position:absolute;top:0;left:0;display:flex;align-items:center;justify-content:center;border-radius:50%;will-change:transform;pointer-events:none;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-webkit-touch-callout:none;box-shadow:inset 0 2px 2px rgba(255,255,255,0.55),inset 0 -3px 5px rgba(0,0,0,0.22),0 4px 14px rgba(0,0,0,0.16);}
+.hero-ball svg{position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.25));}
+.hero-ball svg{width:46%;height:46%;flex-shrink:0;}
+@media (max-width:768px){
+  .hero-pill{padding:9px 15px;font-size:11px;}
+  .hero-pill svg{width:13px;height:13px;}
 }
 </style>
 <script>
@@ -2771,13 +2779,14 @@ body.light-mode nav.nav-scrolled{
 <div class="top-aura-wrap" style="position:relative;">
 <section class="hero">
   <div class="hero-overlay"></div>
+  <div class="hero-pit-container" id="heroPitContainer"></div>
   <div class="hero-inner fade-in">
     <h1 class="hero-title">
       Focus on what matters most
       <span class="gradient-line">A productivity app for </span><span class="rotating-text-pill" id="rotatingMoment"></span>
     </h1>
     <p class="hero-sub">A family of <strong>beautiful desktop widgets</strong>. No clutter, no distraction &mdash; just the signal you need, exactly when you need it.</p>
-    <div class="hero-btns">
+    <div class="hero-btns" id="heroBtns">
       <a class="btn-ghost gpill gpill-lg gpill-fill-white" href="/checklist-everyday/">
         <span class="gpill-circle"></span><span class="gpill-label-stack"><span class="gpill-label">Check Overdesk for Everyone</span><span class="gpill-label-hover">Check Overdesk for Everyone</span></span>
       </a>
@@ -4858,6 +4867,220 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
       aurora.style.setProperty('--aurora-my', '0px');
     });
   })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+(function(){
+  var PILLS = [
+    { text: 'Focus mode', color: '#5DCAA5', dark: '#04342C', icon: 'target' },
+    { text: 'Deep work', color: '#7F77DD', dark: '#26215C', icon: 'bolt' },
+    { text: 'FX calendar', color: '#F0997B', dark: '#4A1B0C', icon: 'calendar' },
+    { text: 'Checklist', color: '#EF9F27', dark: '#412402', icon: 'check' },
+    { text: 'No distractions', color: '#ED93B1', dark: '#4B1528', icon: 'eye-off' },
+    { text: 'Risk control', color: '#85B7EB', dark: '#042C53', icon: 'shield' },
+    { text: 'Daily routine', color: '#97C459', dark: '#173404', icon: 'refresh' },
+    { text: 'Trading discipline', color: '#F09595', dark: '#501313', icon: 'chart' },
+    { text: 'Stay on task', color: '#9FE1CB', dark: '#04342C', icon: 'flag' },
+    { text: 'Task tracking', color: '#B5D4F4', dark: '#042C53', icon: 'list' },
+    { text: 'Trade journal', color: '#D8C4EF', dark: '#33195C', icon: 'list' },
+    { text: 'Stay consistent', color: '#FFD59E', dark: '#4A2C02', icon: 'refresh' },
+    { text: 'Session alerts', color: '#F7B2C4', dark: '#4B1528', icon: 'bell' }
+  ];
+
+  var BALLS = [
+    { color: '#EF9F27', dark: '#412402', icon: 'clock', size: 60 },
+    { color: '#ED93B1', dark: '#4B1528', icon: 'bell', size: 52 },
+    { color: '#7F77DD', dark: '#26215C', icon: 'bolt', size: 56 },
+    { color: '#5DCAA5', dark: '#04342C', icon: 'target', size: 50 },
+    { color: '#85B7EB', dark: '#042C53', icon: 'shield', size: 58 },
+    { color: '#FAC775', dark: '#412402', icon: 'sunrise', size: 54 }
+  ];
+
+  var ICONS = {
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+    bolt: '<path d="M13 2 L4 14 h6 l-1 8 9-12 h-6 z"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10 h18 M8 3 v4 M16 3 v4"/>',
+    check: '<path d="M20 6 L9 17 l-5-5"/>',
+    'eye-off': '<path d="M3 3 l18 18 M10.6 10.6 a3 3 0 0 0 4.2 4.2 M6.5 6.7 C4 8.3 2.5 10.5 2 12 c1.5 4 5.5 7 10 7 1.6 0 3.1-.4 4.4-1.1 M9.9 4.2 C10.6 4.1 11.3 4 12 4 c4.5 0 8.5 3 10 7 -.4 1.1-1 2.2-1.8 3.1"/>',
+    shield: '<path d="M12 3 l7 3 v6 c0 4.5-3 7.5-7 9 -4-1.5-7-4.5-7-9 v-6 z"/>',
+    refresh: '<path d="M21 12a9 9 0 1 1-3-6.7 M21 3 v6 h-6"/>',
+    chart: '<path d="M3 21 h18 M6 17 v-6 M12 17 V7 M18 17 v-10"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7 v5 l3 3"/>',
+    flag: '<path d="M5 21 V4 M5 4 h13 l-3 4 3 4 H5"/>',
+    bell: '<path d="M6 8 a6 6 0 0 1 12 0 c0 5 2 6 2 6 H4 s2-1 2-6 M10 20 a2 2 0 0 0 4 0"/>',
+    sunrise: '<path d="M12 3 v4 M4.2 10.2 l1.4 1.4 M19.8 10.2 l-1.4 1.4 M2 18 h20 M6 18 a6 6 0 0 1 12 0"/>',
+    list: '<path d="M8 6 h13 M8 12 h13 M8 18 h13 M3 6 h.01 M3 12 h.01 M3 18 h.01"/>'
+  };
+
+  var container = document.getElementById('heroPitContainer');
+  var heroBtns = document.getElementById('heroBtns');
+  if(!container || !heroBtns) return;
+  var W = window.Matter;
+  var itemEls = [], itemBodies = [], started = false;
+
+  function iconSvg(name, color){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="' + color + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[name] || '') + '</svg>';
+  }
+
+  function shadeColor(hex, percent){
+    var num = parseInt(hex.replace('#',''), 16);
+    var r = (num >> 16) + Math.round(255 * percent);
+    var g = ((num >> 8) & 0x00FF) + Math.round(255 * percent);
+    var b = (num & 0x0000FF) + Math.round(255 * percent);
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+    return '#' + (0x1000000 + r*0x10000 + g*0x100 + b).toString(16).slice(1);
+  }
+
+  function buildItems(){
+    container.innerHTML = '';
+    itemEls = [];
+    PILLS.forEach(function(item){
+      var el = document.createElement('div');
+      el.className = 'hero-pill';
+      el.style.background = item.color;
+      el.style.color = item.dark;
+      el.innerHTML = iconSvg(item.icon, item.dark) + '<span>' + item.text + '</span>';
+      container.appendChild(el);
+      itemEls.push({ el: el, type: 'pill' });
+    });
+    BALLS.forEach(function(item){
+      var el = document.createElement('div');
+      el.className = 'hero-ball';
+      el.style.width = item.size + 'px';
+      el.style.height = item.size + 'px';
+      el.style.background = item.color;
+      el.style.color = item.dark;
+      el.innerHTML = iconSvg(item.icon, item.dark);
+      container.appendChild(el);
+      itemEls.push({ el: el, type: 'ball', size: item.size });
+    });
+  }
+
+  function startSim(){
+    itemBodies = [];
+    var cRect = container.getBoundingClientRect();
+    var w = cRect.width;
+    var h = cRect.height;
+    if(w <= 0 || h <= 0) return;
+
+    var btnRect = heroBtns.getBoundingClientRect();
+    var minFloorY = (btnRect.bottom - cRect.top) + 30;
+    var floorY = Math.max(minFloorY, h - 14);
+
+    var pitWidth = w;
+    var pitLeft = 0;
+
+    var engine = W.Engine.create();
+    var world = engine.world;
+    world.gravity.y = 1;
+
+    var ground = W.Bodies.rectangle(w/2, floorY + 20, w*2, 40, { isStatic: true });
+    var leftWall = W.Bodies.rectangle(pitLeft - 20, h/2, 40, h*2, { isStatic: true });
+    var rightWall = W.Bodies.rectangle(pitLeft + pitWidth + 20, h/2, 40, h*2, { isStatic: true });
+    W.World.add(world, [ground, leftWall, rightWall]);
+
+    itemEls.forEach(function(item, i){
+      var el = item.el;
+      var body;
+      var startX = pitLeft + 30 + Math.random() * Math.max(1, (pitWidth - 60));
+      var startY = -120 - i * 90;
+
+      if(item.type === 'ball'){
+        var r = item.size / 2;
+        el.style.width = item.size + 'px';
+        el.style.height = item.size + 'px';
+        body = W.Bodies.circle(startX, startY, r, {
+          restitution: 0.5,
+          friction: 0.3,
+          frictionAir: 0.005
+        });
+        itemBodies.push({ el: el, body: body, w: item.size, h: item.size });
+      } else {
+        var pw = el.offsetWidth;
+        var ph = el.offsetHeight;
+        el.style.width = pw + 'px';
+        el.style.height = ph + 'px';
+        body = W.Bodies.rectangle(startX, startY, pw, ph, {
+          chamfer: { radius: ph/2 },
+          restitution: 0.35,
+          friction: 0.4,
+          frictionAir: 0.005,
+          angle: (Math.random()-0.5) * 0.6
+        });
+        itemBodies.push({ el: el, body: body, w: pw, h: ph });
+      }
+
+      W.Body.setVelocity(body, { x: (Math.random()-0.5)*2, y: 0 });
+      el.style.pointerEvents = 'auto';
+      el.style.cursor = 'pointer';
+      el.addEventListener('mouseenter', function(){
+        W.Body.setVelocity(body, { x: body.velocity.x * 0.3, y: -6 - Math.random()*2 });
+        W.Body.setAngularVelocity(body, (Math.random()-0.5) * 0.15);
+      });
+    });
+
+    W.World.add(world, itemBodies.map(function(p){ return p.body; }));
+
+    var mouse = W.Mouse.create(container);
+    mouse.element.removeEventListener('mousewheel', mouse.mousewheel);
+    mouse.element.removeEventListener('wheel', mouse.mousewheel);
+    mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
+    mouse.element.removeEventListener('touchstart', mouse.mousedown);
+    mouse.element.removeEventListener('touchmove', mouse.mousemove);
+    mouse.element.removeEventListener('touchend', mouse.mouseup);
+    var mouseConstraint = W.MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: { stiffness: 0.25, damping: 0.15, render: { visible: false } }
+    });
+    W.World.add(world, mouseConstraint);
+    container.addEventListener('mousedown', function(){ container.style.cursor = 'grabbing'; });
+    window.addEventListener('mouseup', function(){ container.style.cursor = 'grab'; });
+
+    W.Events.on(engine, 'beforeUpdate', function(){
+      itemBodies.forEach(function(p){
+        var halfH = p.h / 2;
+        var maxY = floorY - halfH;
+        if(p.body.position.y > maxY){
+          W.Body.setPosition(p.body, { x: p.body.position.x, y: maxY });
+          if(p.body.velocity.y > 0) W.Body.setVelocity(p.body, { x: p.body.velocity.x, y: 0 });
+        }
+      });
+    });
+
+    var runner = W.Runner.create();
+    W.Runner.run(runner, engine);
+
+    (function loop(){
+      itemBodies.forEach(function(p){
+        var x = p.body.position.x - p.w/2;
+        var y = p.body.position.y - p.h/2;
+        var angle = p.body.angle;
+        p.el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'rad)';
+      });
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  function run(){
+    buildItems();
+    requestAnimationFrame(function(){ startSim(); });
+  }
+
+  if(W && container){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !started){
+          started = true;
+          run();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    io.observe(container);
+  }
+})();
 </script>
 </body>
 </html>
