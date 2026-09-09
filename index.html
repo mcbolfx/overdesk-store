@@ -4846,12 +4846,12 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
   ];
 
   var BALLS = [
-    { color: '#EF9F27', dark: '#412402', icon: 'clock', size: 60 },
-    { color: '#ED93B1', dark: '#4B1528', icon: 'bell', size: 52 },
-    { color: '#7F77DD', dark: '#26215C', icon: 'bolt', size: 56 },
-    { color: '#5DCAA5', dark: '#04342C', icon: 'target', size: 50 },
-    { color: '#85B7EB', dark: '#042C53', icon: 'shield', size: 58 },
-    { color: '#FAC775', dark: '#412402', icon: 'sunrise', size: 54 }
+    { color: '#EF9F27', dark: '#412402', icon: 'clock', size: 30 },
+    { color: '#ED93B1', dark: '#4B1528', icon: 'bell', size: 26 },
+    { color: '#7F77DD', dark: '#26215C', icon: 'bolt', size: 28 },
+    { color: '#5DCAA5', dark: '#04342C', icon: 'target', size: 25 },
+    { color: '#85B7EB', dark: '#042C53', icon: 'shield', size: 29 },
+    { color: '#FAC775', dark: '#412402', icon: 'sunrise', size: 27 }
   ];
 
   var ICONS = {
@@ -4995,6 +4995,41 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
     W.World.add(world, mouseConstraint);
     container.addEventListener('mousedown', function(){ container.style.cursor = 'grabbing'; });
     window.addEventListener('mouseup', function(){ container.style.cursor = 'grab'; });
+
+    var activeTouchDrag = null;
+    function hitTestBody(pos){
+      var bodies = itemBodies.map(function(p){ return p.body; });
+      var hits = W.Query.point(bodies, pos);
+      if(hits.length){
+        for (var i=0; i<itemBodies.length; i++){
+          if(itemBodies[i].body === hits[0]) return itemBodies[i];
+        }
+      }
+      return null;
+    }
+    container.addEventListener('touchstart', function(e){
+      if(e.touches.length !== 1) return;
+      var rect = container.getBoundingClientRect();
+      var touch = e.touches[0];
+      var pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+      var hit = hitTestBody(pos);
+      if(hit){
+        e.preventDefault();
+        activeTouchDrag = hit;
+      }
+    }, { passive: false });
+    container.addEventListener('touchmove', function(e){
+      if(!activeTouchDrag) return;
+      e.preventDefault();
+      var rect = container.getBoundingClientRect();
+      var touch = e.touches[0];
+      var pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+      W.Body.setPosition(activeTouchDrag.body, pos);
+      W.Body.setVelocity(activeTouchDrag.body, { x: 0, y: 0 });
+    }, { passive: false });
+    function endTouchDrag(){ activeTouchDrag = null; }
+    container.addEventListener('touchend', endTouchDrag);
+    container.addEventListener('touchcancel', endTouchDrag);
 
     W.Events.on(engine, 'beforeUpdate', function(){
       itemBodies.forEach(function(p){
