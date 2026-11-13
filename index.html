@@ -2743,6 +2743,14 @@ body.light-mode .bw-msg.bw-err{color:#d33}
 body.light-mode .bw-field span{color:rgba(0,0,0,.65)}
 body.light-mode .bw-field input,body.light-mode .bw-field textarea{color:#0c0c0c;background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.14)}
 body.light-mode .bw-close{background:rgba(0,0,0,.07);color:#333}
+.bw-reach{margin-top:1.1rem;padding-top:1rem;border-top:.5px solid rgba(255,255,255,.1);text-align:center}
+.bw-reach>span{display:block;font-size:.76rem;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:.6rem}
+.bw-reach-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.bw-reach-links a{padding:.5rem 1rem;border-radius:999px;border:.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:.82rem;font-weight:600;text-decoration:none;transition:background .2s,border-color .2s}
+.bw-reach-links a:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35)}
+body.light-mode .bw-reach{border-color:rgba(0,0,0,.1)}
+body.light-mode .bw-reach>span{color:rgba(0,0,0,.55)}
+body.light-mode .bw-reach-links a{color:#0c0c0c;background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.16)}
 @media(prefers-reduced-motion:reduce){.bw-paper,.bw-folder-front,.bw-wrap,#buildModal{transition:none}}
 @media(max-width:480px){.bw-folder{transform:scale(.86);transform-origin:50% 100%;margin-bottom:-60px}.bw-card{padding:56px 18px 20px}}
 </style>
@@ -4494,6 +4502,15 @@ void main(){
         <button type="submit" class="bw-cta bw-submit" id="bwSubmit">Send message</button>
         <a class="bw-ghost" id="bwPortfolio" href="https://overdesk.store/portfolio/" target="_blank" rel="noopener noreferrer">Visit my portfolio</a>
         <div class="bw-msg" id="bwStatus" role="status" aria-live="polite"></div>
+        <div class="bw-reach">
+          <span>Or reach me directly</span>
+          <div class="bw-reach-links">
+            <a href="mailto:support@overdesk.store">Email</a>
+            <a href="https://wa.me/2349011190112" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a href="https://t.me/+2349011190112" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a href="https://x.com/Overdesks" target="_blank" rel="noopener noreferrer">X</a>
+          </div>
+        </div>
       </form>
       <div class="bw-done" id="bwDone">
         <h3>Message sent &#127881;</h3>
@@ -4929,6 +4946,8 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
 <script>
 (function(){
   var TO_EMAIL = 'support@overdesk.store';
+  // Optional: paste a free Web3Forms access key (web3forms.com) to send without the FormSubmit activation step.
+  var WEB3FORMS_KEY = '';
   var modal = document.getElementById('buildModal');
   var folder = document.getElementById('bwFolder');
   var card = document.getElementById('bwCard');
@@ -5000,30 +5019,37 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
     submitBtn.disabled = true;
     statusEl.className = 'bw-msg'; statusEl.textContent = 'Sending…';
 
-    fetch('https://formsubmit.co/ajax/' + TO_EMAIL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        message: message,
-        _subject: 'Build your website request from ' + name,
-        _template: 'table',
-        _captcha: 'false'
-      })
-    }).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return {ok:r.ok, data:d}; }); })
+    var subject = 'Build your website request from ' + name;
+    var req = WEB3FORMS_KEY
+      ? fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ access_key: WEB3FORMS_KEY, name: name, email: email, message: message, subject: subject })
+        })
+      : fetch('https://formsubmit.co/ajax/' + TO_EMAIL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name: name, email: email, message: message, _subject: subject, _template: 'table', _captcha: 'false' })
+        });
+    req.then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return {ok:r.ok, status:r.status, data:d}; }); })
     .then(function(res){
       if(res.ok && String(res.data.success) !== 'false'){
         card.classList.add('bw-sent');
         folderOpen(false);
         later(function(){ folderOpen(true); }, 350);
         statusEl.textContent = '';
-      } else { throw new Error('send failed'); }
-    }).catch(function(){
+      } else { throw new Error(res.data.message || ('Server replied ' + res.status)); }
+    }).catch(function(err){
+      console.error('Build form: send failed', err);
+      var why = location.protocol === 'file:'
+        ? 'Open this page from your live website, not a local file.'
+        : (err && /failed to fetch|networkerror|load failed/i.test(err.message)
+            ? 'The request was blocked (ad blocker, offline, or the form service is not reachable).'
+            : String((err && err.message) || '').slice(0, 140));
       var body = 'Name: ' + name + '\nEmail: ' + email + '\n\nWhat we do: ' + message;
-      var href = 'mailto:' + TO_EMAIL + '?subject=' + encodeURIComponent('Build your website request from ' + name) + '&body=' + encodeURIComponent(body);
+      var href = 'mailto:' + TO_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       statusEl.className = 'bw-msg bw-err';
-      statusEl.textContent = 'Could not send automatically. ';
+      statusEl.textContent = 'Could not send automatically. ' + (why ? why + ' ' : '');
       var a = document.createElement('a');
       a.href = href; a.textContent = 'Send it from your email app instead';
       a.style.cssText = 'color:#3D81E3;font-weight:600;text-decoration:underline';

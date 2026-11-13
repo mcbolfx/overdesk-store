@@ -65,6 +65,7 @@ h2{font:500 clamp(2.3rem,6vw,3.5rem)/1.05 Fraunces,Georgia,serif;letter-spacing:
 .card header{display:flex;align-items:center;gap:10px;padding:.5rem .25rem 0;font-size:14px;font-weight:500}
 .card header span{width:32px;height:32px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center}
 .shot{border-radius:1rem;box-shadow:0 0 0 1px var(--line);overflow:hidden;position:relative;display:grid;place-items:center}
+.shot iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform-origin:0 0;pointer-events:none;background:#fff}
 .shot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .shot .ui{width:72%;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 12px 30px rgba(0,0,0,.18);padding:14px;display:grid;gap:8px;color:#222;font-size:11px;font-weight:600}
 .shot .ui s{display:block;height:7px;border-radius:99px;background:rgba(0,0,0,.12)}
@@ -147,21 +148,21 @@ h2{font:500 clamp(2.3rem,6vw,3.5rem)/1.05 Fraunces,Georgia,serif;letter-spacing:
   <div class="grid">
     <a class="card" href="https://versustrade.co" target="_blank" rel="noopener noreferrer">
       <header><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>versustrade.co</header>
-      <div class="shot" style="aspect-ratio:16/10;background:linear-gradient(135deg,#1c1c1c,#0a0a0a)"><img data-shot="https://versustrade.co" data-local="/portfolio/previews/versustrade.jpg" alt="Preview of versustrade.co"></div>
+      <div class="shot" style="aspect-ratio:16/10;background:linear-gradient(135deg,#1c1c1c,#0a0a0a)"><img class="loc" data-local="previews/versustrade.jpg" alt="Preview of versustrade.co" hidden><iframe src="https://versustrade.co" title="Live preview of versustrade.co" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
       <h3>A crypto and gift card exchange site for customers in Nigeria.</h3>
       <p>Live rates and markets, a gift card selling flow, guides, and chat or WhatsApp support, all on one fast site.</p>
       <small>Web Developer · Live site</small>
     </a>
     <a class="card" href="https://overdesk.store" target="_blank" rel="noopener noreferrer">
       <header><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>overdesk.store</header>
-      <div class="shot" style="aspect-ratio:16/10;background:linear-gradient(135deg,#2b2b2b,#0c0c0c)"><img data-shot="https://overdesk.store" data-local="/portfolio/previews/overdesk.jpg" alt="Preview of overdesk.store"></div>
+      <div class="shot" style="aspect-ratio:16/10;background:linear-gradient(135deg,#2b2b2b,#0c0c0c)"><img class="loc" data-local="previews/overdesk.jpg" alt="Preview of overdesk.store" hidden><iframe src="https://overdesk.store" title="Live preview of overdesk.store" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
       <h3>The product site for Overdesk, from pricing to demo booking.</h3>
       <p>A single-page site with light and dark themes, clear pricing, a free trial, and a Build your website request form.</p>
       <small>Founder &amp; Web Developer · Live site</small>
     </a>
     <a class="card" href="https://overdesk.store" target="_blank" rel="noopener noreferrer">
       <header><span><svg viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16M19 9l-5 5-4-4-3 3"/></svg></span>Overdesk Nexus</header>
-      <div class="shot" style="aspect-ratio:4/3;background:#6d4fd6"><img src="/portfolio/rhythm.webp" alt="Overdesk Nexus dashboard preview" loading="lazy"></div>
+      <div class="shot" style="aspect-ratio:4/3;background:#6d4fd6"><img src="rhythm.webp" alt="Overdesk Nexus dashboard preview" loading="lazy"></div>
       <h3>A floating overlay that keeps your news calendar and trading checklist in view.</h3>
       <p>Live economic events, pre-event alerts, and a checklist that stays above your charts so you trade with a plan.</p>
       <small>Founder &amp; Engineer</small>
@@ -175,7 +176,7 @@ h2{font:500 clamp(2.3rem,6vw,3.5rem)/1.05 Fraunces,Georgia,serif;letter-spacing:
     </a>
         <a class="card" href="#contact">
       <header><span><svg viewBox="0 0 24 24"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg></span>Websites for brands</header>
-      <div class="shot" style="aspect-ratio:4/3;background:#6670d4"><img src="/portfolio/groove.webp" alt="Website design preview" loading="lazy"></div>
+      <div class="shot" style="aspect-ratio:4/3;background:#6670d4"><img src="groove.webp" alt="Website design preview" loading="lazy"></div>
       <h3>Tell me what your brand does, and I’ll design and build the website.</h3>
       <p>Clear pages, quick loading, and a layout that fits your business. Send a short message to start.</p>
       <small>Web Developer</small>
@@ -199,6 +200,7 @@ h2{font:500 clamp(2.3rem,6vw,3.5rem)/1.05 Fraunces,Georgia,serif;letter-spacing:
         <a href="mailto:support@overdesk.store" aria-label="Email"><svg viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></a>
         <a href="https://wa.me/2349011190112" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M3 21l1.65-4.9A8.5 8.5 0 1 1 8 19.4L3 21z"/></svg></a>
         <a href="https://overdesk.store" target="_blank" rel="noopener noreferrer" aria-label="Overdesk website"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></a>
+        <a href="https://t.me/+2349011190112" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21 3 3 10.5l6 2.5 2.5 6 3-4 5 3z"/><path d="m9 13 12-10"/></svg></a>
         <a href="https://x.com/Overdesks" target="_blank" rel="noopener noreferrer" aria-label="Overdesk on X"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4 4 20"/></svg></a>
       </div>
       <div><p>2026 © Blessing, CEO of Overdesk</p><p>support@overdesk.store · +234 901 119 0112</p></div>
@@ -214,18 +216,13 @@ h2{font:500 clamp(2.3rem,6vw,3.5rem)/1.05 Fraunces,Georgia,serif;letter-spacing:
   document.getElementById('theme').addEventListener('click',function(){
     var d=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=d;try{localStorage.setItem(key,d)}catch(e){}
   });
-  document.querySelectorAll('img[data-shot]').forEach(function(img){
-    var tries=0,first='';
-    function remote(){img.src='https://s.wordpress.com/mshots/v1/'+encodeURIComponent(img.dataset.shot)+'?w=1280&h=800&r='+tries}
-    img.onerror=function(){if(img.dataset.stage==='local'){img.dataset.stage='remote';remote()}else{img.remove()}};
-    img.onload=function(){
-      if(img.dataset.stage!=='remote')return;
-      var d=img.naturalWidth+'x'+img.naturalHeight;
-      if(!first)first=d;else if(d!==first)return;
-      if(tries++<6)setTimeout(remote,5000);
-    };
-    img.dataset.stage='local';img.src=img.dataset.local;
+  document.querySelectorAll('img.loc').forEach(function(img){
+    img.onload=function(){img.hidden=false;var f=img.parentNode.querySelector('iframe');if(f)f.remove()};
+    img.onerror=function(){img.remove()};
+    img.src=img.dataset.local;
   });
+  function fit(){document.querySelectorAll('.shot iframe').forEach(function(f){f.style.transform='scale('+(f.parentNode.clientWidth/1280)+')'})}
+  fit();addEventListener('resize',fit);addEventListener('load',fit);
   var mb=document.getElementById('showMail'),mt=document.getElementById('mailText'),MAIL='support@overdesk.store';
   mb.addEventListener('click',function(){
     if(mb.dataset.open){location.href='mailto:'+MAIL;return}
