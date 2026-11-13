@@ -4947,7 +4947,7 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
 (function(){
   var TO_EMAIL = 'support@overdesk.store';
   // Optional: paste a free Web3Forms access key (web3forms.com) to send without the FormSubmit activation step.
-  var WEB3FORMS_KEY = '';
+  var WEB3FORMS_KEY = 'd7e478f9-3fdd-4d3b-8295-badc62b73534';
   var modal = document.getElementById('buildModal');
   var folder = document.getElementById('bwFolder');
   var card = document.getElementById('bwCard');
@@ -5054,6 +5054,11 @@ document.querySelectorAll('.js-annual-btn').forEach(function(btn){
       a.href = href; a.textContent = 'Send it from your email app instead';
       a.style.cssText = 'color:#3D81E3;font-weight:600;text-decoration:underline';
       statusEl.appendChild(a);
+      var g = document.createElement('a');
+      g.href = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + TO_EMAIL + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      g.target = '_blank'; g.rel = 'noopener noreferrer'; g.textContent = 'Open in Gmail';
+      g.style.cssText = 'color:#3D81E3;font-weight:600;text-decoration:underline;margin-left:10px';
+      statusEl.appendChild(g);
     }).then(function(){ submitBtn.disabled = false; });
   });
 })();
