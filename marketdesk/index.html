@@ -105,7 +105,6 @@ button:disabled{opacity:.35;cursor:default}
 button:disabled:hover{background:none}
 #c[data-cur=dot],#c[data-cur=dot] *{cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><circle cx='7' cy='7' r='4' fill='%23131722' stroke='white' stroke-width='1.2'/></svg>") 7 7,default!important}
 #c[data-cur=arrow],#c[data-cur=arrow] *{cursor:default!important}
-#c[data-cur=cross],#c[data-cur=cross] *{cursor:grab!important}
 #c.panning,#c.panning *{cursor:grabbing!important}
 #c[data-cur=none],#c[data-cur=none] *{cursor:none!important}
 #sbar{position:absolute;z-index:7;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--bg);border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18)}
@@ -189,10 +188,26 @@ button:disabled:hover{background:none}
 .dfoot{display:flex;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}
 #dlg .btn{border:1px solid var(--line);border-radius:8px;padding:9px 16px}
 #dlg .btn.pri{background:#131722;color:#fff;border-color:#131722;font-weight:600}
-#dlg{display:flex;justify-content:flex-end;align-items:stretch;overflow:hidden}
-#dlg[hidden]{display:none}
-#dlg .card{position:relative;z-index:2;width:min(680px,100vw);max-width:100vw;height:100%;border-radius:0;border-width:0 0 0 1px;display:flex;flex-direction:column}
-#dlg .dbody{height:auto;flex:1;min-height:0}
+@media (min-width:761px){
+  #dlg .card{width:min(800px,96vw);border-radius:16px;overflow:hidden}
+  #dlg .dh{padding:18px 24px;font-size:20px}
+  #dlg .dbody{height:min(600px,72vh)}
+  #dtabs{width:230px;padding:12px;overflow:auto}
+  #dtabs .dt{gap:14px;padding:12px 14px;margin-bottom:2px;border-radius:10px;font-weight:500}
+  #dtabs .dt.on{background:var(--hover);color:var(--acc);font-weight:600}
+  #dpane{padding:6px 28px 22px;overflow-x:hidden}
+  .sh{margin:24px 0 6px;font-weight:600;letter-spacing:.06em}
+  .sr{min-height:52px;gap:12px}
+  .sl{width:auto;flex:1 1 200px;min-width:0}
+  #dlg .s{width:190px;min-width:0;height:40px;padding:0 12px;border-radius:8px;font-size:14px}
+  #dlg .n{width:120px;height:40px;border-radius:8px}
+  #dlg input[type=color]{width:40px;height:40px;padding:4px;border-radius:8px}
+  #dlg input[type=checkbox]{width:20px;height:20px}
+  .sr.sepr .s{width:96px}
+  #dlg .btn{padding:10px 18px;border-radius:10px}
+  .dfoot{padding:16px 24px}
+}
+@media (max-width:760px){.sl{width:auto;flex:1 1 110px;min-width:0}#dlg .s{min-width:0;width:140px}.sr.sepr .s{width:80px}#dpane{overflow-x:hidden}}
 #tplm{top:auto;bottom:calc(100% + 4px);min-width:200px}
 .mk{display:inline-block;width:8px;height:8px;border-radius:50%;background:#787b86}
 .mk.ok{background:#089981}
@@ -368,7 +383,6 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   #dlg .s{min-width:0;max-width:60vw}
 }
 </style>
-<!-- Drawing tools build: retains the original vertical side toolbar; extensions are based on Lightweight Charts 4.1 drawing primitives/examples. -->
 </head>
 <body>
 <div class="top">
@@ -389,7 +403,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <button id="fs" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
   <button id="th" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path id="ic" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
 </div>
-<div class="main" data-wb="left">
+<div class="main" data-wb="right">
   <nav id="wbar" aria-label="Widgets">
     <button id="wb-wl" title="Watchlist" aria-label="Watchlist"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-3-6 3z"/><path d="M9.5 8h5M9.5 12h5"/></svg></button>
     <button id="wb-al" title="Alerts" aria-label="Alerts"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.4 1.6M5 4.5 3 6.5M19 4.5l2 2"/></svg><span class="wbadge" hidden></span></button>
@@ -430,7 +444,6 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 <div id="dlg" hidden><div class="card"><div class="dh"><b>Settings</b><button id="dx" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="dbody"><nav id="dtabs"></nav><div id="dpane"></div></div><div class="dfoot"><div class="dd"><button id="tpl" class="btn">Template ▾</button><div id="tplm" class="menu" hidden></div></div><span class="sp"></span><button id="dcancel" class="btn">Cancel</button><button id="dok" class="btn pri">Ok</button></div></div></div>
 <div class="foot">
   <div id="rg"></div>
-  <a href="https://www.tradingview.com" target="_blank" rel="noopener" style="color:var(--mut);font-size:11px;margin-left:14px;text-decoration:none">Charts by TradingView Lightweight Charts™ · build 4 (replay bar)</a>
   <span class="sp"></span>
   <span class="dd"><button id="clk" style="margin-right:4px;font-variant-numeric:tabular-nums" aria-haspopup="true"></button><div id="tzm" class="menu" hidden></div></span>
   <span id="sm" data-v="hover"><button id="pct">%</button><button id="log">log</button><button id="auto" class="on">auto</button></span>
@@ -473,9 +486,10 @@ let wl = Array.isArray(S.wl) ? S.wl.filter(s => SYMS[s]) : [], wlOpen = S.wlOpen
 const DEF = { prevClose: false, body: true, bodyUp: '#089981', bodyDn: '#f23645', border: true, borderUp: '#089981', borderDn: '#f23645', wick: true, wickUp: '#089981', wickDn: '#f23645', prec: 'auto',
   title: true, titleMode: 'desc', mkt: true, ohlc: true, chg: true, lgBg: true, lgAlpha: 0.5,
   scaleBtns: 'hover', lockOn: false, ratio: 1, countdown: false, lastMode: 'both', hl: 'hidden', weekday: true, dfmt: 'dmy', h12: false, keepLeft: false,
-  bgType: 'solid', bg: '', grid: 'both', gridV: '', gridH: '', cross: '', wm: 'none', wmColor: '', txt: '', fs: 12, lines: '', nav: 'hover', mt: 10, mb: 8, mr: 10,
-  wbSide: 'left', sepDHour: 1, sepDHide: '', sepWHide: '', sepD: true, sepDCol: '#787b86', sepDW: 1, sepDSt: 'dashed', sepW: true, sepWCol: '#2962ff', sepWW: 1, sepWSt: 'solid' };
+  bgType: 'solid', bg: '', bg2: '', grid: 'both', gridVOn: true, gridHOn: true, gridV: '', gridH: '', crossSt: '3', alSound: true, alToast: true, alNotify: true, alLines: true, cross: '', wm: 'none', wmColor: '', txt: '', fs: 12, lines: '', nav: 'hover', mt: 10, mb: 8, mr: 10,
+  wbs: 'right', sepDHour: 1, sepDHide: '', sepWHide: '', sepD: true, sepDCol: '#787b86', sepDW: 1, sepDSt: 'dashed', sepW: true, sepWCol: '#2962ff', sepWW: 1, sepWSt: 'solid' };
 let cs = Object.assign({}, DEF, S.cs || {}), keepLeft = null;
+if (S.cs && S.cs.gridVOn === undefined && S.cs.grid) { cs.gridVOn = cs.grid === 'both' || cs.grid === 'v'; cs.gridHOn = cs.grid === 'both' || cs.grid === 'h'; }
 UP = cs.bodyUp; DOWN = cs.bodyDn;
 const save = () => { try { localStorage.dc = JSON.stringify({ sym, gran, type, dark, favs, favT, ftb: ftbPos, tz, wl, wlOpen, wlW, wlWm, alerts, cursor: cursorMode, cs, rp: { speed: replay.speed, tr: replay.tr } }); } catch (e) {} };
 
@@ -595,10 +609,22 @@ function remapL(d, f) { ['a', 'b', 'e'].forEach(k => { if (d[k] && d[k].l != nul
 function lToT(l) { const n = candles.length; if (!n) return 0; if (l <= 0) return candles[0].time + l * gran; if (l >= n - 1) return candles[n - 1].time + (l - (n - 1)) * gran; const i = Math.floor(l); return candles[i].time + (l - i) * (candles[i + 1].time - candles[i].time); }
 function tToL(t) { const n = candles.length; if (!n) return 0; if (t <= candles[0].time) return (t - candles[0].time) / gran; if (t >= candles[n - 1].time) return n - 1 + (t - candles[n - 1].time) / gran; let lo = 0, hi = n - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (candles[m].time <= t) lo = m; else hi = m - 1; } return lo + (t - candles[lo].time) / Math.max(1, candles[lo + 1].time - candles[lo].time); }
 function stashDraw() { return D.length && candles.length ? D.map(d => remapL(JSON.parse(JSON.stringify(d)), lToT)) : null; }
-function restoreDraw() { if (!drawStash) return; D = drawStash.map(d => remapL(d, tToL)); drawStash = null; undoS = []; redoS = []; sel = -1; }
+function tagOld(d, t0) {   // an anchor older than the loaded candles keeps its time until that history arrives
+  ['a', 'b', 'e'].forEach(k => { const q = d[k]; if (q && q.l != null && q.l < t0) q.t = q.l; });
+  if (d.pts) d.pts.forEach(q => { if (q.l < t0) q.t = q.l; });
+  return d;
+}
+function refineDraw() {
+  if (!candles.length) return; const t0 = candles[0].time, fix = q => { if (q && q.t != null && q.t >= t0) { q.l = tToL(q.t); delete q.t; } };
+  D.forEach(d => { ['a', 'b', 'e'].forEach(k => fix(d[k])); if (d.pts) d.pts.forEach(fix); });
+}
+function restoreDraw() {
+  if (!drawStash) return; const t0 = candles.length ? candles[0].time : 0;
+  D = drawStash.map(d => remapL(tagOld(d, t0), tToL)); drawStash = null; undoS = []; redoS = []; sel = -1;
+}
 function clearDraw() { D = []; undoS = []; redoS = []; p1 = null; cur = null; down = null; syncDraw(); updUR(); }
 function idle() { setTool(cursorMode); }
-function doneDraw() { p1 = null; cur = null; down = null; hint(tool); }   // a drawing is finished: keep the same tool for the next one
+function doneDraw() { idle(); }   // a drawing is finished: back to the cursor
 function applyCursor() {
   const hide = ['arrow', 'demo', 'eraser'].includes(tool);   // cross and dot both show the crosshair
   chart.applyOptions({ crosshair: { vertLine: { visible: !hide && lockL == null, labelVisible: !hide && lockL == null }, horzLine: { visible: !hide, labelVisible: !hide } } });
@@ -623,22 +649,18 @@ Object.assign(IC, {
   dot: SV('<circle cx="12" cy="12" r="2.8" fill="currentColor"/>'),
   arrow: SV('<path d="M6 4v15l4-4 3 6.5 2.4-1.1L12.3 14H18z"/>'),
   demo: SV('<circle cx="12" cy="12" r="9"/><path d="M9.5 8v8l2.5-2.3 1.8 3.3 1.3-.7-1.8-3.2 3.2-.1z"/>'),
-  eraser: SV('<path d="M5 15l8-8 6 6-6 6H9z"/><path d="M9 19h11M10 10l6 6"/>'),
-  ray: SV('<path d="M4 18L18 4M12 4h6v6"/>'), extline: SV('<path d="M3 21L21 3M3 21h7M21 3v7"/>'),
-  fib: SV('<path d="M4 5h16M4 10h16M4 15h16M4 20h16M7 3v19"/>'),
-  circle: SV('<circle cx="12" cy="12" r="8"/>'), triangle: SV('<path d="M12 4L21 20H3z"/>')
+  eraser: SV('<path d="M5 15l8-8 6 6-6 6H9z"/><path d="M9 19h11M10 10l6 6"/>')
 });
 const GROUPS = {
   cursors: { title: 'Cursors', items: [['cross', 'Cross', ''], ['dot', 'Dot', ''], ['arrow', 'Arrow', ''], ['demo', 'Demonstration', ''], ['eraser', 'Eraser', '']] },
-  lines: { title: 'Lines', items: [['trend', 'Trend Line', 'Alt + T'], ['ray', 'Ray', ''], ['extline', 'Extended Line', ''], ['hline', 'Horizontal Line', 'Alt + H'], ['hray', 'Horizontal Ray', 'Alt + J'], ['vline', 'Vertical Line', 'Alt + V'], ['crossline', 'Cross Line', 'Alt + C']] },
-  fib: { title: 'Fibonacci', items: [['fib', 'Fibonacci Retracement', '']] },
+  lines: { title: 'Lines', items: [['trend', 'Trend Line', 'Alt + T'], ['hline', 'Horizontal Line', 'Alt + H'], ['hray', 'Horizontal Ray', 'Alt + J'], ['vline', 'Vertical Line', 'Alt + V'], ['crossline', 'Cross Line', 'Alt + C']] },
   brush: { title: 'Brushes', items: [['brush', 'Brush', '']] },
-  shapes: { title: 'Shapes', items: [['rect', 'Rectangle', 'Alt + Shift + R'], ['circle', 'Circle', ''], ['triangle', 'Triangle', '']] },
+  shapes: { title: 'Shapes', items: [['rect', 'Rectangle', 'Alt + Shift + R']] },
   proj: { title: 'Projection', items: [['long', 'Long Position', ''], ['short', 'Short Position', '']] }
 };
-const last = { cursors: cursorMode, lines: 'trend', fib: 'fib', brush: 'brush', shapes: 'rect', proj: 'long' };
-const CTOOLS = ['hray', 'vline', 'crossline', 'rect', 'brush', 'long', 'short', 'eraser', 'trend', 'hline', 'ray', 'extline', 'fib', 'circle', 'triangle'];
-const HINT = { eraser: 'Click a drawing to delete it', trend: 'Click two points', ray: 'Click two points to set the ray', extline: 'Click two points to set the extended line', fib: 'Click two points to place Fibonacci levels', circle: 'Drag to size the circle', triangle: 'Drag to size the triangle', hline: 'Click to place', hray: 'Click to place', vline: 'Click to place', crossline: 'Click to place', rect: 'Drag, or click two corners', brush: 'Click and drag to draw', long: 'Click to set entry', short: 'Click to set entry' };
+const last = { cursors: cursorMode, lines: 'trend', brush: 'brush', shapes: 'rect', proj: 'long' };
+const CTOOLS = ['hray', 'vline', 'crossline', 'rect', 'brush', 'long', 'short', 'eraser', 'trend', 'hline'];
+const HINT = { eraser: 'Click a drawing to delete it', trend: 'Click two points', hline: 'Click to place', hray: 'Click to place', vline: 'Click to place', crossline: 'Click to place', rect: 'Drag, or click two corners', brush: 'Click and drag to draw', long: 'Click to set entry', short: 'Click to set entry' };
 const nameOf = id => { for (const g of Object.values(GROUPS)) for (const i of g.items) if (i[0] === id) return i[1]; };
 
 function hint(t, extra) { const s = extra || HINT[t] || ''; $('#hint').hidden = !s; $('#hint').textContent = s; }
@@ -681,7 +703,7 @@ $('#fly').onclick = e => {
 const GRIP = '<svg viewBox="0 0 12 20"><g fill="currentColor" stroke="none"><circle cx="3" cy="4" r="1.3"/><circle cx="9" cy="4" r="1.3"/><circle cx="3" cy="10" r="1.3"/><circle cx="9" cy="10" r="1.3"/><circle cx="3" cy="16" r="1.3"/><circle cx="9" cy="16" r="1.3"/></g></svg>';
 function placeFtb() {
   const el = $('#ftb'), st = $('.stage'); if (el.hidden) return;
-  const mx = Math.max(0, st.clientWidth - el.offsetWidth), my = Math.max(0, st.clientHeight - el.offsetHeight);
+  const mx = Math.max(0, st.clientWidth - el.offsetWidth), my = Math.max(0, st.clientHeight + document.querySelector('.foot').offsetHeight - el.offsetHeight);
   const x = ftbPos ? ftbPos.x : (st.clientWidth - el.offsetWidth) / 2, y = ftbPos ? ftbPos.y : 56;
   el.style.left = Math.min(Math.max(0, x), mx) + 'px'; el.style.top = Math.min(Math.max(0, y), my) + 'px';
 }
@@ -777,7 +799,7 @@ $('#ftb').addEventListener('pointerdown', e => {
   const el = $('#ftb'), r = el.getBoundingClientRect(), s = $('.stage').getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
   el.setPointerCapture(e.pointerId); el.classList.add('drag'); e.preventDefault();
   const mv = ev => {
-    ftbPos = { x: Math.min(Math.max(0, ev.clientX - s.left - dx), s.width - el.offsetWidth), y: Math.min(Math.max(0, ev.clientY - s.top - dy), s.height - el.offsetHeight) };
+    ftbPos = { x: Math.min(Math.max(0, ev.clientX - s.left - dx), s.width - el.offsetWidth), y: Math.min(Math.max(0, ev.clientY - s.top - dy), s.height + document.querySelector('.foot').offsetHeight - el.offsetHeight) };
     el.style.left = ftbPos.x + 'px'; el.style.top = ftbPos.y + 'px';
   };
   const up = () => { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', up); el.classList.remove('drag'); save(); };
@@ -844,24 +866,7 @@ function paintShape(d, pw, ph) {
     { const [sx, sy, ex, ey] = trendEnds(d, x, y, x2, y2, pw); ln(sx, sy, ex, ey); } ctx.fillStyle = dark ? '#131722' : '#fff';
     [[x, y], [x2, y2]].forEach(q => { ctx.beginPath(); ctx.arc(q[0], q[1], 4, 0, 7); ctx.fill(); ctx.stroke(); });
   }
-  else if (d.type === 'ray' || d.type === 'extline') {
-    const x2=LX(d.b.l), y2=PY(d.b.p); if ([x,y,x2,y2].some(v=>v==null)||x===x2) return;
-    const k=(y2-y)/(x2-x); let sx=x,sy=y,ex=x2,ey=y2;
-    if (d.type==='ray') { ex=x2>=x?pw:0; ey=y+k*(ex-x); } else { sx=0; sy=y+k*(0-x); ex=pw; ey=y+k*(pw-x); }
-    ln(sx,sy,ex,ey);
-  }
-  else if (d.type === 'fib') {
-    const x2=LX(d.b.l), y2=PY(d.b.p); if ([x,y,x2,y2].some(v=>v==null)) return;
-    ctx.font='11px "Trebuchet MS",sans-serif'; ctx.textAlign='left'; ctx.textBaseline='bottom';
-    [0,.236,.382,.5,.618,.786,1].forEach(v=>{ const yy=y+(y2-y)*v; ln(Math.min(x,x2),yy,pw,yy); ctx.fillStyle=blue; ctx.fillText(`${(v*100).toFixed(1)}%`,Math.max(x,x2)+5,yy-2); });
-  }
-  else if (['rect','circle','triangle'].includes(d.type)) {
-    const x2=LX(d.b.l), y2=PY(d.b.p); if ([x,y,x2,y2].some(v=>v==null)) return;
-    const l=Math.min(x,x2), t=Math.min(y,y2), w=Math.abs(x2-x), h=Math.abs(y2-y);
-    if(d.type==='rect'){ctx.fillRect(l,t,w,h);ctx.setLineDash(dsh);ctx.strokeRect(l,t,w,h);ctx.setLineDash([]);}
-    else if(d.type==='circle'){ctx.beginPath();ctx.ellipse(l+w/2,t+h/2,Math.max(1,w/2),Math.max(1,h/2),0,0,Math.PI*2);ctx.fill();ctx.stroke();}
-    else{ctx.beginPath();ctx.moveTo(l+w/2,t);ctx.lineTo(l+w,t+h);ctx.lineTo(l,t+h);ctx.closePath();ctx.fill();ctx.stroke();}
-  }
+  else if (d.type === 'rect') { const x2 = LX(d.b.l), y2 = PY(d.b.p); if ([x, y, x2, y2].some(v => v == null)) return; ctx.fillRect(x, y, x2 - x, y2 - y); ctx.setLineDash(dsh); ctx.strokeRect(x, y, x2 - x, y2 - y); ctx.setLineDash([]); }
   else {
     const x2 = LX(d.r), yt = PY(d.t), ys = PY(d.s); if ([x, y, x2, yt, ys].some(v => v == null)) return;
     const w = x2 - x, tg = Math.abs(d.t - d.e.p), sp = Math.abs(d.e.p - d.s), pc = v => (v / d.e.p * 100).toFixed(2) + '%', G = '#089981', R = '#f23645';
@@ -884,8 +889,7 @@ function hit(x, y) {
   const T = COARSE ? 16 : 7, ts = chart.timeScale();
   for (let i = D.length - 1; i >= 0; i--) {
     const d = D[i], a = d.a || d.e; let ok = false; if (!drawVisible(d)) continue;
-    if (['trend','ray','extline'].includes(d.type)) { const x1=LX(d.a.l),x2=LX(d.b.l),y1=PY(d.a.p),y2=PY(d.b.p); if([x1,x2,y1,y2].every(v=>v!=null)){let sx=x1,sy=y1,ex=x2,ey=y2;if(d.type==='ray'&&x1!==x2){const k=(y2-y1)/(x2-x1);ex=x2>=x1?psz()[0]:0;ey=y1+k*(ex-x1);}else if(d.type==='extline'&&x1!==x2){const k=(y2-y1)/(x2-x1);sx=0;sy=y1+k*(0-x1);ex=psz()[0];ey=y1+k*(ex-x1);}else if(d.type==='trend')[sx,sy,ex,ey]=trendEnds(d,x1,y1,x2,y2,psz()[0]);ok=segDist(x,y,sx,sy,ex,ey)<T;} }
-    else if (d.type === 'fib') { const x1=LX(d.a.l),x2=LX(d.b.l),y1=PY(d.a.p),y2=PY(d.b.p); if([x1,x2,y1,y2].every(v=>v!=null))ok=[0,.236,.382,.5,.618,.786,1].some(v=>Math.abs(y-(y1+(y2-y1)*v))<T&&x>=Math.min(x1,x2)); }
+    if (d.type === 'trend') { const x1 = LX(d.a.l), x2 = LX(d.b.l), y1 = PY(d.a.p), y2 = PY(d.b.p); ok = [x1, x2, y1, y2].every(v => v != null) && (() => { const [sx, sy, ex, ey] = trendEnds(d, x1, y1, x2, y2, psz()[0]); return segDist(x, y, sx, sy, ex, ey); })() < T; }
     else if (d.type === 'hline') { const yy = PY(d.price); ok = yy != null && Math.abs(y - yy) < T; }
     else if (d.type === 'brush') { const P = d.pts.map(q => [LX(q.l), PY(q.p)]); for (let k = 1; k < P.length && !ok; k++) ok = P[k][0] != null && P[k - 1][0] != null && segDist(x, y, P[k - 1][0], P[k - 1][1], P[k][0], P[k][1]) < T; }
     else {
@@ -893,7 +897,7 @@ function hit(x, y) {
       if (d.type === 'hray') ok = Math.abs(y - y0) < T && x >= x0 - T;
       else if (d.type === 'vline') ok = Math.abs(x - x0) < T;
       else if (d.type === 'crossline') ok = Math.abs(x - x0) < T || Math.abs(y - y0) < T;
-      else if (['rect','circle','triangle'].includes(d.type)) { const x2=LX(d.b.l),y2=PY(d.b.p); if(x2!=null&&y2!=null){const l=Math.min(x0,x2),r=Math.max(x0,x2),t=Math.min(y0,y2),b=Math.max(y0,y2);if(d.type==='rect')ok=x>=l-T&&x<=r+T&&y>=t-T&&y<=b+T;else if(d.type==='circle'){const rx=Math.max(1,(r-l)/2),ry=Math.max(1,(b-t)/2),v=((x-(l+r)/2)/rx)**2+((y-(t+b)/2)/ry)**2;ok=Math.abs(v-1)<.25;}else ok=x>=l-T&&x<=r+T&&y>=t-T&&y<=b+T;} }
+      else if (d.type === 'rect') { const x2 = LX(d.b.l), y2 = PY(d.b.p); ok = x2 != null && y2 != null && x >= Math.min(x0, x2) && x <= Math.max(x0, x2) && y >= Math.min(y0, y2) && y <= Math.max(y0, y2); }
       else { const x2 = LX(d.r), yt = PY(d.t), ys = PY(d.s); ok = [x2, yt, ys].every(v => v != null) && x >= x0 && x <= x2 && y >= Math.min(y0, yt, ys) && y <= Math.max(y0, yt, ys); }
     }
     if (ok) return i;
@@ -913,7 +917,7 @@ function psz() {
 function handles(d, pw) {
   const mk = (l, p, set) => ({ x: LX(l), y: PY(p), set });
   switch (d.type) {
-    case 'trend': case 'ray': case 'extline': case 'fib': case 'rect': case 'circle': case 'triangle': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; }), mk(d.b.l, d.b.p, (l, p) => { d.b.l = l; d.b.p = p; })];
+    case 'trend': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; }), mk(d.b.l, d.b.p, (l, p) => { d.b.l = l; d.b.p = p; })];
     case 'rect': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; }), mk(d.b.l, d.b.p, (l, p) => { d.b.l = l; d.b.p = p; }), mk(d.b.l, d.a.p, (l, p) => { d.b.l = l; d.a.p = p; }), mk(d.a.l, d.b.p, (l, p) => { d.a.l = l; d.b.p = p; })];
     case 'hray': case 'vline': case 'crossline': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; })];
     case 'hline': return [{ x: pw / 2, y: PY(d.price), set: (l, p) => { d.price = p; } }];
@@ -983,15 +987,15 @@ function drawLock() {
 }
 // ---- Settings dialog (Symbol / Status line / Scales and lines / Canvas) ----
 const THM = () => dark ? { bg: '#131722', txt: '#d1d4dc', line: '#2a2e39', grid: '#1e222d' } : { bg: '#ffffff', txt: '#131722', line: '#e0e3eb', grid: '#f0f3fa' };
-const cdef = k => ({ bg: THM().bg, gridV: THM().grid, gridH: THM().grid, cross: '#758696', txt: THM().txt, lines: THM().line, wmColor: '#787b86' })[k];
+const cdef = k => ({ bg: THM().bg, bg2: dark ? '#0b0e14' : '#e8ecf7', gridV: THM().grid, gridH: THM().grid, cross: '#758696', txt: THM().txt, lines: THM().line, wmColor: '#787b86' })[k];
 let prevApplied = false;
 function applyCS() {
   const T = THM(), bg = cs.bg || T.bg;
   UP = cs.bodyUp; DOWN = cs.bodyDn; dec = cs.prec === 'auto' ? dataDec : +cs.prec;
   chart.applyOptions({
     layout: { background: { type: 'solid', color: 'rgba(0,0,0,0)' }, textColor: cs.txt || T.txt, fontSize: +cs.fs },
-    grid: { vertLines: { visible: cs.grid === 'both' || cs.grid === 'v', color: cs.gridV || T.grid }, horzLines: { visible: cs.grid === 'both' || cs.grid === 'h', color: cs.gridH || T.grid } },
-    crosshair: { vertLine: { color: cs.cross || '#758696' }, horzLine: { color: cs.cross || '#758696' } },
+    grid: { vertLines: { visible: cs.gridVOn !== false, color: cs.gridV || T.grid }, horzLines: { visible: cs.gridHOn !== false, color: cs.gridH || T.grid } },
+    crosshair: { vertLine: { color: cs.cross || '#758696', style: +cs.crossSt }, horzLine: { color: cs.cross || '#758696', style: +cs.crossSt } },
     rightPriceScale: { borderColor: cs.lines || T.line, scaleMargins: { top: cs.mt / 100, bottom: cs.mb / 100 } },
     timeScale: { borderColor: cs.lines || T.line, rightOffset: +cs.mr },
     watermark: { visible: cs.wm !== 'none', text: cs.wm === 'tick' ? lab(sym) : cs.wm === 'desc' ? SYMS[sym] : `${lab(sym)} · ${SYMS[sym]}`, fontSize: 48, color: cs.wmColor ? hexA(cs.wmColor, .25) : 'rgba(120,123,134,.22)', horzAlign: 'center', vertAlign: 'center' }
@@ -1001,7 +1005,7 @@ function applyCS() {
     if (type === 'candles' && (cs.prevClose || prevApplied)) series.setData(shown());
     prevApplied = cs.prevClose;
   }
-  $('#sm').dataset.v = cs.scaleBtns; $('#nav').dataset.v = cs.nav; document.querySelector('.main').dataset.wb = cs.wbSide === 'right' ? 'right' : 'left';
+  $('#sm').dataset.v = cs.scaleBtns; $('#nav').dataset.v = cs.nav; document.querySelector('.main').dataset.wb = cs.wbs === 'left' ? 'left' : 'right';
   $('#lg').style.background = cs.lgBg ? hexA(dark ? '#131722' : '#ffffff', cs.lgAlpha) : 'none';
   legend();
 }
@@ -1028,14 +1032,18 @@ const TABS = [
     ['s', 'h12', 'Time hours format', [['false', '24-hours'], ['true', '12-hours']]],
     ['c', 'keepLeft', 'Save chart left edge position when changing interval']]],
   ['Canvas', I('<path d="M4 20l1-4L16 5l3 3L8 19z"/>'), [
-    ['h', 'Chart basic styles'], ['sc', 'bgType', 'Background', ['bg'], [['solid', 'Solid'], ['gradient', 'Gradient']]],
-    ['sc', 'grid', 'Grid lines', ['gridV', 'gridH'], [['both', 'Vert and horz'], ['v', 'Vert only'], ['h', 'Horz only'], ['none', 'Hidden']]],
-    ['x', 'Session breaks', 'No sessions for Deriv symbols', 'check'], ['col', null, 'Crosshair', ['cross']],
+    ['h', 'Chart basic styles'], ['sc', 'bgType', 'Background', ['bg', 'bg2'], [['solid', 'Solid'], ['gradient', 'Gradient']]],
+    ['cc', 'gridVOn', 'Vertical grid lines', ['gridV']], ['cc', 'gridHOn', 'Horizontal grid lines', ['gridH']],
+    ['x', 'Session breaks', 'No sessions for Deriv symbols', 'check'],
+    ['sc', 'crossSt', 'Crosshair', ['cross'], [['3', 'Large dashed'], ['2', 'Dashed'], ['1', 'Dotted'], ['0', 'Solid']]],
     ['sc', 'wm', 'Watermark', ['wmColor'], [['none', 'Hidden'], ['tick', 'Ticker'], ['desc', 'Description'], ['both', 'Ticker and description']]],
     ['h', 'Period separators'], ['sep', 'sepD', 'Daily separator'], ['n', 'sepDHour', 'Day starts at (Nigeria/Lagos time)', 'h'], ['sep', 'sepW', 'Weekly separator'],
     ['h', 'Scales'], ['sc', 'fs', 'Text', ['txt'], [10, 11, 12, 13, 14, 16].map(n => [String(n), String(n)])], ['col', null, 'Lines', ['lines']],
-    ['h', 'Buttons'], ['s', 'nav', 'Navigation', [['hover', 'Visible on mouse over'], ['always', 'Always visible'], ['hidden', 'Always hidden']]], ['s', 'wbSide', 'Widgets bar', [['left', 'Left side'], ['right', 'Right side']]], ['x', 'Pane', 'Single pane only', 'select'],
-    ['h', 'Margins'], ['n', 'mt', 'Top', '%'], ['n', 'mb', 'Bottom', '%'], ['n', 'mr', 'Right', 'bars']]]
+    ['h', 'Buttons'], ['s', 'nav', 'Navigation', [['hover', 'Visible on mouse over'], ['always', 'Always visible'], ['hidden', 'Always hidden']]], ['s', 'wbs', 'Widgets bar', [['right', 'Right side (price side)'], ['left', 'Left side']]], ['x', 'Pane', 'Single pane only', 'select'],
+    ['h', 'Margins'], ['n', 'mt', 'Top', '%'], ['n', 'mb', 'Bottom', '%'], ['n', 'mr', 'Right', 'bars']]],
+  ['Alerts', I('<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.4 1.6M5 4.5 3 6.5M19 4.5l2 2"/>'), [
+    ['h', 'When an alert triggers'], ['c', 'alSound', 'Play a sound'], ['c', 'alToast', 'Show a message on screen'], ['c', 'alNotify', 'Send a browser notification'],
+    ['h', 'On the chart'], ['c', 'alLines', 'Show alert price lines']]]
 ];
 let tab = 0, csBak = '', tzBak = 'UTC';
 const OPT = (k, o) => `<select class="s" data-k="${k}">${o.map(([v, l]) => `<option value="${v}"${String(cs[k]) === String(v) ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
@@ -1052,8 +1060,8 @@ function rowHTML(r) {
     case 'cr': return `<div class="sr"><label class="sl">${CHK(k)}${l}</label><input type="range" min="0" max="1" step="0.05" data-k="${x}" value="${cs[x]}"></div>`;
     case 'cn': return `<div class="sr"><label class="sl">${CHK(k)}${l}</label><input type="number" class="n" step="any" data-k="${x}" value="${cs[x]}"${cs[k] ? '' : ' disabled'}></div>`;
     case 'col': return `<div class="sr"><span class="sl">${l}</span>${x.map(COL).join('')}</div>`;
-    case 'sc': return `<div class="sr"><span class="sl">${l}</span>${OPT(k, y)}${x.map(COL).join('')}</div>`;
-    case 'sep': { const d = cs[k] ? '' : ' disabled'; return `<div class="sr"><label class="sl">${CHK(k)}${l}</label>${COL(k + 'Col').replace('<input', '<input' + d)}${OPT(k + 'W', [1, 2, 3, 4].map(n => [String(n), n + 'px'])).replace('<select', '<select' + d)}${OPT(k + 'St', [['solid', 'Line'], ['dashed', 'Dash']]).replace('<select', '<select' + d)}</div>`; }
+    case 'sc': return `<div class="sr"><span class="sl">${l}</span>${OPT(k, y)}${x.filter(c => c !== 'bg2' || cs.bgType === 'gradient').map(COL).join('')}</div>`;
+    case 'sep': { const d = cs[k] ? '' : ' disabled'; return `<div class="sr sepr"><label class="sl">${CHK(k)}${l}</label>${COL(k + 'Col').replace('<input', '<input' + d)}${OPT(k + 'W', [1, 2, 3, 4].map(n => [String(n), n + 'px'])).replace('<select', '<select' + d)}${OPT(k + 'St', [['solid', 'Line'], ['dashed', 'Dash']]).replace('<select', '<select' + d)}</div>`; }
     case 'n': return `<div class="sr"><span class="sl">${l}</span><input type="number" class="n" data-k="${k}" value="${cs[k]}" min="0" max="60"><span class="mu">${x}</span></div>`;
     case 'tz': return `<div class="sr"><span class="sl">Timezone</span><select class="s" id="dtz"><option value="UTC">UTC</option><option value="Exchange">Exchange</option>${ZONES.map(([n, id]) => ({ n, id, m: offMin(id) })).sort((a, b) => a.m - b.m || a.n.localeCompare(b.n)).map(z => `<option value="${z.id}">(${offLabel(z.m)}) ${z.n}</option>`).join('')}</select></div>`;
     default: return `<div class="sr dis" title="${l}"><label class="sl"><input type="checkbox" disabled${x === 'on' ? ' checked' : ''}>${k}</label>${x === 'select' ? '<select class="s" disabled><option>—</option></select>' : ''}<span class="mu">${l}</span></div>`;
@@ -1065,18 +1073,8 @@ function renderDlg() {
   pane.innerHTML = TABS[tab][2].map(rowHTML).join(''); pane.scrollTop = st;
   const z = $('#dtz'); if (z) z.value = tz;
 }
-function openSettings() {
-  csBak = JSON.stringify(cs); tzBak = tz; tab = 0; renderDlg();
-  const dlg = $('#dlg'); dlg.hidden = false; dlg.dataset.sm = 'open';
-  smOpen($('#dlg .card'), [...$('#dtabs').children, ...$('#dpane').children]);
-  if (!smReduce) { if (dlg._bg) dlg._bg.cancel(); dlg._bg = dlg.animate([{ backgroundColor: 'rgba(0,0,0,0)' }, { backgroundColor: 'rgba(0,0,0,.35)' }], { duration: 400, easing: 'ease-out' }); }
-}
-function closeDlg() {
-  $('#tplm').hidden = true; const dlg = $('#dlg'); if (dlg.hidden || dlg.dataset.sm === 'closed') return; dlg.dataset.sm = 'closed';
-  if (dlg._bg) dlg._bg.cancel();
-  if (!smReduce) dlg._bg = dlg.animate([{ backgroundColor: 'rgba(0,0,0,.35)' }, { backgroundColor: 'rgba(0,0,0,0)' }], { duration: 320, easing: 'ease-in', fill: 'forwards' });
-  smClose($('#dlg .card'), () => { dlg.hidden = true; if (dlg._bg) { dlg._bg.cancel(); dlg._bg = null; } });
-}
+function openSettings() { csBak = JSON.stringify(cs); tzBak = tz; tab = 0; renderDlg(); $('#dlg').hidden = false; }
+function closeDlg() { $('#dlg').hidden = true; $('#tplm').hidden = true; }
 $('#dtabs').onclick = e => { const b = e.target.closest('[data-i]'); if (b) { tab = +b.dataset.i; renderDlg(); $('#dpane').scrollTop = 0; } };
 const onSet = e => {
   const el = e.target;
@@ -1112,7 +1110,7 @@ function drawExtras() {
   if (!series || !candles.length) return;
   const [pw, ph] = psz(), W = cv.clientWidth, last = candles[lastIdx()];
   ctx.save(); ctx.font = '11px "Trebuchet MS",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.save(); for (const a of alerts) { if (a.sym !== sym || a.hit) continue; const y = PY(a.price); if (y == null || y < 0 || y > ph) continue; ctx.strokeStyle = '#ff9800'; ctx.fillStyle = '#ff9800'; ctx.lineWidth = 1; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke(); ctx.setLineDash([]); ctx.textAlign = 'right'; ctx.fillText('Alert ' + a.price, pw - 6, y - 8); } ctx.restore();
+  ctx.save(); for (const a of alerts) { if (a.sym !== sym || a.hit || cs.alLines === false) continue; const y = PY(a.price); if (y == null || y < 0 || y > ph) continue; ctx.strokeStyle = '#ff9800'; ctx.fillStyle = '#ff9800'; ctx.lineWidth = 1; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke(); ctx.setLineDash([]); ctx.textAlign = 'right'; ctx.fillText('Alert ' + a.price, pw - 6, y - 8); } ctx.restore();
   if (cs.hl !== 'hidden') {
     const rg = chart.timeScale().getVisibleLogicalRange();
     if (rg) {
@@ -1139,8 +1137,11 @@ function drawExtras() {
   stg.addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; const r = stg.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
     if (y > r.height - 120 && Math.abs(x - r.width / 2) < 180) { clearTimeout(navT); navT = 0; nav.setAttribute('data-near', ''); } else if (nav.hasAttribute('data-near') && !navT) away(); });
   stg.addEventListener('pointerleave', away); }
-stg.addEventListener('pointerdown', e => { if (e.button === 0 && e.pointerType !== 'touch' && CUR.includes(tool) && !e.target.closest('#ftb,#dial,#hint,#sbar,#sepop,#nav')) $('#c').classList.add('panning'); }, true);
-['pointerup', 'pointercancel', 'blur'].forEach(t => addEventListener(t, () => $('#c').classList.remove('panning')));
+// the hand only appears while the chart is actually being dragged, never just from moving the mouse over it
+let panDown = null;
+stg.addEventListener('pointerdown', e => { panDown = e.button === 0 && e.pointerType !== 'touch' && CUR.includes(tool) && !e.target.closest('#ftb,#dial,#hint,#sbar,#sepop,#nav') ? { x: e.clientX, y: e.clientY } : null; }, true);
+addEventListener('pointermove', e => { if (panDown && Math.hypot(e.clientX - panDown.x, e.clientY - panDown.y) > 3) $('#c').classList.add('panning'); });
+['pointerup', 'pointercancel', 'blur'].forEach(t => addEventListener(t, () => { panDown = null; $('#c').classList.remove('panning'); }));
 $('#nav').onclick = e => {
   const b = e.target.closest('button'); if (!b) return; if (b.dataset.n === 'reset') return resetView();
   const ts = chart.timeScale(), rg = ts.getVisibleLogicalRange(); if (!rg) return;
@@ -1450,7 +1451,7 @@ function drawBack() {
   if (bgc.width !== cv.width || bgc.height !== cv.height) { bgc.width = cv.width; bgc.height = cv.height; }
   const d = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight, T = THM(), bg = cs.bg || T.bg;
   bx.setTransform(d, 0, 0, d, 0, 0); bx.clearRect(0, 0, W, H);
-  if (cs.bgType === 'gradient') { const g = bx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, bg); g.addColorStop(1, dark ? '#0b0e14' : '#e8ecf7'); bx.fillStyle = g; } else bx.fillStyle = bg;
+  if (cs.bgType === 'gradient') { const g = bx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, bg); g.addColorStop(1, cs.bg2 || (dark ? '#0b0e14' : '#e8ecf7')); bx.fillStyle = g; } else bx.fillStyle = bg;
   bx.fillRect(0, 0, W, H);
   sepHits = [];
   if (!series || !candles.length) return;
@@ -1543,17 +1544,17 @@ cv.addEventListener('pointerdown', e => {
   const q = evPt(e);
   if (tool === 'eraser') { const i = hit(q.x, q.y); if (i >= 0) removeDrawing(i); return; }
   if (q.l == null || q.p == null) return;
-  sel = -1; const pt = { l: q.l, p: q.p };
+  const pt = { l: q.l, p: q.p };
   if (tool === 'hline') { addDrawing({ type: 'hline', price: q.p }); return doneDraw(); }
-  if (['trend','ray','extline','fib'].includes(tool)) {
-    if (!cur) { cur = { type: tool, a: pt, b: pt }; hint(tool, 'Click the second point'); }
+  if (tool === 'trend') {
+    if (!cur) { cur = { type: 'trend', a: pt, b: pt }; hint('trend', 'Click the second point'); }
     else { cur.b = pt; addDrawing(cur); doneDraw(); }
     return;
   }
   if (tool === 'hray' || tool === 'vline' || tool === 'crossline') { addDrawing({ type: tool, a: pt }); return doneDraw(); }
   if (tool === 'brush') { cur = { type: 'brush', pts: [pt] }; down = true; cv.setPointerCapture(e.pointerId); return; }
-  if (['rect','circle','triangle'].includes(tool)) {
-    if (!cur) { cur = { type: tool, a: pt, b: pt }; down = { x: q.x, y: q.y }; cv.setPointerCapture(e.pointerId); }
+  if (tool === 'rect') {
+    if (!cur) { cur = { type: 'rect', a: pt, b: pt }; down = { x: q.x, y: q.y }; cv.setPointerCapture(e.pointerId); }
     else { cur.b = pt; addDrawing(cur); doneDraw(); }
     return;
   }
@@ -1566,14 +1567,14 @@ cv.addEventListener('pointermove', e => {
   if (!cur || !series) return;
   const q = evPt(e); if (q.l == null || q.p == null) return; const pt = { l: q.l, p: q.p };
   if (cur.type === 'brush') { if (down) cur.pts.push(pt); }
-  else if (['rect','circle','triangle','trend','ray','extline','fib'].includes(cur.type)) cur.b = pt;
+  else if (cur.type === 'rect' || cur.type === 'trend') cur.b = pt;
   else if (cur.step === 1) { cur.r = Math.max(pt.l, cur.e.l + 1); cur.t = pt.p; cur.s = cur.e.p - (cur.t - cur.e.p) / 2; }
   else cur.s = pt.p;
 });
 cv.addEventListener('pointerup', e => {
   if (!cur) return;
   if (cur.type === 'brush') { if (cur.pts.length > 1) addDrawing(cur); doneDraw(); }
-  else if (['rect','circle','triangle'].includes(cur.type) && down) {
+  else if (cur.type === 'rect' && down) {
     const q = evPt(e);
     if (Math.hypot(q.x - down.x, q.y - down.y) > 5 && q.l != null) { cur.b = { l: q.l, p: q.p }; addDrawing(cur); doneDraw(); } else down = null;
   }
@@ -1627,12 +1628,12 @@ const merge = arr => {
   return o;
 };
 
-let feedKey = null, refreshing = false, liveId = 0;
+let feedKey = null, refreshing = false, liveId = 0, pfQ = [], pfId = 0, pfTimer = 0, pfSym = '', pfGran = 0;
 const FEEDS = new Map();   // "symbol|granularity" -> loaded candles, so switching back to a chart you already loaded is instant
 function feedSave() {
   if (!feedKey || !raw.length) return;
   FEEDS.delete(feedKey); FEEDS.set(feedKey, { raw, noMore, dataDec });
-  while (FEEDS.size > 12) FEEDS.delete(FEEDS.keys().next().value);
+  while (FEEDS.size > 30) FEEDS.delete(FEEDS.keys().next().value);
 }
 function feedShow() {   // draw a cached feed immediately; the network only has to top it up with the newest bars
   const hit = !pendingResume && FEEDS.get(sym + '|' + baseGran());
@@ -1645,13 +1646,25 @@ function feedShow() {   // draw a cached feed immediately; the network only has 
   else chart.timeScale().setVisibleRange({ from: candles[Math.max(0, lastIdx() - 120)].time, to: candles[lastIdx()].time + gran * 6 });
   return true;
 }
+function prefetchStart() {
+  clearTimeout(pfTimer); pfQ = [];
+  const bg = g => (g === WEEK || g === MONTH) ? 86400 : g === 21600 ? 3600 : g === 1200 && use5 ? 300 : g, seen = new Set([baseGran()]);
+  [...favs].sort((a, b) => a - b).forEach(g => { const b = bg(g); if (!seen.has(b) && !FEEDS.has(sym + '|' + b)) { seen.add(b); pfQ.push(b); } });
+  pfTimer = setTimeout(pfNext, 900);
+}
+function pfNext() {
+  if (!pfQ.length || !ws || ws.readyState !== 1 || replay.on) return;
+  pfGran = pfQ.shift(); pfSym = sym; pfId = 6e7 + ++olderSeq;
+  ws.send(JSON.stringify({ ticks_history: sym, adjust_start_time: 1, count: 1500, end: 'latest', style: 'candles', granularity: pfGran, req_id: pfId }));
+}
 function sendFirst(w) {   // the first request for the chart that is now selected
   if (pendingResume) { resumeId = 8e7 + ++olderSeq; w.send(JSON.stringify({ ticks_history: sym, adjust_start_time: 1, count: 5000, end: Math.min(Math.floor(Date.now() / 1000), pendingResume.t + 4000 * baseGran()), style: 'candles', granularity: baseGran(), req_id: resumeId })); }
   else if (refreshing && raw.length) { liveId = 7e7 + ++olderSeq; w.send(JSON.stringify({ ticks_history: sym, adjust_start_time: 1, start: raw[raw.length - 1].time, end: 'latest', style: 'candles', granularity: baseGran(), subscribe: 1, req_id: liveId })); }
   else w.send(liveReq());
 }
 function connect(fresh) {
-  clearTimeout(tm); feedSave();
+  clearTimeout(tm); feedSave(); clearTimeout(pfTimer); pfQ = []; pfId = 0;
+  if (!drawStash && D.length && candles.length) drawStash = stashDraw();   // drawings are kept across any reconnect / timeframe switch
   repReset();
   candles = []; raw = []; loadingOlder = false; noMore = false; lockL = null; idx.clear(); clearDraw(); legend(); $('#st').className = '';
   feedKey = null; refreshing = false; liveId = 0; olderId = 0; resumeId = 0; replay.subId = 0;
@@ -1676,6 +1689,15 @@ function connect(fresh) {
   w.onmessage = e => {
     if (w !== ws) return;
     const d = JSON.parse(e.data);
+    if (pfId && d.req_id === pfId) {   // a background load for the cache
+      pfId = 0;
+      if (!d.error && d.candles && d.candles.length && pfSym === sym && !FEEDS.has(pfSym + '|' + pfGran)) {
+        const r2 = d.candles.map(x => ({ time: x.epoch, open: +x.open, high: +x.high, low: +x.low, close: +x.close }));
+        FEEDS.set(pfSym + '|' + pfGran, { raw: r2, noMore: false, dataDec: Math.max(2, (String(d.candles[0].close).split('.')[1] || '').length) });
+        while (FEEDS.size > 30) FEEDS.delete(FEEDS.keys().next().value);
+      }
+      pfTimer = setTimeout(pfNext, 250); return;
+    }
     if (resumeId && d.req_id === resumeId) {           // data around the replay point after a timeframe switch
       const rs = pendingResume; resumeId = 0;
       if (d.error || !d.candles || !d.candles.length) {
@@ -1704,7 +1726,7 @@ function connect(fresh) {
         if (needsAgg() && candles.length > k + 1) candles[k] = { ...nf[k] };
       } else { candles = needsAgg() ? merge(raw) : raw; k = candles.length - before; }
       idx.clear(); candles.forEach((c, i) => idx.set(c.time, i));
-      shiftDraw(k); series.setData(shown()); refreshInds(); legend();
+      shiftDraw(k); refineDraw(); series.setData(shown()); refreshInds(); legend();
       if (vr) chart.timeScale().setVisibleLogicalRange({ from: vr.from + k, to: vr.to + k });
       if (pendingView) applyView();
       return;
@@ -1725,7 +1747,7 @@ function connect(fresh) {
       dataDec = Math.max(2, (String(d.candles[0].close).split('.')[1] || '').length); dec = cs.prec === 'auto' ? dataDec : +cs.prec;
       const nw = d.candles.map(x => ({ time: x.epoch, open: +x.open, high: +x.high, low: +x.low, close: +x.close }));
       if (refreshing && raw.length) {   // cached feed already on screen: append the bars that are new
-        refreshing = false; raw = raw.filter(c => c.time < nw[0].time).concat(nw);
+        refreshing = false; raw = raw.filter(c => c.time < nw[0].time).concat(nw); prefetchStart();
         if (!replay.on) {
           const vr = chart.timeScale().getVisibleLogicalRange();
           candles = needsAgg() ? merge(raw) : raw; idx.clear(); candles.forEach((c, i) => idx.set(c.time, i));
@@ -1734,7 +1756,7 @@ function connect(fresh) {
         }
         return;
       }
-      feedKey = sym + '|' + baseGran(); raw = nw;
+      feedKey = sym + '|' + baseGran(); raw = nw; prefetchStart();
       candles = needsAgg() ? merge(raw) : raw; idx.clear(); candles.forEach((c, i) => idx.set(c.time, i));
       $('#st').className = 'ok'; show(''); restoreDraw(); buildSeries(); refreshInds(); legend();
       if (pendingView) applyView();
@@ -2254,7 +2276,7 @@ function wlConnect() {
   w.onclose = () => setTimeout(() => wsW === w && wlConnect(), 3000);
 }
 function toggleWl(s) { wl = wl.includes(s) ? wl.filter(x => x !== s) : [...wl, s]; save(); renderSym(); renderWl(); wlConnect(); }
-function setSym(s) { if (s === sym) return; drawStash = null; pendingResume = null; pendingView = null; sym = s; save(); renderSym(); renderWl(); applyCS(); connect(); }
+function setSym(s) { if (s === sym) return; drawStash = null; clearDraw(); pendingResume = null; pendingView = null; sym = s; save(); renderSym(); renderWl(); applyCS(); connect(); }
 // Panels open like a staggered menu: coloured sheets sweep in first, then the panel, then its contents one after another.
 const SM_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)', SM_IN = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
 const smReduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -2347,7 +2369,7 @@ function setDrawProp(i, p) { undoS.push(snap()); redoS = []; Object.assign(D[i],
 function addAlert(price) {
   if (!isFinite(price)) return; const last = candles.length ? candles[candles.length - 1].close : price;
   alerts.push({ id: Date.now() + Math.random(), sym, price, dir: price >= last ? 'up' : 'down', hit: false, seen: true });
-  save(); renderWp(); try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (e) {}
+  save(); renderWp(); try { if (cs.alNotify !== false && window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (e) {}
 }
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('off'), 3600); setTimeout(() => t.remove(), 4000); }
 function checkAlerts(s, p) {
@@ -2355,9 +2377,9 @@ function checkAlerts(s, p) {
   alerts.forEach(a => {
     if (a.sym !== s || a.hit || !((a.dir === 'up' && p >= a.price) || (a.dir === 'down' && p <= a.price))) return;
     a.hit = true; a.seen = wpOpen === 'alerts'; a.t = Date.now(); fired = true;
-    const msg = `${lab(a.sym)} ${a.dir === 'up' ? 'crossed above' : 'crossed below'} ${a.price}`; toast(msg);
-    try { const ac = new (window.AudioContext || window.webkitAudioContext)(), o = ac.createOscillator(), g = ac.createGain(); o.connect(g); g.connect(ac.destination); o.frequency.value = 880; g.gain.setValueAtTime(0.15, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.5); o.start(); o.stop(ac.currentTime + 0.5); } catch (e) {}
-    try { if (window.Notification && Notification.permission === 'granted') new Notification('Alert', { body: msg }); } catch (e) {}
+    const msg = `${lab(a.sym)} ${a.dir === 'up' ? 'crossed above' : 'crossed below'} ${a.price}`; if (cs.alToast !== false) toast(msg);
+    if (cs.alSound !== false) try { const ac = new (window.AudioContext || window.webkitAudioContext)(), o = ac.createOscillator(), g = ac.createGain(); o.connect(g); g.connect(ac.destination); o.frequency.value = 880; g.gain.setValueAtTime(0.15, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.5); o.start(); o.stop(ac.currentTime + 0.5); } catch (e) {}
+    try { if (cs.alNotify !== false && window.Notification && Notification.permission === 'granted') new Notification('Alert', { body: msg }); } catch (e) {}
   });
   if (fired) { save(); alBadge(); if (wpOpen === 'alerts') renderWp(); }
 }
