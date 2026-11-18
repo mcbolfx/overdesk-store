@@ -3492,6 +3492,48 @@ body.light-mode .bw-reach-links a{color:#0c0c0c;background:rgba(0,0,0,.04);borde
   </a>
 </div>
 
+
+<!-- MARKETDESK CTA -->
+<style>
+  .marketdesk-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: 0 auto 0;
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+    width: min(1100px, calc(100% - 2rem));
+    text-align: center;
+    border: 1px solid rgba(61,129,227,.28);
+    border-radius: 26px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(61,129,227,.19), transparent 65%), linear-gradient(135deg, rgba(18,24,39,.96), rgba(9,12,22,.98));
+    box-shadow: 0 18px 55px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .marketdesk-cta::before {
+    content: ""; position: absolute; z-index: -1; width: 260px; height: 260px;
+    left: 50%; top: -205px; transform: translateX(-50%);
+    border-radius: 50%; background: rgba(61,129,227,.28); filter: blur(55px);
+  }
+  .marketdesk-kicker { margin: 0 0 .8rem; color: #70a7ff; font-size: .72rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .marketdesk-title { margin: 0; color: #fff; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.12; font-weight: 800; letter-spacing: -.04em; }
+  .marketdesk-copy { max-width: 620px; margin: 1rem auto 1.7rem; color: rgba(255,255,255,.7); font-size: clamp(.92rem, 1.5vw, 1.05rem); line-height: 1.7; }
+  .marketdesk-button { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 50px; padding: .85rem 1.45rem; border-radius: 12px; color: #fff !important; background: linear-gradient(135deg,#3D81E3,#2866cb); border: 1px solid rgba(255,255,255,.18); text-decoration: none !important; font-weight: 800; box-shadow: 0 8px 24px rgba(61,129,227,.3); transition: transform .2s ease, box-shadow .2s ease; }
+  .marketdesk-button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(61,129,227,.42); }
+  .marketdesk-button svg { width: 17px; height: 17px; }
+  body.light-mode .marketdesk-cta { background: radial-gradient(ellipse at 50% 0%, rgba(61,129,227,.13), transparent 65%), linear-gradient(135deg,#f7faff,#edf3ff); border-color: rgba(61,129,227,.22); box-shadow: 0 14px 40px rgba(61,129,227,.1); }
+  body.light-mode .marketdesk-title { color: #101828; }
+  body.light-mode .marketdesk-copy { color: rgba(16,24,40,.68); }
+  @media (max-width: 600px) { .marketdesk-cta { width: calc(100% - 1.25rem); border-radius: 20px; } .marketdesk-button { width: 100%; } }
+</style>
+<section class="marketdesk-cta" aria-labelledby="marketdesk-title">
+  <p class="marketdesk-kicker">Overdesk Market Tools</p>
+  <h2 class="marketdesk-title" id="marketdesk-title">Trade on MarketDesk</h2>
+  <p class="marketdesk-copy">Take your market analysis further with an interactive charting workspace built for focused technical analysis.</p>
+  <a class="marketdesk-button" href="https://overdesk.store/marketdesk" aria-label="Trade on MarketDesk">
+    Trade on MarketDesk
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</section>
+
 <footer>
   <div class="footer-grid">
     <div>
