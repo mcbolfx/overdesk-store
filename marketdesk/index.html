@@ -106,6 +106,10 @@ button:disabled:hover{background:none}
 #c[data-cur=dot],#c[data-cur=dot] *{cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><circle cx='7' cy='7' r='4' fill='%23131722' stroke='white' stroke-width='1.2'/></svg>") 7 7,default!important}
 #c[data-cur=arrow],#c[data-cur=arrow] *{cursor:default!important}
 #c.panning,#c.panning *{cursor:grabbing!important}
+html #c[data-rs=ns],html #c[data-rs=ns] *{cursor:ns-resize!important}
+html #c[data-rs=ew],html #c[data-rs=ew] *{cursor:ew-resize!important}
+html #c[data-rs=nwse],html #c[data-rs=nwse] *{cursor:nwse-resize!important}
+html #c[data-rs=nesw],html #c[data-rs=nesw] *{cursor:nesw-resize!important}
 #c[data-cur=none],#c[data-cur=none] *{cursor:none!important}
 #sbar{position:absolute;z-index:7;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--bg);border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18)}
 #sbar[hidden]{display:none}
@@ -137,6 +141,16 @@ button:disabled:hover{background:none}
 .sbo.sub{padding-left:26px}
 .sbo .ck{display:inline-block;width:14px}
 .sbp hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+.pal{width:252px}
+.pal-g{display:grid;grid-template-columns:repeat(10,22px);gap:4px;padding:2px}
+.pal-r{display:flex;flex-wrap:wrap;gap:4px;padding:4px 2px;align-items:center}
+.pal .sbc{width:22px;height:22px;border-radius:4px;min-height:0;padding:0}
+.sbc.plus{position:relative;display:grid;place-items:center;border:1px solid var(--line);font-size:16px;line-height:1;cursor:pointer;background:none}
+.sbc.plus input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0}
+.pal-o{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:6px 2px 2px}
+.pal-o span{grid-column:1/3;font-size:12px;color:var(--mut)}
+.pal-o input[type=range]{width:100%;accent-color:var(--acc)}
+.pal-o b{min-width:46px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:4px 6px;font-weight:500}
 #sepop{position:absolute;z-index:9;width:236px;padding:10px 12px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
 #sepop[hidden]{display:none}
 #sepop .sph{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -283,8 +297,38 @@ button:disabled:hover{background:none}
 .otn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .otf{padding:10px 12px}
 .otf button{width:100%;height:34px;min-height:0;border:1px solid var(--line);border-radius:6px}
-.toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:200;padding:10px 16px;border-radius:8px;background:#131722;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.35);transition:opacity .3s}
-.toast.off{opacity:0}
+.ahead,.afoot{padding:10px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.afoot{border-top:1px solid var(--line)}
+.afoot label{display:flex;gap:6px;align-items:center;font-size:13px}
+.afoot .btn,.ahead .btn{border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.arow{display:flex;align-items:center;gap:8px;padding:10px 6px 10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.arow:hover{background:var(--hover)}
+.arow.done{opacity:.55}
+.arow .an{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.arow .an small{color:var(--mut);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.afoot .s{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
+.arow .ac{display:flex}
+.arow .ac button{padding:6px}
+#adlg{position:fixed;inset:0;z-index:85;display:grid;place-items:center;background:rgba(0,0,0,.35)}
+#adlg[hidden]{display:none}
+#adlg .card{width:420px;max-width:96vw;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+#adlg .ah{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);font-size:17px}
+#adlg .ab{padding:8px 20px}
+#adlg .ar{display:flex;align-items:center;gap:10px;min-height:48px}
+#adlg .ar>span{width:90px;flex:none;color:var(--mut)}
+#adlg .s,#adlg .n{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
+#adlg .af{display:flex;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid var(--line)}
+#adlg .btn{border:1px solid var(--line);border-radius:8px;padding:9px 16px}
+#adlg .btn.pri{background:#131722;color:#fff;border-color:#131722;font-weight:600}
+#toasts{position:fixed;top:56px;right:12px;z-index:95;display:flex;flex-direction:column;gap:8px;width:min(340px,92vw)}
+.toast{background:#1e222d;color:#fff;border-radius:10px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.35);cursor:pointer;border-left:4px solid #ff9800}
+.toast{position:relative;padding-right:36px}
+.toast b{display:block;margin-bottom:3px}
+.toast .tx{position:absolute;top:6px;right:6px;padding:4px 8px;color:#b2b5be}
+.toast .stopbtn{display:block;margin-top:8px;padding:7px 14px;border-radius:6px;background:#f23645;color:#fff;font-weight:600}
+.toast span{color:#b2b5be;font-size:12px}
+@media (max-width:760px){#toasts{right:50%;transform:translateX(50%)}}
+
 .sm-pre{position:absolute;top:0;right:0;bottom:0;pointer-events:none}
 #wres{position:absolute;left:0;top:0;bottom:0;width:14px;z-index:3;cursor:ew-resize;touch-action:none}
 #wres::after{content:'';position:absolute;left:4px;top:50%;width:3px;height:36px;margin-top:-18px;border-radius:2px;background:var(--mut);opacity:.45}
@@ -440,6 +484,15 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 <div id="rpbar" hidden><button id="rpsel" title="Select bar" aria-label="Select bar"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M5 5v14M9 12h10M13 8l-4 4 4 4"/></svg></button><button id="rpplay" title="Play (Space)" aria-label="Play" disabled></button><button id="rpstep" title="Forward one update (→)" aria-label="Forward" disabled><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M6 5v14l9-7z"/><path d="M18 5v14" style="stroke:currentColor;stroke-width:2"/></svg></button><button id="rpspd" title="Replay speed">1x</button><button id="rpiv" title="Update interval">D</button><button id="rprt" title="Jump to real-time" aria-label="Jump to real-time" disabled><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M4 5v14l7-7zM11 5v14l7-7z"/><path d="M20 5v14" style="stroke:currentColor;stroke-width:2"/></svg></button><span class="sp"></span><button id="rpset" title="Replay settings" aria-label="Replay settings"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3l7.5 4.5v9L12 21l-7.5-4.5v-9z"/><circle cx="12" cy="12" r="3"/></svg></button><button id="rpx" title="Close replay" aria-label="Close replay"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
 <div id="rppop" class="menu" hidden></div>
 <input type="date" id="rpdate" tabindex="-1" aria-hidden="true" style="position:fixed;left:50%;top:40%;width:1px;height:1px;opacity:0;pointer-events:none">
+<div id="adlg" hidden><div class="card"><div class="ah"><b id="aTitle">Create alert</b><button id="aX" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="ab">
+<div class="ar"><span>Symbol</span><select id="aSym" class="s"></select></div>
+<div class="ar"><span>Condition</span><select id="aCond" class="s"><option value="cross">Crossing</option><option value="up">Crossing up</option><option value="down">Crossing down</option><option value="gt">Greater than</option><option value="lt">Less than</option></select></div>
+<div class="ar"><span>Value</span><input id="aVal" class="n" type="number" step="any"></div>
+<div class="ar"><span>Trigger</span><select id="aOnce" class="s"><option value="once">Ring once (alert turns off after it fires)</option><option value="every">Every time it crosses the price</option></select></div>
+<div class="ar"><span>Sound</span><select id="aTone2" class="s"></select></div>
+<div class="ar"><span>Message</span><input id="aMsg" class="n" type="text" maxlength="60" placeholder="Optional"></div></div>
+<div class="af"><button id="aCancel" class="btn">Cancel</button><button id="aOk" class="btn pri">Create</button></div></div></div>
+<div id="toasts" aria-live="polite"></div>
 <div id="ctx" class="menu" hidden></div>
 <div id="dlg" hidden><div class="card"><div class="dh"><b>Settings</b><button id="dx" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="dbody"><nav id="dtabs"></nav><div id="dpane"></div></div><div class="dfoot"><div class="dd"><button id="tpl" class="btn">Template ▾</button><div id="tplm" class="menu" hidden></div></div><span class="sp"></span><button id="dcancel" class="btn">Cancel</button><button id="dok" class="btn pri">Ok</button></div></div></div>
 <div class="foot">
@@ -466,9 +519,9 @@ const SYMS = {
   R_10:'Volatility 10 Index', R_25:'Volatility 25 Index', R_50:'Volatility 50 Index', R_75:'Volatility 75 Index', R_100:'Volatility 100 Index',
   '1HZ10V':'Volatility 10 (1s) Index', '1HZ25V':'Volatility 25 (1s) Index', '1HZ50V':'Volatility 50 (1s) Index',
   '1HZ75V':'Volatility 75 (1s) Index', '1HZ100V':'Volatility 100 (1s) Index',
-  BOOM500:'Boom 500 Index', BOOM1000:'Boom 1000 Index', CRASH500:'Crash 500 Index', CRASH1000:'Crash 1000 Index', frxXAUUSD:'Gold/USD'
+  BOOM500:'Boom 500 Index', BOOM1000:'Boom 1000 Index', CRASH500:'Crash 500 Index', CRASH1000:'Crash 1000 Index', frxXAUUSD:'Gold/USD', OTC_NDX:'US Tech 100'
 };
-const LABEL = { frxXAUUSD: 'XAUUSD' };
+const LABEL = { frxXAUUSD: 'XAUUSD', OTC_NDX: 'US TECH 100' };
 const TFS = {M1:60,M2:120,M3:180,M5:300,M10:600,M15:900,M20:1200,M30:1800,H1:3600,H2:7200,H4:14400,H6:21600,H8:28800,D:86400,W:604800,MN:2592000};
 const LONG = {60:'1 minute',120:'2 minutes',180:'3 minutes',300:'5 minutes',600:'10 minutes',900:'15 minutes',1200:'20 minutes',1800:'30 minutes',3600:'1 hour',7200:'2 hours',14400:'4 hours',21600:'6 hours',28800:'8 hours',86400:'24 hours',604800:'1 week',2592000:'1 month'};
 const MINS = [60,120,180,300,600,900,1200,1800], HRS = [3600,7200,14400,21600,28800,86400], DAYS = [604800,2592000];
@@ -481,17 +534,17 @@ let S = {}; try { S = JSON.parse(localStorage.dc || '{}'); } catch (e) {}
 let sym = SYMS[S.sym] ? S.sym : 'R_25', gran = Object.values(TFS).includes(S.gran) ? S.gran : 86400, type = S.type || 'candles', dark = !!S.dark;
 let favs = Array.isArray(S.favs) ? S.favs.filter(v => LONG[v]) : [60, 300, 900, 3600, 14400, 86400];
 let favT = Array.isArray(S.favT) ? S.favT : [], ftbPos = S.ftb || null, tz = S.tz || 'UTC';
-let wlW = +S.wlW || 0, wlWm = +S.wlWm || 0, alerts = Array.isArray(S.alerts) ? S.alerts : [];   // watchlist widths (desktop / mobile) the user dragged to
+let wlW = +S.wlW || 0, wlWm = +S.wlWm || 0, oldAlerts = Array.isArray(S.alerts) ? S.alerts : [];   // watchlist widths (desktop / mobile) the user dragged to
 let wl = Array.isArray(S.wl) ? S.wl.filter(s => SYMS[s]) : [], wlOpen = S.wlOpen !== undefined ? S.wlOpen !== false : !matchMedia('(max-width:760px)').matches, cursorMode = ['cross', 'dot', 'arrow', 'demo'].includes(S.cursor) ? S.cursor : 'cross';
 const DEF = { prevClose: false, body: true, bodyUp: '#089981', bodyDn: '#f23645', border: true, borderUp: '#089981', borderDn: '#f23645', wick: true, wickUp: '#089981', wickDn: '#f23645', prec: 'auto',
   title: true, titleMode: 'desc', mkt: true, ohlc: true, chg: true, lgBg: true, lgAlpha: 0.5,
   scaleBtns: 'hover', lockOn: false, ratio: 1, countdown: false, lastMode: 'both', hl: 'hidden', weekday: true, dfmt: 'dmy', h12: false, keepLeft: false,
-  bgType: 'solid', bg: '', bg2: '', grid: 'both', gridVOn: true, gridHOn: true, gridV: '', gridH: '', crossSt: '3', alSound: true, alToast: true, alNotify: true, alLines: true, cross: '', wm: 'none', wmColor: '', txt: '', fs: 12, lines: '', nav: 'hover', mt: 10, mb: 8, mr: 10,
+  bgType: 'solid', bg: '', bg2: '', recent: '', grid: 'both', gridVOn: true, gridHOn: true, gridV: '', gridH: '', crossSt: '3', alSound: true, alToast: true, alNotify: true, alLines: true, cross: '', wm: 'none', wmColor: '', txt: '', fs: 12, lines: '', nav: 'hover', mt: 10, mb: 8, mr: 10,
   wbs: 'right', sepDHour: 1, sepDHide: '', sepWHide: '', sepD: true, sepDCol: '#787b86', sepDW: 1, sepDSt: 'dashed', sepW: true, sepWCol: '#2962ff', sepWW: 1, sepWSt: 'solid' };
 let cs = Object.assign({}, DEF, S.cs || {}), keepLeft = null;
 if (S.cs && S.cs.gridVOn === undefined && S.cs.grid) { cs.gridVOn = cs.grid === 'both' || cs.grid === 'v'; cs.gridHOn = cs.grid === 'both' || cs.grid === 'h'; }
 UP = cs.bodyUp; DOWN = cs.bodyDn;
-const save = () => { try { localStorage.dc = JSON.stringify({ sym, gran, type, dark, favs, favT, ftb: ftbPos, tz, wl, wlOpen, wlW, wlWm, alerts, cursor: cursorMode, cs, rp: { speed: replay.speed, tr: replay.tr } }); } catch (e) {} };
+const save = () => { try { localStorage.dc = JSON.stringify({ sym, gran, type, dark, favs, favT, ftb: ftbPos, tz, wl, wlOpen, wlW, wlWm, cursor: cursorMode, cs, rp: { speed: replay.speed, tr: replay.tr } }); } catch (e) {} };
 
 let candles = [], idx = new Map(), dec = 4, dataDec = 4, series, ws, tm, ui = 0, tool = 'cross', p1 = null, mode = 0, auto = true;
 let hl = [], hlines = [], trends = [], inds = [], D = [], cur = null, down = null, undoS = [], redoS = [], laser = [], sel = -1, drag = null, hideMarks = false, lockL = null, clip = null, lastQ = null, ctxQ = null;
@@ -553,7 +606,7 @@ function buildSeries() {
     : type === 'line' ? chart.addLineSeries({ ...pf, color: '#2962ff', lineWidth: 2 })
     : chart.addAreaSeries({ ...pf, lineColor: '#2962ff', topColor: 'rgba(41,98,255,.3)', bottomColor: 'rgba(41,98,255,0)' });
   series.setData(shown());
-  hlines = []; syncDraw();
+  hlines = []; syncDraw(); syncAlerts();
 }
 
 // Indicators
@@ -833,7 +886,10 @@ const PY = p => series ? series.priceToCoordinate(p) : null;
 const evPt = e => { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; return { x, y, l: chart.timeScale().coordinateToLogical(x), p: series.coordinateToPrice(y) }; };
 
 function drawText(d, pw, ph) {
-  if (!d.text) return;
+  if (!d.text) {   // a selected, empty rectangle invites you to add text
+    if (d.type === 'rect' && D[sel] === d && !d.locked && CUR.includes(tool)) { const x1 = LX(d.a.l), x2 = LX(d.b.l), y1 = PY(d.a.p), y2 = PY(d.b.p); if ([x1, x2, y1, y2].every(v => v != null)) { ctx.font = '12px "Trebuchet MS",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = dark ? '#9aa0aa' : '#6b7280'; ctx.fillText('+ Add text', (x1 + x2) / 2, (y1 + y2) / 2); } }
+    return;
+  }
   const a = d.a || d.e, ax = a ? LX(a.l) : null, ay = a ? PY(a.p) : null; let x, y, al = 'left';
   if (d.type === 'hline') { y = PY(d.price); if (y == null) return; x = pw - 8; al = 'right'; y -= 9; }
   else if (d.type === 'hray') { if (ax == null || ay == null) return; x = ax + 10; y = ay - 9; }
@@ -850,8 +906,8 @@ function paint(d, pw, ph) {
   drawText(d, pw, ph);
 }
 function paintShape(d, pw, ph) {
-  const blue = d.color || def.color, fill = hexA(blue, .15);
-  ctx.lineWidth = d.w || def.w; ctx.strokeStyle = blue; ctx.fillStyle = fill; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  const blue = d.color || def.color, fill = hexA(d.fill || blue, d.fa != null ? d.fa : .15);
+  ctx.lineWidth = d.w || def.w; ctx.strokeStyle = hexA(blue, d.sa != null ? d.sa : 1); ctx.fillStyle = fill; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
   const dsh = dashOf(d), ln = (x1, y1, x2, y2) => { ctx.setLineDash(dsh); ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.setLineDash([]); };
   if (d.type === 'brush') {
     const pts = d.pts.map(q => [LX(q.l), PY(q.p)]).filter(q => q[0] != null && q[1] != null); if (pts.length < 2) return;
@@ -914,11 +970,17 @@ function psz() {
   try { ph = st.clientHeight - chart.timeScale().height(); } catch (e) { ph = st.clientHeight - 26; }
   return [pw, ph];
 }
+function rectMap(d) { const lf = d.a.l <= d.b.l, tp = d.a.p >= d.b.p; return { L: lf ? 'a' : 'b', R: lf ? 'b' : 'a', T: tp ? 'a' : 'b', B: tp ? 'b' : 'a' }; }
+function rectTextHit(d, q) { const x1 = LX(d.a.l), x2 = LX(d.b.l), y1 = PY(d.a.p), y2 = PY(d.b.p); return [x1, x2, y1, y2].every(v => v != null) && Math.abs(q.x - (x1 + x2) / 2) < 44 && Math.abs(q.y - (y1 + y2) / 2) < 12; }
 function handles(d, pw) {
   const mk = (l, p, set) => ({ x: LX(l), y: PY(p), set });
   switch (d.type) {
     case 'trend': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; }), mk(d.b.l, d.b.p, (l, p) => { d.b.l = l; d.b.p = p; })];
-    case 'rect': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; }), mk(d.b.l, d.b.p, (l, p) => { d.b.l = l; d.b.p = p; }), mk(d.b.l, d.a.p, (l, p) => { d.b.l = l; d.a.p = p; }), mk(d.a.l, d.b.p, (l, p) => { d.a.l = l; d.b.p = p; })];
+    case 'rect': {   // eight handles: four corners and the middle of each side
+      const m = (drag && drag.map) || rectMap(d), L = d[m.L], R = d[m.R], T = d[m.T], B = d[m.B], ml = (L.l + R.l) / 2, mp = (T.p + B.p) / 2, h8 = (l, p, cur, set) => ({ x: LX(l), y: PY(p), cur, set });
+      return [h8(L.l, T.p, 'nwse', (l, p) => { L.l = l; T.p = p; }), h8(ml, T.p, 'ns', (l, p) => { T.p = p; }), h8(R.l, T.p, 'nesw', (l, p) => { R.l = l; T.p = p; }), h8(R.l, mp, 'ew', (l, p) => { R.l = l; }),
+        h8(R.l, B.p, 'nwse', (l, p) => { R.l = l; B.p = p; }), h8(ml, B.p, 'ns', (l, p) => { B.p = p; }), h8(L.l, B.p, 'nesw', (l, p) => { L.l = l; B.p = p; }), h8(L.l, mp, 'ew', (l, p) => { L.l = l; })];
+    }
     case 'hray': case 'vline': case 'crossline': return [mk(d.a.l, d.a.p, (l, p) => { d.a.l = l; d.a.p = p; })];
     case 'hline': return [{ x: pw / 2, y: PY(d.price), set: (l, p) => { d.price = p; } }];
     case 'long': case 'short': return [
@@ -936,27 +998,34 @@ function moveBody(d, dl, dp) {
   else { mv(d.a); if (d.b) mv(d.b); }
 }
 const stg = $('.stage'), CUR = ['cross', 'dot', 'arrow'];
-['touchstart', 'touchmove'].forEach(t => stg.addEventListener(t, e => { if (drag) { e.stopPropagation(); e.preventDefault(); } }, { capture: true, passive: false }));
+['touchstart', 'touchmove'].forEach(t => stg.addEventListener(t, e => { if (drag || adrag) { e.stopPropagation(); e.preventDefault(); } }, { capture: true, passive: false }));
 const stagePt = e => { const r = stg.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; return { x, y, l: chart.timeScale().coordinateToLogical(x), p: series ? series.coordinateToPrice(y) : null }; };
 const handleAt = (q, pw) => sel >= 0 && D[sel] && !D[sel].locked ? handles(D[sel], pw).findIndex(t => t.x != null && t.y != null && Math.hypot(t.x - q.x, t.y - q.y) < (COARSE ? 18 : 9)) : -1;
 stg.addEventListener('pointerdown', e => {
   if (replay.pick || !series || !CUR.includes(tool) || e.button !== 0 || e.target.closest('#ftb,#dial,#hint,#sbar,#sepop')) return;
   const q = stagePt(e), [pw, ph] = psz(); if (q.l == null || q.p == null || q.x >= pw || q.y >= ph) return;
   let mode = null, hi = handleAt(q, pw);
-  if (hi >= 0) mode = 'h'; else { const i = hit(q.x, q.y); if (i < 0) { sel = -1; return; } sel = i; if (D[i].locked) return; mode = 'b'; if (e.ctrlKey || e.metaKey) addDrawing(JSON.parse(JSON.stringify(D[i]))); }
+  if (hi >= 0) mode = 'h'; else {
+    const i = hit(q.x, q.y); if (i < 0) { sel = -1; const ai = alertAt(q.y); if (ai >= 0) { e.preventDefault(); e.stopPropagation(); adrag = { id: AL.alerts[ai].id, moved: false }; } return; }
+    const was = sel === i; sel = i; if (D[i].locked) return;
+    if (was && D[i].type === 'rect' && !D[i].text && rectTextHit(D[i], q)) { e.preventDefault(); e.stopPropagation(); sbOpen = 't'; renderSbar(); setTimeout(() => { const t = document.querySelector('#sbar .sbt'); if (t) t.focus(); }, 30); return; }
+    mode = 'b'; if (e.ctrlKey || e.metaKey) addDrawing(JSON.parse(JSON.stringify(D[i])));
+  }
   e.preventDefault(); e.stopPropagation();
-  drag = { mode, hi, pre: snap(), last: { l: q.l, p: q.p }, moved: false };
+  drag = { mode, hi, pre: snap(), last: { l: q.l, p: q.p }, moved: false, map: D[sel] && D[sel].type === 'rect' ? rectMap(D[sel]) : null };
+  if (mode === 'h' && D[sel].type === 'rect') $('#c').dataset.rs = handles(D[sel], pw)[hi].cur;
 }, true);
 addEventListener('pointermove', e => {
   if (!series) return;
+  if (adrag) { const a = AL.alerts.find(x => x.id === adrag.id), p = series.coordinateToPrice(stagePt(e).y); if (a && p != null) { a.price = +p.toFixed(dec); adrag.moved = true; syncAlerts(); } return; }
   const q = stagePt(e), [pw, ph] = psz();
-  if (!drag) { $('#c').dataset.hit = CUR.includes(tool) && q.x < pw && q.y < ph && (handleAt(q, pw) >= 0 || hit(q.x, q.y) >= 0 || sepNear(q.x)) ? '1' : ''; return; }
+  if (!drag) { const hv = CUR.includes(tool) && q.x < pw && q.y < ph ? handleAt(q, pw) : -1; $('#c').dataset.rs = hv >= 0 && D[sel] && D[sel].type === 'rect' ? handles(D[sel], pw)[hv].cur : ''; $('#c').dataset.hit = CUR.includes(tool) && q.x < pw && q.y < ph && (handleAt(q, pw) >= 0 || hit(q.x, q.y) >= 0 || sepNear(q.x) || alertAt(q.y) >= 0) ? '1' : ''; return; }
   const d = D[sel]; if (!d || q.l == null || q.p == null) return;
   if (drag.mode === 'h') handles(d, pw)[drag.hi].set(q.l, q.p); else moveBody(d, q.l - drag.last.l, q.p - drag.last.p);
   drag.last = { l: q.l, p: q.p }; drag.moved = true;
   if (d.type === 'hline') syncDraw();
 });
-addEventListener('pointerup', () => { if (!drag) return; if (drag.moved) { undoS.push(drag.pre); redoS = []; updUR(); } drag = null; });
+addEventListener('pointerup', () => { $('#c').dataset.rs = ''; if (adrag) { if (adrag.moved) { saveAL(); renderAL(); } adrag = null; return; } if (!drag) return; if (drag.moved) { undoS.push(drag.pre); redoS = []; updUR(); } drag = null; });
 addEventListener('mousedown', e => { if (drag) e.stopImmediatePropagation(); }, true);
 addEventListener('keydown', e => {
   if (e.key === 'Escape') sel = -1;
@@ -1040,10 +1109,7 @@ const TABS = [
     ['h', 'Period separators'], ['sep', 'sepD', 'Daily separator'], ['n', 'sepDHour', 'Day starts at (Nigeria/Lagos time)', 'h'], ['sep', 'sepW', 'Weekly separator'],
     ['h', 'Scales'], ['sc', 'fs', 'Text', ['txt'], [10, 11, 12, 13, 14, 16].map(n => [String(n), String(n)])], ['col', null, 'Lines', ['lines']],
     ['h', 'Buttons'], ['s', 'nav', 'Navigation', [['hover', 'Visible on mouse over'], ['always', 'Always visible'], ['hidden', 'Always hidden']]], ['s', 'wbs', 'Widgets bar', [['right', 'Right side (price side)'], ['left', 'Left side']]], ['x', 'Pane', 'Single pane only', 'select'],
-    ['h', 'Margins'], ['n', 'mt', 'Top', '%'], ['n', 'mb', 'Bottom', '%'], ['n', 'mr', 'Right', 'bars']]],
-  ['Alerts', I('<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.4 1.6M5 4.5 3 6.5M19 4.5l2 2"/>'), [
-    ['h', 'When an alert triggers'], ['c', 'alSound', 'Play a sound'], ['c', 'alToast', 'Show a message on screen'], ['c', 'alNotify', 'Send a browser notification'],
-    ['h', 'On the chart'], ['c', 'alLines', 'Show alert price lines']]]
+    ['h', 'Margins'], ['n', 'mt', 'Top', '%'], ['n', 'mb', 'Bottom', '%'], ['n', 'mr', 'Right', 'bars']]]
 ];
 let tab = 0, csBak = '', tzBak = 'UTC';
 const OPT = (k, o) => `<select class="s" data-k="${k}">${o.map(([v, l]) => `<option value="${v}"${String(cs[k]) === String(v) ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
@@ -1110,7 +1176,6 @@ function drawExtras() {
   if (!series || !candles.length) return;
   const [pw, ph] = psz(), W = cv.clientWidth, last = candles[lastIdx()];
   ctx.save(); ctx.font = '11px "Trebuchet MS",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.save(); for (const a of alerts) { if (a.sym !== sym || a.hit || cs.alLines === false) continue; const y = PY(a.price); if (y == null || y < 0 || y > ph) continue; ctx.strokeStyle = '#ff9800'; ctx.fillStyle = '#ff9800'; ctx.lineWidth = 1; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke(); ctx.setLineDash([]); ctx.textAlign = 'right'; ctx.fillText('Alert ' + a.price, pw - 6, y - 8); } ctx.restore();
   if (cs.hl !== 'hidden') {
     const rg = chart.timeScale().getVisibleLogicalRange();
     if (rg) {
@@ -1148,13 +1213,13 @@ $('#nav').onclick = e => {
   const mid = (rg.from + rg.to) / 2, hw = (rg.to - rg.from) / 2 * (b.dataset.n === 'in' ? 0.7 : 1.4); ts.setVisibleLogicalRange({ from: mid - hw, to: mid + hw });
 };
 const closeCtx = () => { $('#ctx').hidden = true; };
-const ACT = { reset: resetView, copy: () => copyText(String(+ctxQ.p.toFixed(dec))), paste: () => pasteDrawing(ctxQ), lock: toggleLock, marks: toggleMarks, settings: openSettings, unhide: () => { undoS.push(snap()); redoS = []; D.forEach(d => { delete d.hidden; }); syncDraw(); updUR(); } };
+const ACT = { alert: () => openAlertDlg({ price: ctxQ.p }), reset: resetView, copy: () => copyText(String(+ctxQ.p.toFixed(dec))), paste: () => pasteDrawing(ctxQ), lock: toggleLock, marks: toggleMarks, settings: openSettings, unhide: () => { undoS.push(snap()); redoS = []; D.forEach(d => { delete d.hidden; }); syncDraw(); updUR(); } };
 function ctxAt(cx, cy) {
   const q = stagePt({ clientX: cx, clientY: cy }), [pw, ph] = psz(); if (!series || q.x >= pw || q.y >= ph || q.l == null || q.p == null) return false;
   closeDial(); ctxQ = q;
   const row = (a, label, ico, k, dis) => `<div class="row${dis ? ' dis' : ''}" data-a="${a}"><span class="ci">${ico || ''}</span><span>${label}</span>${k ? `<span class="k">${k}</span>` : ''}</div>`;
   const el = $('#ctx');
-  el.innerHTML = row('reset', 'Reset chart view', ICO_RESET, 'Alt + R') + '<hr>' + row('copy', `Copy price ${f(q.p)}`) + row('paste', 'Paste', '', 'Ctrl + V', !clip) + '<hr>' + row('lock', `${lockL == null ? 'Lock' : 'Unlock'} vertical cursor line by time`) + '<hr>' + row('marks', `${hideMarks ? 'Show' : 'Hide'} marks on bars`) + (D.some(d => d.hidden) ? '<hr>' + row('unhide', `Show ${D.filter(d => d.hidden).length} hidden drawing${D.filter(d => d.hidden).length > 1 ? 's' : ''}`) : '') + '<hr>' + row('settings', 'Settings…', ICO_HEX);
+  el.innerHTML = row('reset', 'Reset chart view', ICO_RESET, 'Alt + R') + '<hr>' + row('copy', `Copy price ${f(q.p)}`) + row('paste', 'Paste', '', 'Ctrl + V', !clip) + row('alert', `Add alert at ${f(q.p)}`, ICO_BELL, 'Alt + A') + '<hr>' + row('lock', `${lockL == null ? 'Lock' : 'Unlock'} vertical cursor line by time`) + '<hr>' + row('marks', `${hideMarks ? 'Show' : 'Hide'} marks on bars`) + (D.some(d => d.hidden) ? '<hr>' + row('unhide', `Show ${D.filter(d => d.hidden).length} hidden drawing${D.filter(d => d.hidden).length > 1 ? 's' : ''}`) : '') + '<hr>' + row('settings', 'Settings…', ICO_HEX);
   el.hidden = false;
   el.style.left = Math.max(4, Math.min(cx, innerWidth - el.offsetWidth - 8)) + 'px'; el.style.top = Math.max(4, Math.min(cy, innerHeight - el.offsetHeight - 8)) + 'px';
   return true;
@@ -1334,6 +1399,8 @@ function axisLabels(d, pw, ph) {
 const PAL = ['#2962ff', '#089981', '#f23645', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#fdd835', '#8bc34a', '#795548', '#787b86', '#131722'];
 const TRASH = '<svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>';
 const SBI = {
+  fill: '<svg viewBox="0 0 24 24"><path d="M5 12l7-7 7 7-6 6a2 2 0 0 1-3 0z"/><path d="M19 15s2 2.5 2 4a2 2 0 0 1-4 0c0-1.5 2-4 2-4z"/></svg>',
+  alarm: '<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 10v6M9 13h6M5 4.5 3 6.5M19 4.5l2 2"/></svg>',
   pen: '<svg viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z"/><path d="M14.5 6.5l3 3"/></svg>',
   txt: '<svg viewBox="0 0 24 24"><path d="M6 5h12M12 5v14M9.5 19h5"/></svg>',
   lock: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
@@ -1356,6 +1423,16 @@ function sbFit() {
   p.style.left = '0px'; const r = p.getBoundingClientRect(), s = $('.stage').getBoundingClientRect(), over = r.right - (s.right - 6);
   if (over > 0) p.style.left = -over + 'px';
 }
+const PAL_G = ['#ffffff', '#d1d4dc', '#b2b5be', '#9598a1', '#787b86', '#5d606b', '#434651', '#2a2e39', '#131722', '#000000'], PAL_B = ['#f23645', '#ff9800', '#ffeb3b', '#4caf50', '#089981', '#00bcd4', '#2962ff', '#673ab7', '#9c27b0', '#e91e63'];
+function mixHex(c, to, t) { const a = [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16)), b = [1, 3, 5].map(i => parseInt(to.slice(i, i + 2), 16)); return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, '0')).join(''); }
+const PAL_T = [.8, .6, .4].map(t => PAL_B.map(c => mixHex(c, '#ffffff', t))).concat([.25, .5, .7].map(t => PAL_B.map(c => mixHex(c, '#000000', t))));
+const recentColors = () => String(cs.recent || '').split(',').filter(Boolean);
+function rememberColor(v) { cs.recent = [v, ...recentColors().filter(x => x !== v)].slice(0, 9).join(','); save(); }
+function palHTML(attr, cur, key, opKey, op) {
+  const row = list => list.map(x => `<button class="sbc${x.toLowerCase() === String(cur).toLowerCase() ? ' on' : ''}" ${attr}="${x}" style="background:${x}" aria-label="${x}"></button>`).join('');
+  return `<div class="pal"><div class="pal-g">${row(PAL_G)}${row(PAL_B)}</div><hr><div class="pal-g">${PAL_T.map(row).join('')}</div><hr><div class="pal-r">${row(recentColors())}<label class="sbc plus" title="Custom color">+<input type="color" data-k="${key}" value="${cur}"></label></div>` +
+    (opKey ? `<div class="pal-o"><span>Opacity</span><input type="range" min="0" max="100" value="${Math.round(op * 100)}" data-op="${opKey}"><b>${Math.round(op * 100)}%</b></div>` : '') + '</div>';
+}
 function renderSbar() {
   const el = $('#sbar'), d = sel >= 0 ? D[sel] : null; if (!d || !drawVisible(d)) { el.hidden = true; return; }
   const pos = d.type === 'long' || d.type === 'short', c = d.color || def.color, w = d.w || def.w, ds = d.dash || 'solid', tc = d.tcol || c;
@@ -1364,8 +1441,9 @@ function renderSbar() {
   const wrap = (k, title, inner, body) => `<span class="sbw"><button class="sbi${sbOpen === k ? ' on' : ''}" data-pop="${k}" title="${title}" aria-label="${title}">${inner}</button>${sbOpen === k ? `<div class="sbp" data-p="${k}">${body}</div>` : ''}</span>`;
   const catOn = k => !(d.vis && d.vis[k] === false);
   const sub = (key, label, rows) => `<div class="sbo" data-sub="${key}">${label}<span class="chev">${sbSub === key ? '⌃' : '›'}</span></div>${sbSub === key ? rows : ''}`;
-  const colorBody = `<div class="sbg6">${sw('data-c', c)}</div><input type="color" value="${c}" data-k="color" aria-label="Custom color">`;
-  const textBody = `<input class="sbt" type="text" data-k="text" value="${esc(d.text || '')}" placeholder="Text" maxlength="80" aria-label="Text"><div class="sbg6">${sw('data-tc', tc)}</div><input type="color" value="${tc}" data-k="tcol" aria-label="Text color">`;
+  const sa = d.sa != null ? d.sa : 1, fa = d.fa != null ? d.fa : 0.15, fc = d.fill || c;
+  const colorBody = palHTML('data-c', c, 'color', 'sa', sa), fillBody = palHTML('data-fc', fc, 'fill', 'fa', fa);
+  const textBody = `<input class="sbt" type="text" data-k="text" value="${esc(d.text || '')}" placeholder="Text" maxlength="80" aria-label="Text">` + palHTML('data-tc', tc, 'tcol', null, null);
   const widthBody = [1, 2, 3, 4].map(n => opt('data-w', n, n === w, `<i class="ln" style="border-top-width:${n}px"></i><span>${n}px</span>`)).join('');
   const styleBody = [['solid', 'Line'], ['dashed', 'Dashed line'], ['dotted', 'Dotted line']].map(([k, l]) => opt('data-d', k, k === ds, `<i class="ln" style="border-top-width:2px;border-top-style:${k}"></i><span>${l}</span>`)).join('');
   const ext = d.type === 'trend' ? ['extL', 'extR'].map(k => `<label class="sbck"><input type="checkbox" data-ext="${k}"${d[k] ? ' checked' : ''}> Extend ${k === 'extL' ? 'left' : 'right'}</label>`).join('') : '';
@@ -1378,11 +1456,13 @@ function renderSbar() {
   let h = `<span class="sbg" title="Drag to move">${SBI.grip}</span>`;
   if (!pos) {
     h += wrap('c', 'Line color', SBI.pen + `<span class="bar" style="background:${c}"></span>`, colorBody);
+    if (d.type === 'rect') h += wrap('f', 'Fill color', SBI.fill + `<span class="bar" style="background:${fc}"></span>`, fillBody);
     h += wrap('t', 'Text', SBI.txt + `<span class="bar" style="background:${tc}"></span>`, textBody);
     h += wrap('w', 'Line width', `<i class="ln" style="border-top-width:${w}px"></i><b>${w}px</b>`, widthBody);
     h += wrap('s', 'Line style', `<i class="ln" style="border-top-width:2px;border-top-style:${ds}"></i>`, styleBody);
     h += wrap('g', 'Settings', ICO_HEX, setBody);
   }
+  if (!pos && d.type !== 'vline') h += `<button class="sbi" data-alertd="1" title="Add alert" aria-label="Add alert">${SBI.alarm}</button>`;
   h += `<button class="sbi" data-lock="1" title="${d.locked ? 'Unlock' : 'Lock'}" aria-label="${d.locked ? 'Unlock' : 'Lock'}">${d.locked ? SBI.lock : SBI.open}</button>`;
   h += `<button class="sbi" data-del="1" title="Delete" aria-label="Delete">${TRASH}</button>`;
   h += wrap('m', 'More', SBI.more, moreBody);
@@ -1408,7 +1488,7 @@ function cloneSel() {
   delete c.locked; moveBody(c, 10, q * 0.002); addDrawing(c);
 }
 $('#sbar').addEventListener('click', e => {
-  const t = e.target.closest('[data-pop],[data-c],[data-tc],[data-w],[data-d],[data-lock],[data-del],[data-sub],[data-z],[data-vis],[data-a]'); if (!t) return;
+  const t = e.target.closest('[data-pop],[data-c],[data-fc],[data-tc],[data-alertd],[data-w],[data-d],[data-lock],[data-del],[data-sub],[data-z],[data-vis],[data-a]'); if (!t) return;
   const d = D[sel], x = t.dataset; if (!d) return;
   if (x.pop) { sbOpen = sbOpen === x.pop ? '' : x.pop; sbSub = ''; renderSbar(); return; }
   if (x.sub) { sbSub = sbSub === x.sub ? '' : x.sub; renderSbar(); return; }
@@ -1416,6 +1496,8 @@ $('#sbar').addEventListener('click', e => {
   sbOpen = ''; sbSub = '';
   if (x.c) setStyle({ color: x.c });
   else if (x.tc) setStyle({ tcol: x.tc });
+  else if (x.fc) setStyle({ fill: x.fc });
+  else if (x.alertd) openAlertDlg({ price: drawPrice(d) });
   else if (x.w) setStyle({ w: +x.w });
   else if (x.d) setStyle({ dash: x.d });
   else if (x.lock) setStyle({ locked: !d.locked });
@@ -1428,11 +1510,13 @@ $('#sbar').addEventListener('click', e => {
 });
 $('#sbar').addEventListener('change', e => {
   const t = e.target, k = t.dataset.k;
-  if (k === 'color' || k === 'tcol') setStyle({ [k]: t.value });
+  if (k === 'color' || k === 'tcol' || k === 'fill') { rememberColor(t.value); setStyle({ [k]: t.value }); }
+  else if (t.dataset.op) setStyle({ [t.dataset.op]: t.value / 100 });
   else if (k === 'text') setStyle({ text: t.value.trim() });
   else if (t.dataset.ext) setStyle({ [t.dataset.ext]: t.checked });
   else if (t.dataset.pk) setPrice(t.dataset.pk, +t.value);
 });
+$('#sbar').addEventListener('input', e => { const t = e.target, d = D[sel]; if (!t.dataset.op || !d) return; d[t.dataset.op] = t.value / 100; if (t.nextElementSibling) t.nextElementSibling.textContent = t.value + '%'; });
 $('#sbar').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') e.target.blur(); });
 document.addEventListener('pointerdown', e => { if (sbOpen && !e.target.closest('#sbar')) { sbOpen = ''; sbSub = ''; renderSbar(); } }, true);
 $('#sbar').addEventListener('pointerdown', e => {   // drag the bar by its grip
@@ -1513,7 +1597,7 @@ stg.addEventListener('pointerdown', e => {
 addEventListener('pointerup', e => { const s = sepDown; sepDown = null; if (!s || performance.now() - s.t > 600 || Math.hypot(e.clientX - s.cx, e.clientY - s.cy) > 5) return; openSep(s.k, s.x, s.y); });
 (function loop() {
   const sd = sel >= 0 ? D[sel] : null; if (sel !== sbSel) { sbSel = sel; sbOpen = ''; sbSub = ''; }
-  const k = sd ? [sel, sd.type, sd.color, sd.w, sd.dash, sd.text, sd.tcol, sd.locked, sd.hidden, JSON.stringify(sd.vis), sbOpen, sbSub, visCat()].join('|') : '';
+  const k = sd ? [sel, sd.type, sd.color, sd.fill, sd.w, sd.dash, sd.text, sd.tcol, sd.locked, sd.hidden, JSON.stringify(sd.vis), sbOpen, sbSub, visCat()].join('|') : '';
   if (k !== sbKey) { sbKey = k; renderSbar(); }
   const d = devicePixelRatio || 1; ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, cv.clientWidth, cv.clientHeight);
   drawBack(); drawLock(); drawExtras();
@@ -1762,7 +1846,7 @@ function connect(fresh) {
       if (pendingView) applyView();
       else chart.timeScale().setVisibleRange({ from: candles[Math.max(0, lastIdx() - 120)].time, to: candles[lastIdx()].time + gran * 6 });
     } else if (d.msg_type === 'ohlc' && series && !replay.on && (d.ohlc.granularity == null || +d.ohlc.granularity === baseGran()) && (d.ohlc.symbol || d.ohlc.underlying_symbol || sym) === sym) {
-      const o = d.ohlc, r = { time: +o.open_time, open: +o.open, high: +o.high, low: +o.low, close: +o.close }; checkAlerts(sym, r.close);
+      const o = d.ohlc, r = { time: +o.open_time, open: +o.open, high: +o.high, low: +o.low, close: +o.close }; priceUpdate(sym, r.close);
       let c = r;
       if (needsAgg()) {
         if (raw.length && raw[raw.length - 1].time === r.time) raw[raw.length - 1] = r; else raw.push(r);
@@ -2259,9 +2343,9 @@ function renderWl() {
 const schedWl = () => { if (smHoldWl) return; if (!wraf) wraf = requestAnimationFrame(() => { wraf = 0; renderWl(); }); };
 function wlConnect() {
   if (wsW) { wsW.onclose = wsW.onmessage = null; try { wsW.close(); } catch (e) {} wsW = null; }
-  if (!wl.length || !okUrl) return;
+  const W = watchSet(); if (!W.length || !okUrl) return;
   const w = wsW = new WebSocket(okUrl);
-  w.onopen = () => wl.forEach(s => {
+  w.onopen = () => W.forEach(s => {
     const a = ++wr, b = ++wr; wreq[a] = s; wreq[b] = s;
     w.send(JSON.stringify({ ticks: s, subscribe: 1, req_id: a }));
     w.send(JSON.stringify({ ticks_history: s, adjust_start_time: 1, count: 2, end: 'latest', style: 'candles', granularity: 86400, req_id: b }));
@@ -2269,7 +2353,7 @@ function wlConnect() {
   w.onmessage = e => {
     const d = JSON.parse(e.data), s = (d.tick && (d.tick.symbol || d.tick.underlying_symbol)) || wreq[d.req_id];
     if (!s) return;
-    if (d.tick) { wq[s] = +d.tick.quote; checkAlerts(s, wq[s]); }
+    if (d.tick) { wq[s] = +d.tick.quote; priceUpdate(s, wq[s]); }
     else if (d.candles && d.candles.length) { const c = d.candles; wprev[s] = +(c.length > 1 ? c[c.length - 2].close : c[0].open); wdec[s] = Math.max(2, (String(c[0].close).split('.')[1] || '').length); }
     schedWl();
   };
@@ -2339,7 +2423,7 @@ let wpOpen = '', treeKey = '';
 const TNAME = { trend: 'Trend line', hline: 'Horizontal line', hray: 'Horizontal ray', vline: 'Vertical line', crossline: 'Cross line', rect: 'Rectangle', brush: 'Brush', long: 'Long position', short: 'Short position' };
 const EYE = '<svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>', EYE_OFF = '<svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>';
 function wbMark() { $('#wb-wl').classList.toggle('on', wlOpen); $('#wb-al').classList.toggle('on', wpOpen === 'alerts'); $('#wb-tr').classList.toggle('on', wpOpen === 'tree'); }
-function alBadge() { const n = alerts.filter(a => a.hit && !a.seen).length, b = document.querySelector('#wb-al .wbadge'); b.hidden = !n; b.textContent = n; }
+function alBadge() { badge(); }
 function wpApplyW() { const m = matchMedia('(max-width:760px)').matches; $('#wp').style.width = Math.min(m ? Math.round(innerWidth * 0.72) : 320, innerWidth - 60) + 'px'; }
 function showWp(first) {
   const el = $('#wp'), open = !!wpOpen; wpApplyW();
@@ -2350,47 +2434,173 @@ function showWp(first) {
 function setPanel(name) {   // 'wl' | 'alerts' | 'tree' | '' (closed)
   const wantWl = name === 'wl'; if (wlOpen !== wantWl) { wlOpen = wantWl; save(); showWl(); }
   wpOpen = name === 'alerts' || name === 'tree' ? name : '';
-  if (wpOpen === 'alerts') alerts.forEach(a => { a.seen = true; });
+  if (wpOpen === 'alerts') { alertUnread = 0; }
   if (wpOpen) renderWp(); showWp(); wbMark(); alBadge(); save();
 }
 function renderWp() {
   const body = $('#wpb');
   if (wpOpen === 'alerts') {
-    $('#wpt').textContent = 'Alerts';
-    const last = candles.length ? candles[candles.length - 1].close : null;
-    const list = alerts.slice().reverse().map(a => `<div class="alr${a.hit ? ' hit' : ''}"><div><b>${lab(a.sym)}</b><small>${a.dir === 'up' ? '▲ crosses above ' : '▼ crosses below '}${a.price}${a.hit ? ' · triggered ' + new Date(a.t).toLocaleTimeString() : ''}</small></div><button data-al="${a.id}" title="Delete alert" aria-label="Delete alert">${TRASH}</button></div>`).join('');
-    body.innerHTML = `<div class="alf"><div class="alh">New alert on ${lab(sym)}</div><div class="alin"><input id="alp" type="number" step="any" placeholder="Price" value="${last == null ? '' : +last.toFixed(dec)}"><button id="alb">Add</button></div></div>` + (list || '<p class="wempty">No alerts yet. Enter a price above and you will be told when the market crosses it.</p>');
+    $('#wpt').textContent = 'Alerts'; renderAL();
   } else if (wpOpen === 'tree') {
     $('#wpt').textContent = 'Object tree';
     body.innerHTML = D.length ? D.map((d, i) => [d, i]).reverse().map(([d, i]) => `<div class="otr${i === sel ? ' sel' : ''}${d.hidden ? ' off' : ''}" data-i="${i}"><span class="otc" style="background:${d.color || '#787b86'}"></span><span class="otn">${TNAME[d.type] || d.type}${d.text ? ' · ' + esc(d.text) : ''}</span><button data-ot="eye" title="Show / hide" aria-label="Show or hide">${d.hidden ? EYE_OFF : EYE}</button><button data-ot="lock" title="Lock / unlock" aria-label="Lock or unlock">${d.locked ? SBI.lock : SBI.open}</button><button data-ot="del" title="Delete" aria-label="Delete">${TRASH}</button></div>`).join('') + '<div class="otf"><button data-ot="clear">Remove all drawings</button></div>' : '<p class="wempty">No drawings yet. Pick a tool on the left and draw on the chart.</p>';
   }
 }
 function setDrawProp(i, p) { undoS.push(snap()); redoS = []; Object.assign(D[i], p); syncDraw(); updUR(); }
-function addAlert(price) {
-  if (!isFinite(price)) return; const last = candles.length ? candles[candles.length - 1].close : price;
-  alerts.push({ id: Date.now() + Math.random(), sym, price, dir: price >= last ? 'up' : 'down', hit: false, seen: true });
-  save(); renderWp(); try { if (cs.alNotify !== false && window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (e) {}
+// ---- Price alerts: lines on the chart, a panel, toasts, sound and optional browser notifications ----
+let AL = { alerts: [], sound: true, notify: false, tone: 'bell', dur: 10 }, adrag = null;
+try { AL = Object.assign(AL, JSON.parse(localStorage.dcA || '{}')); } catch (e) {}
+if (!AL.alerts.length && oldAlerts.length) AL.alerts = oldAlerts.map(a => ({ id: String(a.id), sym: a.sym, cond: a.dir === 'up' ? 'up' : 'down', price: a.price, once: true, msg: '', tone: '', on: !a.hit, done: !!a.hit, hits: a.hit ? 1 : 0, at: a.t || 0 }));
+const saveAL = () => { try { localStorage.dcA = JSON.stringify(AL); } catch (e) {} };
+let alertLast = {}, alertLines = [], alertUnread = 0, audioCtx = null, aEdit = null;
+const escA = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const CONDTXT = { cross: 'crossing', up: 'crossing up', down: 'crossing down', gt: 'greater than', lt: 'less than' };
+const ICO_BELL = '<svg viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg>';
+const fmtP = (s, v) => s === sym ? f(v) : fmtW(s, v);
+const watchSet = () => [...new Set([...wl, ...AL.alerts.filter(a => a.on && !a.done).map(a => a.sym)])];
+function alertAt(y) { return AL.alerts.findIndex(a => { if (a.sym !== sym || a.done) return false; const yy = PY(a.price); return yy != null && Math.abs(yy - y) < (COARSE ? 14 : 6); }); }
+function syncAlerts() {
+  alertLines.forEach(l => { try { series.removePriceLine(l); } catch (e) {} }); alertLines = [];
+  if (!series) return;
+  AL.alerts.filter(a => a.sym === sym && !a.done).forEach(a => alertLines.push(series.createPriceLine({ price: a.price, color: a.on ? '#ff9800' : '#9aa0aa', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '🔔' + (a.msg ? ' ' + a.msg.slice(0, 16) : '') })));
 }
-function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('off'), 3600); setTimeout(() => t.remove(), 4000); }
-function checkAlerts(s, p) {
-  if (!alerts.length || !isFinite(p)) return; let fired = false;
-  alerts.forEach(a => {
-    if (a.sym !== s || a.hit || !((a.dir === 'up' && p >= a.price) || (a.dir === 'down' && p <= a.price))) return;
-    a.hit = true; a.seen = wpOpen === 'alerts'; a.t = Date.now(); fired = true;
-    const msg = `${lab(a.sym)} ${a.dir === 'up' ? 'crossed above' : 'crossed below'} ${a.price}`; if (cs.alToast !== false) toast(msg);
-    if (cs.alSound !== false) try { const ac = new (window.AudioContext || window.webkitAudioContext)(), o = ac.createOscillator(), g = ac.createGain(); o.connect(g); g.connect(ac.destination); o.frequency.value = 880; g.gain.setValueAtTime(0.15, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.5); o.start(); o.stop(ac.currentTime + 0.5); } catch (e) {}
-    try { if (cs.alNotify !== false && window.Notification && Notification.permission === 'granted') new Notification('Alert', { body: msg }); } catch (e) {}
+function badge() { const b = document.querySelector('#wb-al .wbadge'); b.hidden = !alertUnread; b.textContent = alertUnread; }
+addEventListener('pointerdown', () => { try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) {} }, { once: true });
+let ring = null;
+const TONES = { bell: 'Bell', chime: 'Chime', siren: 'Siren', digital: 'Digital alarm', phone: 'Phone ring', pulse: 'Pulse' };
+function ringStop() {
+  document.querySelectorAll('.toast .stopbtn').forEach(x => x.remove());
+  if (!ring) return;
+  const r = ring; ring = null; clearTimeout(r.timer);
+  try { r.master.gain.cancelScheduledValues(0); r.master.gain.setValueAtTime(0, audioCtx.currentTime); } catch (e) {}
+  r.nodes.forEach(o => { try { o.stop(); } catch (e) {} });
+}
+function scheduleTone(kind, secs, master, t0, nodes) {   // every sound is built from oscillators, so no audio files are needed
+  const osc = (type, hz, s, d, vol = 1) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = type; o.frequency.value = hz;
+    g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(vol, s + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, s + d);
+    o.connect(g); g.connect(master); o.start(s); o.stop(s + d + 0.03); nodes.push(o);
+  };
+  if (kind === 'chime') for (let t = 0; t < secs; t += 2) [523, 659, 784, 1047].forEach((hz, k) => osc('triangle', hz, t0 + t + k * 0.16, 0.9, 0.8));
+  else if (kind === 'siren') {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = 'sawtooth'; g.gain.value = 0.4;
+    for (let t = 0; t < secs; t += 1.2) { o.frequency.setValueAtTime(600, t0 + t); o.frequency.linearRampToValueAtTime(1200, t0 + t + 0.6); o.frequency.linearRampToValueAtTime(600, t0 + t + 1.2); }
+    o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + secs); nodes.push(o);
+  }
+  else if (kind === 'digital') for (let t = 0; t < secs; t += 1) for (let k = 0; k < 4; k++) osc('square', 1500, t0 + t + k * 0.13, 0.08, 0.5);
+  else if (kind === 'phone') for (let t = 0; t < secs; t += 2.2) for (let k = 0; k < 2; k++) { const s = t0 + t + k * 0.55; osc('sine', 440, s, 0.42, 0.7); osc('sine', 480, s, 0.42, 0.7); }
+  else if (kind === 'pulse') for (let t = 0; t < secs; t += 0.5) osc('square', t % 1 ? 800 : 400, t0 + t, 0.22, 0.45);
+  else for (let t = 0; t < secs; t += 0.9) { osc('sine', 988, t0 + t, 0.32); osc('sine', 1319, t0 + t + 0.22, 0.32); }   // bell
+}
+function ringStart(kind = AL.tone, secs = AL.dur) {   // every beep is scheduled up front, so it keeps ringing in a background tab
+  ringStop();
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume();
+    const t0 = audioCtx.currentTime + 0.05, master = audioCtx.createGain(), nodes = []; master.gain.value = 0.35; master.connect(audioCtx.destination);
+    scheduleTone(kind, secs, master, t0, nodes);
+    ring = { master, nodes, timer: setTimeout(ringStop, secs * 1000 + 400) };
+  } catch (e) {}
+}
+function toast(title, sub, s, o = {}) {
+  const el = document.createElement('div'); el.className = 'toast';
+  if (o.key) { el.dataset.k = o.key; document.querySelectorAll('.toast').forEach(x => { if (x.dataset.k === o.key) x.remove(); }); }
+  const b = document.createElement('b'); b.textContent = '🔔 ' + title; const sp = document.createElement('span'); sp.textContent = sub; el.append(b, sp);
+  const x = document.createElement('button'); x.className = 'tx'; x.textContent = '✕'; x.setAttribute('aria-label', 'Dismiss'); x.onclick = ev => { ev.stopPropagation(); el.remove(); if (o.alarm) ringStop(); }; el.append(x);
+  if (o.alarm && ring) { const sb = document.createElement('button'); sb.className = 'stopbtn'; sb.textContent = 'Stop alarm'; sb.onclick = ev => { ev.stopPropagation(); ringStop(); }; el.append(sb); }
+  el.onclick = () => { el.remove(); if (o.alarm) ringStop(); if (s && s !== sym) setSym(s); };
+  $('#toasts').appendChild(el); setTimeout(() => el.remove(), o.alarm ? 15000 : 9000);
+}
+function fireAlert(a, p) {
+  const text = `${lab(a.sym)} ${CONDTXT[a.cond]} ${fmtP(a.sym, a.price)}${a.msg ? ' — ' + a.msg : ''}`;
+  const tone = a.tone || AL.tone, loud = AL.sound && tone !== 'none';
+  if (loud) ringStart(tone, AL.dur);
+  toast(text, `Price ${fmtP(a.sym, p)}${a.once ? '' : ' · fired ' + a.hits + '×'}`, a.sym, { alarm: loud, key: a.id }); if (wpOpen !== 'alerts') alertUnread++; badge();
+  if (AL.notify && window.Notification && Notification.permission === 'granted') { try { new Notification('Alert: ' + lab(a.sym), { body: text + ` (price ${fmtP(a.sym, p)})` }); } catch (e) {} }
+  if (navigator.vibrate) { try { navigator.vibrate([120, 60, 120]); } catch (e) {} }
+}
+function priceUpdate(s, p) {
+  if (!Number.isFinite(p)) return;
+  const prev = alertLast[s]; alertLast[s] = p; if (prev == null) return;
+  let changed = false;
+  AL.alerts.forEach(a => {
+    if (a.sym !== s || !a.on || a.done) return;
+    const L = a.price; let hit = false;
+    if (a.cond === 'cross') hit = (prev < L && p >= L) || (prev > L && p <= L);
+    else if (a.cond === 'up') hit = prev < L && p >= L;
+    else if (a.cond === 'down') hit = prev > L && p <= L;
+    else if (a.cond === 'gt') hit = prev <= L && p > L;
+    else if (a.cond === 'lt') hit = prev >= L && p < L;
+    if (!hit || (!a.once && Date.now() - (a.at || 0) < 1500)) return;
+    a.hits = (a.hits || 0) + 1; a.at = Date.now(); changed = true;
+    if (a.once) { a.done = true; a.on = false; }
+    fireAlert(a, p);
   });
-  if (fired) { save(); alBadge(); if (wpOpen === 'alerts') renderWp(); }
+  if (changed) { saveAL(); renderAL(); syncAlerts(); wlConnect(); }
 }
+function renderAL() {
+  if (wpOpen !== 'alerts') return;
+  const act = AL.alerts.filter(a => !a.done), done = AL.alerts.filter(a => a.done);
+  const item = a => `<div class="arow${a.done ? ' done' : ''}" data-id="${a.id}"><div class="an"><b>${lab(a.sym)}</b><small>${CONDTXT[a.cond]} ${fmtP(a.sym, a.price)}${a.msg ? ' · ' + escA(a.msg) : ''}${a.on || a.done ? '' : ' · paused'}</small>${a.done ? `<small>Triggered ${new Date(a.at).toLocaleString()}</small>` : ''}${!a.done && a.hits ? `<small>Fired ${a.hits}× · last ${new Date(a.at).toLocaleTimeString()}</small>` : ''}</div><div class="ac">${a.done ? '' : `<button data-act="tog" title="${a.on ? 'Pause' : 'Resume'}" aria-label="${a.on ? 'Pause' : 'Resume'}">${a.on ? PAUSE : PLAY}</button>`}<button data-act="edit" title="Edit" aria-label="Edit"><svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/></svg></button><button data-act="del" title="Delete" aria-label="Delete"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>`;
+  $('#wpb').innerHTML = '<div class="ahead"><button id="aNew" class="btn">+ Create alert</button></div>' +
+    (AL.alerts.length ? (act.length ? '<div class="sh" style="padding:0 14px">Active</div>' + act.map(item).join('') : '') + (done.length ? '<div class="sh" style="padding:0 14px">Triggered</div>' + done.map(item).join('') : '') : '<p class="wempty">No alerts yet. Right-click the chart and choose “Add alert”, or press Alt+A.</p>') +
+    `<div class="afoot"><label><input type="checkbox" id="aSound"${AL.sound ? ' checked' : ''}> Sound</label><select id="aTone" class="s" aria-label="Alert sound">${Object.entries(TONES).map(([k, v]) => `<option value="${k}"${AL.tone === k ? ' selected' : ''}>${v}</option>`).join('')}</select><button id="aTest" class="btn">Test</button><label>Ring for <select id="aDur" class="s" aria-label="Ring duration">${[3, 5, 10, 20, 30].map(n => `<option value="${n}"${AL.dur === n ? ' selected' : ''}>${n} s</option>`).join('')}</select></label><label><input type="checkbox" id="aNotify"${AL.notify ? ' checked' : ''}> Browser notifications</label>${done.length ? '<button id="aClear" class="btn">Clear triggered</button>' : ''}</div>`;
+}
+const alClick = e => {
+  if (e.target.closest('#aNew')) return openAlertDlg();
+  if (e.target.closest('#aTest')) return ringStart(AL.tone, 3);
+  if (e.target.closest('#aClear')) { AL.alerts = AL.alerts.filter(a => !a.done); saveAL(); renderAL(); return; }
+  const row = e.target.closest('.arow'); if (!row) return;
+  const a = AL.alerts.find(x => x.id === row.dataset.id); if (!a) return;
+  const act = e.target.closest('[data-act]');
+  if (!act) { if (a.sym !== sym) setSym(a.sym); return; }
+  if (act.dataset.act === 'tog') a.on = !a.on;
+  else if (act.dataset.act === 'del') AL.alerts = AL.alerts.filter(x => x !== a);
+  else return openAlertDlg({ edit: a });
+  saveAL(); renderAL(); syncAlerts(); wlConnect();
+};
+const alChange = e => {
+  if (e.target.id === 'aSound') { AL.sound = e.target.checked; saveAL(); if (AL.sound) ringStart(AL.tone, 2.5); }
+  else if (e.target.id === 'aTone') { AL.tone = e.target.value; saveAL(); ringStart(AL.tone, 2.5); }
+  else if (e.target.id === 'aDur') { AL.dur = +e.target.value; saveAL(); }
+  else if (e.target.id === 'aNotify') {
+    if (!e.target.checked) { AL.notify = false; saveAL(); return; }
+    if (!window.Notification) { e.target.checked = false; toast('Notifications are not supported here', 'Alerts still show in the chart and play a sound.'); return; }
+    Notification.requestPermission().then(pm => { AL.notify = pm === 'granted'; e.target.checked = AL.notify; saveAL(); if (!AL.notify) toast('Notifications are blocked', 'Allow them in the browser site settings.'); });
+  }
+};
+function openAlertDlg(o = {}) {
+  aEdit = o.edit || null;
+  const a = aEdit || { sym, cond: 'cross', price: o.price != null ? o.price : (candles.length ? candles[candles.length - 1].close : 0), once: true, msg: '' };
+  $('#aSym').innerHTML = Object.keys(SYMS).map(k => `<option value="${k}">${lab(k)} — ${SYMS[k]}</option>`).join('');
+  $('#aSym').value = a.sym; $('#aCond').value = a.cond; $('#aVal').value = +(+a.price).toFixed(dec); $('#aOnce').value = a.once ? 'once' : 'every'; $('#aMsg').value = a.msg || '';
+  $('#aTone2').innerHTML = `<option value="">Default (${TONES[AL.tone]})</option>` + Object.entries(TONES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('') + '<option value="none">No sound</option>'; $('#aTone2').value = a.tone || '';
+  $('#aTitle').textContent = aEdit ? 'Edit alert' : 'Create alert'; $('#aOk').textContent = aEdit ? 'Save' : 'Create'; $('#adlg').hidden = false; $('#aVal').focus();
+}
+const closeAlertDlg = () => { $('#adlg').hidden = true; aEdit = null; };
+$('#aX').onclick = $('#aCancel').onclick = closeAlertDlg;
+$('#adlg').addEventListener('click', e => { if (e.target.id === 'adlg') closeAlertDlg(); });
+$('#aOk').onclick = () => {
+  const price = parseFloat($('#aVal').value); if (!Number.isFinite(price)) { $('#aVal').focus(); return; }
+  const v = { sym: $('#aSym').value, cond: $('#aCond').value, price, once: $('#aOnce').value === 'once', msg: $('#aMsg').value.trim(), tone: $('#aTone2').value };
+  if (aEdit) Object.assign(aEdit, v, { on: true, done: false }); else AL.alerts.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ...v, on: true, done: false, hits: 0, created: Date.now() });
+  saveAL(); closeAlertDlg(); syncAlerts(); wlConnect(); setPanel('alerts');
+};
+addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !$('#adlg').hidden) closeAlertDlg();
+  if (e.altKey && !e.shiftKey && e.code === 'KeyA' && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) { e.preventDefault(); openAlertDlg(lastQ && lastQ.p != null && lastQ.x < psz()[0] ? { price: lastQ.p } : {}); }
+});
+badge();
+
+$('#wpb').addEventListener('change', e => { if (wpOpen === 'alerts') alChange(e); });
+function drawPrice(d) { return d.type === 'hline' ? d.price : d.type === 'rect' ? Math.max(d.a.p, d.b.p) : d.type === 'trend' ? d.b.p : d.a ? d.a.p : (candles.length ? candles[candles.length - 1].close : 0); }
+
 $('#wb-wl').onclick = () => setPanel(wlOpen ? '' : 'wl');
 $('#wb-al').onclick = () => setPanel(wpOpen === 'alerts' ? '' : 'alerts');
 $('#wb-tr').onclick = () => setPanel(wpOpen === 'tree' ? '' : 'tree');
 $('#wpx').onclick = () => setPanel('');
 $('#wpb').addEventListener('click', e => {
+  if (wpOpen === 'alerts') return alClick(e);
   const t = e.target.closest('button, .otr'); if (!t) return;
-  if (t.id === 'alb') { addAlert(+$('#alp').value); return; }
-  if (t.dataset.al) { alerts = alerts.filter(a => String(a.id) !== t.dataset.al); save(); alBadge(); renderWp(); return; }
   const row = e.target.closest('.otr'), i = row ? +row.dataset.i : -1, a = t.dataset.ot;
   if (a === 'clear') { clearAll(); idle(); renderWp(); return; }
   if (i < 0 || !D[i]) return;
@@ -2400,7 +2610,6 @@ $('#wpb').addEventListener('click', e => {
   else sel = i;
   renderWp();
 });
-$('#wpb').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'alp') addAlert(+e.target.value); });
 setInterval(() => { if (wpOpen !== 'tree') return; const k = D.map(d => d.type + (d.hidden ? 'h' : '') + (d.locked ? 'l' : '') + (d.text || '')).join('|') + '#' + sel; if (k !== treeKey) { treeKey = k; renderWp(); } }, 250);
 document.addEventListener('click', e => { if (!e.composedPath().some(n => n.id === 'symm' || n.id === 'symb')) $('#symm').hidden = true; });
 renderSym(); renderWl(); showWl(true); showWp(true); alBadge(); applyCS();
