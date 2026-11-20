@@ -540,7 +540,7 @@ const DEF = { prevClose: false, body: true, bodyUp: '#089981', bodyDn: '#f23645'
   title: true, titleMode: 'desc', mkt: true, ohlc: true, chg: true, lgBg: true, lgAlpha: 0.5,
   scaleBtns: 'hover', lockOn: false, ratio: 1, countdown: false, lastMode: 'both', hl: 'hidden', weekday: true, dfmt: 'dmy', h12: false, keepLeft: false,
   bgType: 'solid', bg: '', bg2: '', recent: '', grid: 'both', gridVOn: true, gridHOn: true, gridV: '', gridH: '', crossSt: '3', alSound: true, alToast: true, alNotify: true, alLines: true, cross: '', wm: 'none', wmColor: '', txt: '', fs: 12, lines: '', nav: 'hover', mt: 10, mb: 8, mr: 10,
-  wbs: 'right', sepDHour: 1, sepDHide: '', sepWHide: '', sepD: true, sepDCol: '#787b86', sepDW: 1, sepDSt: 'dashed', sepW: true, sepWCol: '#2962ff', sepWW: 1, sepWSt: 'solid' };
+  wbs: 'right', ndxSrc: 'yahoo', sepDHour: 1, sepDHide: '', sepWHide: '', sepD: true, sepDCol: '#787b86', sepDW: 1, sepDSt: 'dashed', sepW: true, sepWCol: '#2962ff', sepWW: 1, sepWSt: 'solid' };
 let cs = Object.assign({}, DEF, S.cs || {}), keepLeft = null;
 if (S.cs && S.cs.gridVOn === undefined && S.cs.grid) { cs.gridVOn = cs.grid === 'both' || cs.grid === 'v'; cs.gridHOn = cs.grid === 'both' || cs.grid === 'h'; }
 UP = cs.bodyUp; DOWN = cs.bodyDn;
@@ -1084,7 +1084,8 @@ const TABS = [
   ['Symbol', I('<path d="M8 4v16M16 8v10"/><rect x="6" y="8" width="4" height="8"/><rect x="14" y="10" width="4" height="6"/>'), [
     ['h', 'Candles'], ['c', 'prevClose', 'Color bars based on previous close'],
     ['cc', 'body', 'Body', ['bodyUp', 'bodyDn']], ['cc', 'border', 'Borders', ['borderUp', 'borderDn']], ['cc', 'wick', 'Wick', ['wickUp', 'wickDn']],
-    ['h', 'Data modification'], ['s', 'prec', 'Precision', [['auto', 'Default'], ...[0, 1, 2, 3, 4, 5, 6, 7, 8].map(n => [String(n), String(n)])]], ['tz']]],
+    ['h', 'Data modification'], ['s', 'prec', 'Precision', [['auto', 'Default'], ...[0, 1, 2, 3, 4, 5, 6, 7, 8].map(n => [String(n), String(n)])]], ['tz'],
+    ['h', 'Data source'], ['s', 'ndxSrc', 'US Tech 100', [['yahoo', 'Nasdaq-100 futures (Yahoo Finance)'], ['deriv', 'Deriv']]]]],
   ['Status line', I('<path d="M4 6h16M4 11h10M4 16h16M4 21h8"/>'), [
     ['h', 'Symbol'], ['ts', 'title', 'Title', 'titleMode', [['desc', 'Description'], ['tick', 'Ticker'], ['both', 'Ticker and description']]],
     ['c', 'mkt', 'Open market status'], ['c', 'ohlc', 'Chart values'], ['c', 'chg', 'Bar change values'],
@@ -1155,7 +1156,7 @@ const onSet = e => {
 };
 $('#dpane').addEventListener('input', onSet); $('#dpane').addEventListener('change', onSet);
 $('#dcancel').onclick = $('#dx').onclick = () => { cs = JSON.parse(csBak); tz = tzBak; applyTz(); applyCS(); closeDlg(); };
-$('#dok').onclick = () => { save(); closeDlg(); };
+$('#dok').onclick = () => { const was = JSON.parse(csBak).ndxSrc; save(); closeDlg(); if (was !== cs.ndxSrc && EXT[sym]) { FEEDS.clear(); extDown = 0; connect(); } };
 $('#dlg').addEventListener('click', e => { if (e.target.id === 'dlg') $('#dcancel').click(); });
 const tpls = () => { try { return JSON.parse(localStorage.dcT || '{}'); } catch (e) { return {}; } };
 $('#tpl').onclick = () => {
@@ -1712,6 +1713,69 @@ const merge = arr => {
   return o;
 };
 
+// ---- US Tech 100 from Nasdaq-100 futures (Yahoo Finance), which trade almost around the clock ----
+// The chart still talks to the feed with Deriv-style requests; for this symbol those are answered here instead.
+const EXT = { OTC_NDX: { y: 'NQ=F' } };
+let extDown = 0, extPoll = 0;
+const extOn = s => !!EXT[s] && cs.ndxSrc !== 'deriv' && Date.now() - extDown > 60000;
+const YI = { 60: '1m', 120: '2m', 300: '5m', 900: '15m', 1800: '30m', 3600: '60m', 86400: '1d' };
+const YSPAN = { 60: 6.5 * 86400, 120: 58 * 86400, 300: 58 * 86400, 900: 58 * 86400, 1800: 58 * 86400, 3600: 700 * 86400, 86400: 7300 * 86400 };
+const yBase = g => YI[g] ? g : g === 180 ? 60 : (g === 600 || g === 1200) ? 300 : 3600;   // 3m from 1m, 10m / 20m from 5m, 2h-8h from 1h
+async function extGet(url) {   // direct, and through two public relays, all at once: the first good answer wins
+  const enc = encodeURIComponent(url), tries = [['direct', url], ['corsproxy', 'https://corsproxy.io/?url=' + enc], ['allorigins', 'https://api.allorigins.win/raw?url=' + enc]];
+  const one = async ([name, u]) => {
+    const c = new AbortController(), t = setTimeout(() => c.abort(), 9000);
+    try { const r = await fetch(u, { signal: c.signal }), j = await r.json(); if (j && j.chart) return j; throw new Error('unexpected reply, HTTP ' + r.status); }
+    catch (e) { throw new Error(name + ': ' + (e.name === 'AbortError' ? 'timed out' : e.message)); }
+    finally { clearTimeout(t); }
+  };
+  try { return await Promise.any(tries.map(one)); } catch (e) { throw new Error((e.errors || [e]).map(x => x.message).join(' · ')); }
+}
+function aggBars(bars, g) {
+  const m = new Map();
+  for (const b of bars) { const k = Math.floor(b.time / g) * g, a = m.get(k); if (!a) m.set(k, { time: k, open: b.open, high: b.high, low: b.low, close: b.close }); else { a.high = Math.max(a.high, b.high); a.low = Math.min(a.low, b.low); a.close = b.close; } }
+  return [...m.values()].sort((a, b) => a.time - b.time);
+}
+async function extBars(symbol, g, end, count, start) {
+  const bg = yBase(g), now = Math.floor(Date.now() / 1000), p2 = !end || end === 'latest' ? now : Math.min(+end, now);
+  let p1 = start ? +start : p2 - Math.min(Math.max(count * g * 1.5, bg * 20), YSPAN[bg]); if (p2 - p1 > YSPAN[bg]) p1 = p2 - YSPAN[bg];
+  const j = await extGet(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(EXT[symbol].y)}?interval=${YI[bg]}&period1=${Math.floor(p1)}&period2=${Math.ceil(p2) + 1}&includePrePost=true`);
+  const res = j.chart && j.chart.result && j.chart.result[0]; if (!res || !res.timestamp) return [];
+  const q = res.indicators.quote[0]; let bars = [];
+  res.timestamp.forEach((t, i) => { if (q.open[i] != null && q.close[i] != null && q.high[i] != null && q.low[i] != null) bars.push({ time: t, open: q.open[i], high: q.high[i], low: q.low[i], close: q.close[i] }); });
+  if (bg !== g || g === 86400) bars = aggBars(bars, g);
+  return bars.filter(b => b.time <= p2).slice(-count);
+}
+function extStream(w, r, sy, g) {   // live bar: poll the feed and report the latest candle
+  clearInterval(extPoll);
+  extPoll = setInterval(async () => {
+    if (w !== ws || !w.onmessage || replay.on) return;
+    try { const bars = await extBars(sy, g, 'latest', 2, 0), b = bars[bars.length - 1]; if (b) w.onmessage({ data: JSON.stringify({ msg_type: 'ohlc', ohlc: { open_time: b.time, open: b.open, high: b.high, low: b.low, close: b.close, granularity: g, symbol: sy }, echo_req: r }) }); } catch (e) {}
+  }, g <= 300 ? 5000 : 15000);
+}
+function extWrap(w) {
+  if (w._ext) return; w._ext = true; const orig = w.send.bind(w);
+  w.send = s => {
+    let r; try { r = JSON.parse(s); } catch (e) { return orig(s); }
+    if (r.forget_all) { clearInterval(extPoll); return orig(s); }
+    if (!r.ticks_history || !extOn(r.ticks_history)) return orig(s);
+    const sy = r.ticks_history, g = +r.granularity || 60;
+    clearTimeout(tm);   // this request has its own timeouts; the connection watchdog must not restart the page meanwhile
+    (async () => {
+      let bars;
+      try { bars = await extBars(sy, g, r.end, r.count || 1000, r.start); }
+      catch (e) {
+        extDown = Date.now(); show('Nasdaq-100 futures feed unreachable (' + e.message + ') — using Deriv'); setTimeout(() => show(''), 15000);
+        tm = setTimeout(() => { if (!candles.length) connect(true); }, 12000); return orig(s);
+      }
+      if (!w.onmessage) return;
+      w.onmessage({ data: JSON.stringify({ msg_type: 'candles', candles: bars.map(b => ({ epoch: b.time, open: b.open, high: b.high, low: b.low, close: b.close })), echo_req: r, req_id: r.req_id }) });
+      if (r.subscribe) extStream(w, r, sy, g);
+    })();
+  };
+}
+let olderErr = 0, closedNote = '', closedT = 0;   // closed market: Deriv refuses a live subscription but still gives history
+function histEnd() { if (!raw.length) return; show('No earlier data from Deriv for this symbol and timeframe (earliest: ' + new Date(raw[0].time * 1000).toUTCString().slice(5, 22) + ' UTC)'); setTimeout(() => show(''), 8000); }
 let feedKey = null, refreshing = false, liveId = 0, pfQ = [], pfId = 0, pfTimer = 0, pfSym = '', pfGran = 0;
 const FEEDS = new Map();   // "symbol|granularity" -> loaded candles, so switching back to a chart you already loaded is instant
 function feedSave() {
@@ -1731,7 +1795,7 @@ function feedShow() {   // draw a cached feed immediately; the network only has 
   return true;
 }
 function prefetchStart() {
-  clearTimeout(pfTimer); pfQ = [];
+  clearTimeout(pfTimer); pfQ = []; if (extOn(sym)) return;
   const bg = g => (g === WEEK || g === MONTH) ? 86400 : g === 21600 ? 3600 : g === 1200 && use5 ? 300 : g, seen = new Set([baseGran()]);
   [...favs].sort((a, b) => a - b).forEach(g => { const b = bg(g); if (!seen.has(b) && !FEEDS.has(sym + '|' + b)) { seen.add(b); pfQ.push(b); } });
   pfTimer = setTimeout(pfNext, 900);
@@ -1747,11 +1811,11 @@ function sendFirst(w) {   // the first request for the chart that is now selecte
   else w.send(liveReq());
 }
 function connect(fresh) {
-  clearTimeout(tm); feedSave(); clearTimeout(pfTimer); pfQ = []; pfId = 0;
+  clearTimeout(tm); feedSave(); clearTimeout(pfTimer); pfQ = []; pfId = 0; closedNote = ''; clearTimeout(closedT); clearInterval(extPoll);
   if (!drawStash && D.length && candles.length) drawStash = stashDraw();   // drawings are kept across any reconnect / timeframe switch
   repReset();
   candles = []; raw = []; loadingOlder = false; noMore = false; lockL = null; idx.clear(); clearDraw(); legend(); $('#st').className = '';
-  feedKey = null; refreshing = false; liveId = 0; olderId = 0; resumeId = 0; replay.subId = 0;
+  feedKey = null; refreshing = false; liveId = 0; olderId = 0; olderErr = 0; resumeId = 0; replay.subId = 0;
   const reuse = fresh !== true && ws && ws.readyState === 1;   // an open socket is reused: no new handshake when you switch timeframe or symbol
   if (!feedShow()) show(reuse ? 'Loading…' : 'Connecting to Deriv…');
   if (reuse) {
@@ -1761,7 +1825,7 @@ function connect(fresh) {
     return;
   }
   if (ws) { ws.onclose = null; ws.onerror = null; ws.close(); }
-  const w = ws = new WebSocket(URLS[ui % URLS.length]); let dead = false;
+  const w = ws = new WebSocket(URLS[ui % URLS.length]); extWrap(w); let dead = false;
   const fail = () => {
     if (dead || w !== ws) return; dead = true; ui++; $('#st').className = '';
     show('Can’t reach ' + URLS[(ui - 1) % URLS.length] + ' — trying the next endpoint… (check network/VPN/firewall)');
@@ -1799,9 +1863,12 @@ function connect(fresh) {
     }
     if (d.req_id && d.req_id === olderId) {            // a page of older history
       loadingOlder = false; show('');
-      if (d.error || !d.candles || !d.candles.length) { noMore = true; if (pendingView) applyView(); return; }
+      if (d.error || !d.candles || !d.candles.length) {
+        if (d.error && ++olderErr <= 2) { show('Earlier data: ' + d.error.message + ' — retrying…'); setTimeout(() => { show(''); loadOlder(); }, 2500); return; }
+        noMore = true; olderErr = 0; histEnd(); if (pendingView) applyView(); return;
+      }
       const older = d.candles.map(x => ({ time: x.epoch, open: +x.open, high: +x.high, low: +x.low, close: +x.close })).filter(c => c.time < raw[0].time);
-      if (!older.length) { noMore = true; if (pendingView) applyView(); return; }
+      if (!older.length) { noMore = true; histEnd(); if (pendingView) applyView(); return; }
       const before = candles.length, vr = chart.timeScale().getVisibleLogicalRange();
       raw = older.concat(raw); let k;
       if (replay.on) {   // during replay: prepend the older bars to the full data and to the part already revealed
@@ -1822,12 +1889,20 @@ function connect(fresh) {
       return;
     }
     if (d.error && d.echo_req && d.echo_req.forget_all) return;
+    if (d.error && (d.error.code === 'MarketIsClosed' || /market is presently closed/i.test(d.error.message || '')) && d.echo_req && d.echo_req.ticks_history && d.echo_req.subscribe) {
+      const r = Object.assign({}, d.echo_req); delete r.subscribe; w.send(JSON.stringify(r)); closedNote = d.error.message || 'Market closed.';   // ask again for plain history
+      const m = /open at (\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/.exec(closedNote), until = m ? Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5], +m[6]) - Date.now() : 120000;
+      clearTimeout(closedT); closedT = setTimeout(() => { if (closedNote && !replay.on) connect(); }, Math.min(Math.max(until + 3000, 5000), 120000));   // try the live feed again
+      return;
+    }
     if (d.error && refreshing && d.req_id === liveId) { refreshing = false; w.send(liveReq()); return; }
     if (d.error) {
       if (gran === 1200 && !use5 && d.echo_req && d.echo_req.ticks_history) { use5 = true; connect(); return; }
       show(d.error.message); return;
     }
     if (d.msg_type === 'candles' && d.candles.length && (d.req_id == null || d.req_id === liveId)) {
+      if (d.echo_req && d.echo_req.subscribe) { closedNote = ''; clearTimeout(closedT); $('#st').title = ''; }
+      else if (closedNote) setTimeout(() => { if (!closedNote) return; $('#st').className = ''; $('#st').title = closedNote; show(closedNote + ' Showing the latest available data.'); setTimeout(() => show(''), 8000); }, 60);
       dataDec = Math.max(2, (String(d.candles[0].close).split('.')[1] || '').length); dec = cs.prec === 'auto' ? dataDec : +cs.prec;
       const nw = d.candles.map(x => ({ time: x.epoch, open: +x.open, high: +x.high, low: +x.low, close: +x.close }));
       if (refreshing && raw.length) {   // cached feed already on screen: append the bars that are new
@@ -2343,7 +2418,7 @@ function renderWl() {
 const schedWl = () => { if (smHoldWl) return; if (!wraf) wraf = requestAnimationFrame(() => { wraf = 0; renderWl(); }); };
 function wlConnect() {
   if (wsW) { wsW.onclose = wsW.onmessage = null; try { wsW.close(); } catch (e) {} wsW = null; }
-  const W = watchSet(); if (!W.length || !okUrl) return;
+  const W = watchSet().filter(s => !extOn(s)); if (!W.length || !okUrl) return;
   const w = wsW = new WebSocket(okUrl);
   w.onopen = () => W.forEach(s => {
     const a = ++wr, b = ++wr; wreq[a] = s; wreq[b] = s;
